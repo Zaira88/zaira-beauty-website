@@ -51,7 +51,7 @@ const HairRemovalContent = () => {
             Dauerhafte <span className="text-pink-400">Haarentfernung</span>
           </h1>
           <p className="text-center text-gray-300 text-lg max-w-3xl mx-auto mb-16">
-            Genießen Sie die Freiheit dauerhaft glatter Haut mit modernster Laser- und IPL-Technologie.
+            Genießen Sie die Freiheit dauerhaft glatter Haut mit modernster Diodenlaser-Technologie.
           </p>
         </motion.div>
 
@@ -63,7 +63,7 @@ const HairRemovalContent = () => {
           className="border border-gray-800 p-8 md:p-12 mb-16"
         >
           <p className="text-lg text-gray-200 leading-relaxed">
-            Ich biete Ihnen die Freiheit glatter Haut durch meine Dienstleistungen in der dauerhaften Haarentfernung. Mit modernsten Laser- und IPL-Technologien entferne ich unerwünschte Haare effektiv und sicher. Schon nach der ersten Sitzung werden Sie sichtbare Ergebnisse bemerken. Meine Methoden sind sanft zur Haut und bieten eine langanhaltende Lösung für alle Körperbereiche. Verabschieden Sie sich von der täglichen Rasur und dem schmerzhaften Waxing!
+            Ich biete Ihnen die Freiheit glatter Haut durch meine Dienstleistungen in der dauerhaften Haarentfernung. Mit modernster Diodenlaser-Technologie entferne ich unerwünschte Haare effektiv und sicher. Schon nach der ersten Sitzung werden Sie sichtbare Ergebnisse bemerken. Meine Methoden sind sanft zur Haut und bieten eine langanhaltende Lösung für alle Körperbereiche. Verabschieden Sie sich von der täglichen Rasur und dem schmerzhaften Waxing!
           </p>
         </motion.div>
 

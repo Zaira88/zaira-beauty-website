@@ -105,7 +105,7 @@ const Hero = () => {
             className="text-4xl md:text-7xl lg:text-8xl font-extrabold text-white leading-tight"
             style={{ textShadow: '0px 2px 15px rgba(0,0,0,0.5)' }}
           >
-            ZAIRA BEAUTY
+            ZAIRA <span className="text-primary-500">BEAUTY</span>
           </h1>
           <Butterfly />
         </motion.div>

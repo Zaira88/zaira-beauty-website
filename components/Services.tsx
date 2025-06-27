@@ -11,7 +11,6 @@ const servicesData = [
     items: [
       { name: 'Gesichtsbehandlungen (Luxury Aquafacial)', href: '/gesichtsbehandlung' },
       { name: 'Lashlifting & Browlifting', href: '/lashlifting-browlifting' },
-      { name: 'BB-Glow-Behandlung', href: '/bb-glow' },
       { name: 'Zahnbleaching', href: '/zahnbleaching' },
     ],
   },
@@ -21,8 +20,8 @@ const servicesData = [
       { name: 'Anti-Aging-Behandlungen', href: '/anti-aging' },
       { name: 'Akne- & Aknenarben-Therapie', href: '/akne-behandlung' },
       { name: 'Behandlung von Pigmentflecken', href: '/pigmentflecken' },
-      { name: 'Dauerhafte Haarentfernung (Laser/IPL)', href: '/dauerhafte-haarentfernung' },
-      { name: 'Gegen Haarausfall (Microneedling & Hair Growth Laser)', href: '/haarausfall-behandlung' },
+      { name: 'Dauerhafte Haarentfernung (Diodenlaser)', href: '/dauerhafte-haarentfernung' },
+      { name: 'Gegen Haarausfall Hair Growth Treatment', href: '/haarausfall-behandlung' },
       { name: 'Schröpftherapie', href: '/schroepftherapie' },
     ],
   },

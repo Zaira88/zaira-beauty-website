@@ -19,6 +19,7 @@ const treatments = [
   {
     title: "Microneedling & Spezial-Peel",
     price: "129,00€",
+    addOn: "Aufpreis 10,00€ Jelly Mask",
     description: "(inkl. Microneedling, BioRePeel/PRX/MediCare Peel, Glow Peel & Jellymaske).",
     benefits: [
         "Effektive Hauterneuerung & Verjüngung",
@@ -29,6 +30,7 @@ const treatments = [
   {
     title: "RF Microneedling Königsklasse",
     price: "199,00€",
+    addOn: "Aufpreis 79,00€ Anti Aging Peeling",
     description: "(inkl. RF Microneedling für Gesicht & Hals, Glow Peel & Jellymaske).",
     benefits: [
         "Behandelt gezielt Gesicht und Hals",

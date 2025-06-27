@@ -23,12 +23,13 @@ const pricingData: PriceCategory[] = [
       { name: 'Luxury Aquafacial', price: '119,00€' },
       { name: 'Luxury Collagenbehandlung', price: '89,00€' },
       { name: 'Luxury Lifting', price: '89,00€' },
-      { name: 'BB Glow (ohne Microneedling)', price: '79€' },
-      { name: 'BB Glow (mit Microneedling)', price: '89€' },
       { name: 'Microneedling & Spezial-Peel', price: '129,00€' },
       { name: 'RF Microneedling Königsklasse', price: '199,00€' },
       { name: 'Lasertherapie Hautverjüngung', price: '109,00€' },
       { name: 'Mesotherapie', price: '169,00€' },
+      { name: 'Vampirlifting', price: '199,00€' },
+      { name: 'Carboxytherapie', price: '89,00€' },
+      { name: 'Luxury Aquafacial & Carboxytherapie', price: '109,00€ + 89,00€' },
     ],
   },
   {
@@ -45,14 +46,11 @@ const pricingData: PriceCategory[] = [
     ],
   },
   {
-    title: 'Augen, Brows & Make-Up',
+    title: 'Lashes & Brows',
     items: [
       { name: 'Hydra Lash Lifting', price: '49,00€' },
       { name: 'Beauty Browlift (inkl. Färben)', price: '39,00€' },
       { name: 'Sweet Henna Brows', price: '39,00€' },
-      { name: 'Tages Make-Up', price: '45€' },
-      { name: 'Abend Make-Up', price: '65€' },
-      { name: 'Braut Make-Up inkl. Probeschminken', price: '250€' },
     ]
   },
   {
@@ -122,16 +120,15 @@ const AccordionItem = ({
       <div className="p-6">
         <ul className="space-y-4">
           {category.items.map((item, index) => (
-            <li key={index} className="flex justify-between items-baseline">
-              <div>
-                <p className="text-white">{item.name}</p>
-                {item.duration && (
-                  <p className="text-sm text-gray-400">{item.duration}</p>
-                )}
-              </div>
-              <div className="text-right">
-                <p className="text-lg text-white">{item.price}</p>
-              </div>
+            <li key={index} className="flex items-baseline">
+              <span className="text-white w-full flex items-center justify-between gap-2">
+                <span>{item.name}</span>
+                <span className="flex-1 border-b border-gray-700 mx-2"></span>
+                <span className="text-lg text-white whitespace-nowrap">{item.price}</span>
+              </span>
+              {item.duration && (
+                <p className="text-sm text-gray-400 ml-2">{item.duration}</p>
+              )}
             </li>
           ))}
         </ul>

@@ -31,8 +31,7 @@ const HairGrowthContent = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="border border-gray-800 p-8 md:p-12 flex flex-col max-w-2xl w-full mb-16"
         >
-          <h2 className="text-3xl font-bold mb-3 text-pink-400 text-center">Hair Growth Treatment</h2>
-          <p className="text-gray-400 text-sm mb-6 text-center">Eine Kombination aus Microneedling und Lasertherapie.</p>
+          <h2 className="text-4xl font-bold mb-2 text-pink-400">Hair Growth Treatment</h2>
           
           <ul className="space-y-3 mb-8">
               <li className="flex items-start">
@@ -56,7 +55,7 @@ const HairGrowthContent = () => {
           </ul>
 
           <div className="mt-auto text-center">
-            <p className="text-5xl font-bold mb-4">189,00€</p>
+            <p className="text-5xl font-bold mb-4">169,00€</p>
           </div>
         </motion.div>
 
