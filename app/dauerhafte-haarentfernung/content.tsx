@@ -89,18 +89,6 @@ const HairRemovalContent = () => {
           ))}
         </div>
 
-        {/* Full Body Package */}
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="border border-pink-500 bg-pink-500/10 p-8 md:p-12 mb-16 text-center"
-        >
-            <h2 className="text-3xl font-bold text-white mb-2">Ganzkörper-Paket</h2>
-            <p className="text-5xl font-bold text-pink-400">279€</p>
-        </motion.div>
-
-
         {/* Back to Home Link */}
         <div className="text-center">
             <Link href="/#services" className="text-pink-400 hover:text-pink-500 transition-colors duration-300 text-lg">

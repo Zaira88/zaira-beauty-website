@@ -6,7 +6,7 @@ import { Award, Heart, Users, Clock } from 'lucide-react'
 
 const About = () => {
   const stats = [
-    { number: '83+', label: 'Top Bewertungen', icon: Users },
+    { number: '91+', label: 'Top Bewertungen', icon: Users },
     { number: '10+', label: 'Zertifikate', icon: Award },
     { number: '100%', label: 'Zufriedenheit', icon: Heart },
     { number: '12+', label: 'Behandlungsarten', icon: Clock }

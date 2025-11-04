@@ -53,7 +53,7 @@ const Testimonials = () => {
             className="inline-flex items-center bg-white text-black font-bold py-3 px-6 hover:bg-gray-200 transition-colors"
           >
             <FaGoogle className="mr-3" />
-            <span>Alle 86 Bewertungen lesen</span>
+            <span>Alle 91 Bewertungen lesen</span>
           </a>
         </div>
       </div>

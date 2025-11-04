@@ -94,7 +94,6 @@ const pricingData: PriceCategory[] = [
         { name: "beide Unterschenkel", price: "99€" },
         { name: 'Beine komplett', price: '179€' },
         { name: 'Füße', price: '39€' },
-        { name: 'Ganzkörper', price: '279€' },
     ]
   },
 ]
