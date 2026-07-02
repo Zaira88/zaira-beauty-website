@@ -23,11 +23,13 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
   return (
     <section
       id="home"
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink"
+      className="relative overflow-hidden bg-ink lg:flex lg:min-h-[100svh] lg:items-center"
     >
-      {/* == Bild-Ebene ================================================= */}
-      {/* Mobile: vollflächig hinter dem Text · Desktop: rechte Hälfte   */}
-      <div className="absolute inset-0 z-0 lg:left-[38%]">
+      {/* == Bild-Ebene =================================================
+          Mobil: eigener Block oben — das Gesicht bleibt komplett frei
+          vom Text (Kundinnen-Wunsch). Desktop: rechte Hälfte hinter
+          dem Text wie gehabt. */}
+      <div className="relative z-0 h-[55svh] min-h-[340px] w-full lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0">
         <div className="relative h-full w-full overflow-hidden">
           <Image
             src="/images/zaira.png"
@@ -38,8 +40,9 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
             className="animate-breathe object-cover object-[center_22%]"
           />
         </div>
-        {/* Verläufe: ins Petrol-Schwarz einbetten */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25 lg:bg-gradient-to-r lg:from-ink lg:via-ink/35 lg:to-transparent" />
+        {/* Verläufe: mobil nur sanfter Übergang unten (Bild bleibt
+            hell), Desktop seitlich ins Petrol-Schwarz */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent lg:bg-gradient-to-r lg:from-ink lg:via-ink/35 lg:to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent" />
       </div>
 
@@ -47,7 +50,7 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
       <Butterflies />
 
       {/* == Inhalt ===================================================== */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-24 pt-36 sm:px-8 lg:pb-32">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-2 sm:px-8 lg:pb-32 lg:pt-36">
         <div className="max-w-2xl">
           <motion.p
             custom={0}
