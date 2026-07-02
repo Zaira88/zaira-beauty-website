@@ -1,187 +1,104 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   ZAIRA BEAUTY — Editorial Dark Design System
+   Palette: Petrol-Nachtwald (Hero) · Elfenbein · Teal · Rosé
+   ============================================================ */
+
 @layer base {
   html {
     @apply scroll-smooth;
+    color-scheme: dark;
   }
+
   body {
-    @apply bg-black text-neutral-300;
+    @apply bg-ink text-ivory-dim antialiased;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply text-white font-bold;
+    @apply text-ivory;
+  }
+
+  ::selection {
+    @apply bg-rose/30 text-ivory;
+  }
+
+  /* Feiner Film-Grain über allem — Editorial-Textur */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
 @layer components {
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  /* Kleine Überzeile in Versalien — das Editorial-Signal */
+  .overline-label {
+    @apply text-[11px] font-medium uppercase tracking-widestplus text-teal;
   }
 
-  .section-padding {
-    @apply py-20 md:py-32;
+  /* Haarlinien-Rahmen */
+  .hairline {
+    @apply border border-ivory/10;
   }
 
-  .card {
-    @apply bg-neutral-900 border border-neutral-800 transition-all duration-300;
+  /* Karten-Grundfläche */
+  .panel {
+    @apply bg-ink-800/80 hairline backdrop-blur-sm;
   }
 
-  .card:hover {
-    @apply transform scale-105 border-primary-500/50 shadow-lg shadow-primary-500/10;
-  }
-
+  /* Primärer CTA — Rosé, Pill */
   .btn-primary {
-    @apply bg-transparent border-2 border-primary-500 text-primary-500 font-bold py-3 px-8 transition-all duration-300 hover:bg-primary-500 hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-rose px-8 py-4
+      text-sm font-semibold tracking-wide text-ink transition-all duration-300
+      hover:bg-rose-soft hover:shadow-[0_0_40px_rgba(231,164,191,0.25)];
   }
 
   .btn-primary-small {
-    @apply bg-transparent border-2 border-primary-500 text-primary-500 font-bold py-2 px-6 transition-all duration-300 hover:bg-primary-500 hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-rose px-5 py-2.5
+      text-sm font-semibold text-ink transition-all duration-300 hover:bg-rose-soft;
   }
 
-  .btn-outline {
-    @apply border-2 border-primary-500 text-primary-500 font-bold py-3 px-8 transition-all duration-300 hover:bg-primary-500 hover:text-white;
+  /* Sekundärer CTA — Ghost mit Haarlinie */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ivory/20
+      px-8 py-4 text-sm font-medium tracking-wide text-ivory transition-all duration-300
+      hover:border-ivory/50 hover:bg-ivory/5;
   }
 
-  .text-gradient {
-    @apply text-primary-400;
+  /* Punktierte Preis-Führungslinie (Preisliste) */
+  .dot-leader {
+    @apply mx-3 flex-1 border-b border-dotted border-ivory/20 translate-y-[-4px];
   }
 
-  .text-shadow {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  /* Fokus-Ringe */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    @apply outline-none ring-2 ring-teal/60 ring-offset-2 ring-offset-ink;
   }
 
-  .backdrop-blur-custom {
-    backdrop-filter: blur(20px);
-  }
-
-  /* Custom scrollbar */
+  /* Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
   }
-
   ::-webkit-scrollbar-track {
-    @apply bg-neutral-900;
+    @apply bg-ink-900;
   }
-
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary-600;
+    @apply rounded-full bg-ink-500;
   }
-
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary-500;
+    @apply bg-teal-deep;
   }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Focus styles */
-  .btn-primary:focus,
-  .btn-outline:focus {
-    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-neutral-950;
-  }
-
-  /* Input styles */
-  input:focus,
-  textarea:focus {
-    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-neutral-900;
-  }
-
-  /* Animation classes */
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
-  }
-
-  .hero-background-image {
-    object-position: center 95%; /* Standard für Mobile */
-  }
-
-  @media (min-width: 768px) { /* Tailwind's 'md' breakpoint */
-    .hero-background-image {
-      object-position: center 35%; /* Für Desktop und größere Bildschirme */
-    }
-  }
-}
-
-@layer utilities {
-  .btn-secondary {
-    @apply bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
-  }
-  
-  .gradient-bg {
-    background: linear-gradient(135deg, hsl(336, 84%, 5%) 0%, hsl(0, 0%, 5%) 100%);
-  }
-}
-
-:root {
-  --primary-50: #fdf2f8;
-  --primary-100: #fce7f3;
-  --primary-200: #fbcfe8;
-  --primary-300: #f9a8d4;
-  --primary-400: #f472b6;
-  --primary-500: #ec4899;
-  --primary-600: #db2777;
-  --primary-700: #be185d;
-  --primary-800: #9d174d;
-  --primary-900: #831843;
-  --primary-950: #500724;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  border-radius: 0; /* Eckige Kanten für alle Elemente */
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  background-color: black;
-  color: white;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
 a {
@@ -189,65 +106,189 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+/* ============================================================
+   Lebendige Schmetterlinge (Hero)
+   Realismus-Bausteine:
+   1) Flügel falten in 3D um die Körperachse (rotateY + perspective)
+   2) Burst-Glide-Rhythmus: 3 schnelle Schläge → gleiten
+   3) Höhen-Bobbing synchron zum Flügelschlag (steigt beim Flattern,
+      sinkt beim Gleiten)
+   4) Flugpfad mit Neigung in die Flugrichtung + Roll-Wobble
+   Alles reine GPU-Transforms, keine Layout-Arbeit.
+   ============================================================ */
 
-/* Custom animations for flower petals */
-@keyframes sway {
-  0%, 100% {
-    transform: translateX(0px) rotate(0deg);
-  }
-  25% {
-    transform: translateX(-15px) rotate(-5deg);
-  }
-  50% {
-    transform: translateX(10px) rotate(3deg);
-  }
-  75% {
-    transform: translateX(-8px) rotate(-2deg);
-  }
+.bf {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
-
-@keyframes petal-glow {
-  0%, 100% {
-    opacity: 0.8;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 1;
-    filter: brightness(1.2);
-  }
+.bf-bob {
+  width: 100%;
+  height: 100%;
+  animation: bf-bob var(--flap, 2.6s) ease-in-out infinite;
 }
-
-@keyframes falling-petal {
-  0% {
-    transform: translateY(-10vh) translateX(-5vw) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(110vh) translateX(15vw) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-.animate-sway {
-  animation: sway 3s ease-in-out infinite;
-}
-
-.animate-petal-glow {
-  animation: petal-glow 2s ease-in-out infinite;
-}
-
-.animate-falling-petal {
-  animation: falling-petal 20s linear infinite;
+.bf-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
   transform-style: preserve-3d;
-} 
+  perspective: 260px;
+  animation: bf-wobble 4.2s ease-in-out infinite;
+}
+.bf-wing {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 52%;
+  background-image: var(--bf-img, url('/images/butterfly-blue.webp'));
+  background-repeat: no-repeat;
+  background-size: 192.4% 100%;
+}
+.bf-wing-l {
+  left: 0;
+  background-position: left center;
+  transform-origin: 100% 50%;
+  animation: bf-flap-l var(--flap, 2.6s) ease-in-out infinite;
+}
+.bf-wing-r {
+  right: 0;
+  background-position: right center;
+  transform-origin: 0% 50%;
+  animation: bf-flap-r var(--flap, 2.6s) ease-in-out infinite;
+}
+/* Körper + Fühler bleiben stabil über der Flügel-Naht */
+.bf-body {
+  position: absolute;
+  left: 42%;
+  top: 0;
+  width: 16%;
+  height: 100%;
+  background-image: var(--bf-img, url('/images/butterfly-blue.webp'));
+  background-repeat: no-repeat;
+  background-size: 625% 100%;
+  background-position: center;
+  transform: translateZ(2px);
+}
+
+/* Ein-/Ausflug-Ebene: JS setzt Phase, CSS federt die Bewegung */
+.bf-spawn {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition:
+    transform var(--fly-dur, 5s) cubic-bezier(0.22, 1, 0.36, 1),
+    opacity var(--fly-dur, 5s) ease;
+}
+
+/* --- Flügelschlag: Burst (0–42%) → Gleiten (42–100%) --- */
+@keyframes bf-flap-l {
+  0%   { transform: rotateY(14deg); }
+  7%   { transform: rotateY(74deg); }
+  14%  { transform: rotateY(10deg); }
+  21%  { transform: rotateY(72deg); }
+  28%  { transform: rotateY(12deg); }
+  35%  { transform: rotateY(68deg); }
+  42%  { transform: rotateY(16deg); }
+  58%  { transform: rotateY(30deg); }
+  74%  { transform: rotateY(10deg); }
+  88%  { transform: rotateY(24deg); }
+  100% { transform: rotateY(14deg); }
+}
+@keyframes bf-flap-r {
+  0%   { transform: rotateY(-14deg); }
+  7%   { transform: rotateY(-74deg); }
+  14%  { transform: rotateY(-10deg); }
+  21%  { transform: rotateY(-72deg); }
+  28%  { transform: rotateY(-12deg); }
+  35%  { transform: rotateY(-68deg); }
+  42%  { transform: rotateY(-16deg); }
+  58%  { transform: rotateY(-30deg); }
+  74%  { transform: rotateY(-10deg); }
+  88%  { transform: rotateY(-24deg); }
+  100% { transform: rotateY(-14deg); }
+}
+
+/* --- Höhe: steigt während der Schlag-Bursts, sinkt beim Gleiten --- */
+@keyframes bf-bob {
+  0%   { transform: translateY(0); }
+  42%  { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+/* --- Leichtes Rollen um die Flugachse ---
+   Konstantes rotateX kippt den Schmetterling aus der Bildebene:
+   nie perfekt plan zur Kamera = kein „Sticker“-Eindruck. */
+@keyframes bf-wobble {
+  0%, 100% { transform: rotateX(14deg) rotateZ(0deg); }
+  30%      { transform: rotateX(18deg) rotateZ(5deg); }
+  65%      { transform: rotateX(11deg) rotateZ(-6deg); }
+}
+
+/* --- Flugpfade (geschlossene Schleifen, Neigung folgt Richtung) --- */
+@keyframes bf-path-a {
+  0%   { transform: translate3d(0, 0, 0) rotate(14deg); }
+  12%  { transform: translate3d(-6vw, -10vh, 0) rotate(-18deg); }
+  28%  { transform: translate3d(-15vw, -14vh, 0) rotate(-42deg); }
+  45%  { transform: translate3d(-22vw, -2vh, 0) rotate(-16deg); }
+  /* Segment 60→76 war die schnellste L→R-Bewegung (2,84 vw/s)
+     → Strecke gekürzt = 25% langsamer, Folgesegment mit angepasst */
+  60%  { transform: translate3d(-16vw, 9vh, 0) rotate(24deg); }
+  76%  { transform: translate3d(-8.5vw, 12vh, 0) rotate(38deg); }
+  90%  { transform: translate3d(-1vw, 5vh, 0) rotate(22deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(14deg); }
+}
+@keyframes bf-path-b {
+  0%   { transform: translate3d(0, 0, 0) rotate(-10deg); }
+  15%  { transform: translate3d(7vw, -9vh, 0) rotate(28deg); }
+  32%  { transform: translate3d(14vw, -3vh, 0) rotate(45deg); }
+  /* Segment 48→62 war die schnellste R→L-Bewegung (3,25 vw/s)
+     → Strecke gekürzt = 25% langsamer, Folgesegmente mit angepasst */
+  48%  { transform: translate3d(8vw, 7vh, 0) rotate(10deg); }
+  62%  { transform: translate3d(0.5vw, 3vh, 0) rotate(-26deg); }
+  78%  { transform: translate3d(-7vw, -6vh, 0) rotate(-40deg); }
+  90%  { transform: translate3d(-4vw, -2vh, 0) rotate(-18deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(-10deg); }
+}
+@keyframes bf-path-c {
+  0%   { transform: translate3d(0, 0, 0) rotate(6deg); }
+  20%  { transform: translate3d(4vw, -6vh, 0) rotate(30deg); }
+  40%  { transform: translate3d(-3vw, -9vh, 0) rotate(-20deg); }
+  60%  { transform: translate3d(-7vw, -3vh, 0) rotate(-38deg); }
+  80%  { transform: translate3d(-2vw, 4vh, 0) rotate(-8deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(6deg); }
+}
+
+/* --- Tiefen-Parallax auf Mausbewegung (CSS-Variablen vom Hero) --- */
+.bf-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bf-layer-near {
+  transform: translate3d(
+    calc(var(--mx, 0) * 22px),
+    calc(var(--my, 0) * 14px),
+    0
+  );
+}
+.bf-layer-far {
+  transform: translate3d(
+    calc(var(--mx, 0) * 9px),
+    calc(var(--my, 0) * 6px),
+    0
+  );
+}
+
+/* Barrierefreiheit: keine Daueranimation bei reduzierter Bewegung */
+@media (prefers-reduced-motion: reduce) {
+  .bf, .bf * {
+    animation: none !important;
+  }
+  .bf-layer,
+  .bf-spawn {
+    transition: none !important;
+  }
+}

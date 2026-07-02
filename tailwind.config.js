@@ -8,6 +8,34 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Tiefes Petrol-Schwarz — abgeleitet aus dem Hero-Bild (Nachtwald)
+        ink: {
+          DEFAULT: '#07090a',
+          900: '#0a0e0f',
+          800: '#0d1315',
+          700: '#121a1c',
+          600: '#182225',
+          500: '#223034',
+        },
+        // Warmes Elfenbein statt hartem Weiß
+        ivory: {
+          DEFAULT: '#f3eee5',
+          dim: '#cbc6bb',
+          mute: '#938f86',
+        },
+        // Schmetterlings-Teal aus dem Hero-Bild
+        teal: {
+          soft: '#9ddceb',
+          DEFAULT: '#6fc3d4',
+          deep: '#28545e',
+        },
+        // Rosé — Brücke zum pinken Marken-Logo, edler abgetönt
+        rose: {
+          soft: '#f3cddd',
+          DEFAULT: '#e7a4bf',
+          deep: '#c56d92',
+        },
+        // Legacy-Skala (Impressum/Datenschutz & Alt-Klassen)
         primary: {
           50: '#fdf2f8',
           100: '#fce7f3',
@@ -19,20 +47,7 @@ module.exports = {
           700: '#be185d',
           800: '#9d174d',
           900: '#831843',
-          950: '#500724'
-        },
-        secondary: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#020617',
+          950: '#500724',
         },
         neutral: {
           50: '#fafafa',
@@ -46,18 +61,22 @@ module.exports = {
           800: '#262626',
           900: '#171717',
           950: '#0a0a0a',
-        }
+        },
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'serif': ['Playfair Display', 'serif'],
-        'cursive': ['Dancing Script', 'cursive'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+      },
+      letterSpacing: {
+        widestplus: '0.28em',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
-        'bounce-gentle': 'bounce-gentle 3s ease-in-out infinite',
-        'float': 'float 6s ease-in-out infinite',
+        float: 'float 7s ease-in-out infinite',
+        'float-slow': 'float 11s ease-in-out infinite',
+        kenburns: 'kenburns 24s ease-in-out infinite alternate',
+        breathe: 'breathe 12s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -68,19 +87,21 @@ module.exports = {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
-        'bounce-gentle': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        'float': {
+        float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        }
+          '50%': { transform: 'translateY(-18px)' },
+        },
+        kenburns: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.08)' },
+        },
+        // Atmender Hero: sichtbar rein & raus, Rhythmus wie ruhiges Atmen
+        breathe: {
+          '0%, 100%': { transform: 'scale(1.02)' },
+          '50%': { transform: 'scale(1.075)' },
+        },
       },
-      backdropBlur: {
-        'custom': '20px',
-      }
     },
   },
   plugins: [],
-} 
+}

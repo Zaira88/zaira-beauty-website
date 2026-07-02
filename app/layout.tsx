@@ -1,12 +1,21 @@
-import { Inter } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import { Metadata } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
-import FlowerPetals from '../components/FlowerPetals'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+})
 
 const siteUrl = "https://zairabeauty.de";
 
@@ -92,18 +101,17 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="de">
-      <body className={inter.className}>
+    <html lang="de" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <Header />
-        <FlowerPetals />
         <main>{children}</main>
         <Footer />
         <ScrollToTopButton />
       </body>
     </html>
   );
-} 
+}

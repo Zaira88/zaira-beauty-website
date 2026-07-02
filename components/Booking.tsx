@@ -2,94 +2,121 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Phone, Mail, MapPin, Instagram, MessageCircle } from 'lucide-react'
-import Link from 'next/link'
+import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
+import { CONTACT, waHref } from '@/data/problems'
+
+const contactItems = [
+  {
+    icon: Phone,
+    label: 'Telefon',
+    value: CONTACT.phoneDisplay,
+    href: `tel:${CONTACT.phone}`,
+  },
+  {
+    icon: Mail,
+    label: 'E-Mail',
+    value: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+  },
+  {
+    icon: MapPin,
+    label: 'Studio',
+    value: CONTACT.address,
+  },
+  {
+    icon: Clock,
+    label: 'Öffnungszeiten',
+    value: 'Mo–Fr 09–15 Uhr · Sa 09–18 Uhr',
+  },
+]
 
 const Booking = () => {
   return (
-    <motion.section 
-      id="contact" 
-      className="py-20 md:py-32 bg-black"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8 }}
-    >
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Lass uns deine Beauty-Reise starten
+    <section id="contact" className="relative overflow-hidden bg-ink-900 py-24 md:py-36">
+      {/* Dezente Glow-Akzente */}
+      <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-teal/5 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-rose/5 blur-3xl" />
+
+      <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="overline-label mb-5">Nur eine Nachricht entfernt</p>
+          <h2 className="font-display text-4xl text-ivory sm:text-5xl lg:text-6xl">
+            Bereit? <em className="text-rose">Schreib mir.</em>
           </h2>
-          <p className="text-lg text-neutral-300 max-w-3xl mx-auto">
-            Bereit für deine Transformation? Ich bin nur eine Nachricht entfernt. Wähle deinen Lieblingsweg und lass uns gemeinsam deine Schönheitsziele erreichen.
+          <p className="mx-auto mt-6 max-w-xl text-lg text-ivory-mute">
+            Erzähl mir kurz von deinem Anliegen — ich antworte meist innerhalb
+            weniger Minuten und wir finden gemeinsam deinen Termin.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-neutral-900/50 border border-neutral-800 p-8 md:p-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            
-            {/* Preferred Contact */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold text-white mb-6">Schnell & persönlich</h3>
-              <div className="space-y-4">
-                <Link href="https://wa.me/4915159414259" target="_blank" className="block w-full text-center p-6 bg-green-500 text-white font-bold text-lg transition-transform hover:scale-105 flex items-center justify-center space-x-3">
-                  <MessageCircle className="w-7 h-7" /> 
-                  <span>WhatsApp Chat starten</span>
-                </Link>
-                <Link href="https://www.instagram.com/zaira.beautyface/" target="_blank" className="block w-full text-center p-6 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold text-lg transition-transform hover:scale-105 flex items-center justify-center space-x-3">
-                  <Instagram className="w-7 h-7" />
-                  <span>Instagram Nachricht</span>
-                </Link>
-              </div>
-               <p className="text-neutral-400 mt-6 text-sm">
-                Diese Wege sind am schnellsten und persönlichsten. Ich antworte dir innerhalb weniger Minuten.
-              </p>
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <a
+            href={waHref('Hallo Zaira! 👋 Ich würde gerne einen Termin vereinbaren.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-base"
+          >
+            <FaWhatsapp className="h-5 w-5" />
+            WhatsApp Chat starten
+          </a>
+          <a
+            href={CONTACT.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost text-base"
+          >
+            <FaInstagram className="h-5 w-5" />
+            Instagram
+          </a>
+        </motion.div>
 
-            {/* Other Contact Info */}
-            <motion.div
-               initial={{ opacity: 0, x: 50 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               transition={{ duration: 0.6, delay: 0.2 }}
-               viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold text-white mb-6">Alle Kontaktdaten</h3>
-              <div className="space-y-5">
-                  <div className="flex items-start space-x-4">
-                    <Phone className="w-6 h-6 text-primary-400 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-white">Telefon</h4>
-                      <p className="text-neutral-400 hover:text-primary-400 transition-colors"><a href="tel:+4915159414259">+49 1515 9414259</a></p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <Mail className="w-6 h-6 text-primary-400 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-white">E-Mail</h4>
-                      <p className="text-neutral-400 hover:text-primary-400 transition-colors"><a href="mailto:zaira.beauty.face@gmail.com">zaira.beauty.face@gmail.com</a></p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <MapPin className="w-6 h-6 text-primary-400 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-white">Studio</h4>
-                      <p className="text-neutral-400">Johannispl. 10, 82538 Geretsried</p>
-                    </div>
-                  </div>
+        {/* Kontakt-Fakten */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 grid grid-cols-1 gap-px overflow-hidden hairline bg-ivory/10 text-left sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {contactItems.map((item) => {
+            const Icon = item.icon
+            const inner = (
+              <div className="flex h-full flex-col gap-3 bg-ink-900 p-6 transition-colors hover:bg-ink-800">
+                <Icon className="h-5 w-5 text-teal" />
+                <div>
+                  <p className="text-xs uppercase tracking-widestplus text-ivory-mute">
+                    {item.label}
+                  </p>
+                  <p className="mt-1.5 text-sm font-medium leading-snug text-ivory-dim">
+                    {item.value}
+                  </p>
+                </div>
               </div>
-            </motion.div>
-          </div>
-        </div>
-        
+            )
+            return item.href ? (
+              <a key={item.label} href={item.href}>
+                {inner}
+              </a>
+            ) : (
+              <div key={item.label}>{inner}</div>
+            )
+          })}
+        </motion.div>
       </div>
-    </motion.section>
+    </section>
   )
 }
 
-export default Booking 
+export default Booking

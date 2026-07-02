@@ -3,139 +3,151 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowDown, Star } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa'
+import { waHref, CONTACT } from '@/data/problems'
+import { formatRating } from '@/lib/googleReviews'
+import Butterflies from '@/components/Butterflies'
 
-const Butterfly = () => {
-  return (
-    <motion.div
-      className="absolute top-[-3.4rem] right-[-3.15rem] w-36 h-36 pointer-events-none
-                 md:top-[-5.8rem] md:right-[-4.65rem] md:w-48 md:h-48
-                 lg:top-[-6.8rem] lg:right-[-7.5rem] lg:w-60 lg:h-60"
-      style={{ perspective: '1000px' } as React.CSSProperties}
-    >
-      {/* Linker Flügel */}
-      <motion.div
-        className="absolute top-0 right-[23.5%] w-[52%] h-full"
-        style={{ transformOrigin: 'right center' } as React.CSSProperties}
-        animate={{ rotateY: 25 }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut',
-        }}
-      >
-        <Image
-          src="/images/2schmetterling.webp"
-          alt="Linker Schmetterlingsflügel"
-          fill
-          style={{ objectFit: 'contain' }}
-          className="drop-shadow-lg"
-        />
-      </motion.div>
-
-      {/* Rechter Flügel */}
-      <motion.div
-        className="absolute top-0 left-[23.5%] w-[52%] h-full"
-        style={{ transformOrigin: 'left center' } as React.CSSProperties}
-        animate={{ rotateY: -25 }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut',
-          delay: 0.1,
-        }}
-      >
-        <Image
-          src="/images/3schmetterling.webp"
-          alt="Rechter Schmetterlingsflügel"
-          fill
-          style={{ objectFit: 'contain' }}
-          className="drop-shadow-lg"
-        />
-      </motion.div>
-      
-      {/* Körper */}
-      <div className="absolute z-10 top-1/2 left-1/2 w-1/4 h-3/4 -translate-x-1/2 -translate-y-1/2 scale-[2.25]">
-        <Image
-          src="/images/1schmetterling.webp"
-          alt="Schmetterlingskörper"
-          fill
-          style={{ objectFit: 'contain' }}
-        />
-      </div>
-    </motion.div>
-  )
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, delay: 0.15 + i * 0.15, ease: [0.22, 1, 0.36, 1] },
+  }),
 }
 
-const Hero = () => {
+const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) => {
   return (
-    <section 
-      id="home" 
-      className="relative min-h-screen flex items-end justify-center text-center overflow-hidden bg-[#050e11]"
+    <section
+      id="home"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/zaira.png"
-          alt="Portrait von Zaira"
-          fill
-          style={{
-            objectFit: 'contain',
-            opacity: 1,
-            transform: 'scale(1.2)',
-          }}
-          className="object-top [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]"
-          priority
-        />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+      {/* == Bild-Ebene ================================================= */}
+      {/* Mobile: vollflächig hinter dem Text · Desktop: rechte Hälfte   */}
+      <div className="absolute inset-0 z-0 lg:left-[38%]">
+        <div className="relative h-full w-full overflow-hidden">
+          <Image
+            src="/images/zaira.png"
+            alt="Frau im Schmetterlingskleid im nächtlichen Wald — Zaira Beauty"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 62vw"
+            className="animate-breathe object-cover object-[center_22%]"
+          />
+        </div>
+        {/* Verläufe: ins Petrol-Schwarz einbetten */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25 lg:bg-gradient-to-r lg:from-ink lg:via-ink/35 lg:to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 p-4 pb-8 md:p-12 lg:pb-32">
-        <motion.div
-          // Relativer Container für H1 und Schmetterling
-          className="relative inline-block"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 
-            className="text-4xl md:text-7xl lg:text-8xl font-extrabold text-white leading-tight"
-            style={{ textShadow: '0px 2px 15px rgba(0,0,0,0.5)' }}
-          >
-            ZAIRA <span className="text-primary-500">BEAUTY</span>
-          </h1>
-          <Butterfly />
-        </motion.div>
-        
-        <motion.p 
-          className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-neutral-200"
-          style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.7)' } as React.CSSProperties}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          Für dein strahlendes Ich. Entdecke Behandlungen, die deine natürliche Schönheit unterstreichen und dein Selbstbewusstsein stärken.
-        </motion.p>
+      {/* Lebendige Schmetterlinge — über dem Bild, hinter dem Text */}
+      <Butterflies />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-10"
-        >
-          <a
-            href="#contact"
-            className="btn-primary inline-block text-lg font-semibold"
+      {/* == Inhalt ===================================================== */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-24 pt-36 sm:px-8 lg:pb-32">
+        <div className="max-w-2xl">
+          <motion.p
+            custom={0}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="overline-label mb-6"
           >
-            Termin anfragen
-          </a>
-        </motion.div>
+            Kosmetikstudio · Geretsried
+          </motion.p>
+
+          <motion.h1
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl xl:text-[5.2rem]"
+          >
+            Dein Anliegen.
+            <br />
+            <em className="text-rose">Meine Lösung.</em>
+          </motion.h1>
+
+          <motion.p
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="mt-7 max-w-xl text-lg leading-relaxed text-ivory-dim"
+          >
+            Ob Akne, Pigmentflecken, erste Falten oder unerwünschte Härchen —
+            sag mir, was dich stört, und ich zeige dir die Behandlung, die
+            wirklich hilft.
+          </motion.p>
+
+          <motion.div
+            custom={3}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="mt-10 flex flex-wrap items-center gap-4"
+          >
+            <Link href="/#finder" className="btn-primary">
+              Finde deine Lösung
+              <ArrowDown className="h-4 w-4" />
+            </Link>
+            <a
+              href={waHref('Hallo Zaira! 👋 Ich hätte gerne eine Beratung.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
+            >
+              <FaWhatsapp className="h-4 w-4" />
+              WhatsApp
+            </a>
+          </motion.div>
+
+          {/* Trust-Zeile */}
+          <motion.a
+            custom={4}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            href={CONTACT.googleReviews}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-12 inline-flex items-center gap-3 text-sm text-ivory-mute transition-colors hover:text-ivory-dim"
+          >
+            <span className="flex gap-0.5 text-rose">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-current" />
+              ))}
+            </span>
+            <span>
+              <strong className="font-semibold text-ivory-dim">
+                {formatRating(rating)}
+              </strong>{' '}
+              · {count} Google-Bewertungen
+            </span>
+          </motion.a>
+        </div>
       </div>
+
+      {/* Scroll-Hinweis */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 1 }}
+        className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 md:block"
+      >
+        <div className="flex h-12 w-7 items-start justify-center rounded-full border border-ivory/20 p-1.5">
+          <motion.div
+            animate={{ y: [0, 14, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+            className="h-2 w-2 rounded-full bg-teal"
+          />
+        </div>
+      </motion.div>
     </section>
   )
 }
 
-export default Hero 
+export default Hero

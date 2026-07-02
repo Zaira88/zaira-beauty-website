@@ -1,82 +1,114 @@
 'use client'
 
 import React from 'react'
-import { Instagram, Phone, Mail, MapPin } from 'lucide-react'
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import Link from 'next/link'
+import Image from 'next/image'
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
+import { CONTACT, waHref } from '@/data/problems'
 
 const Footer = () => {
-  const navLinks = [
-    { name: 'Über Zaira', href: '#about' },
-    { name: 'Meine Behandlungen', href: '#services' },
-    { name: 'Ergebnisse', href: '#gallery' },
-    { name: 'Kontakt', href: '#contact' }
-  ]
-
-  const socialLinks = [
-    { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/zaira.beautyface/' },
-  ]
-
   return (
-    <footer className="bg-black text-neutral-300">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Top section with contact and opening hours */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-12">
-            {/* Contact Info */}
-            <div>
-                <h3 className="text-xl font-bold text-white mb-4">Kontakt</h3>
-                <ul className="space-y-3">
-                    <li className="flex items-center">
-                        <MapPin className="w-5 h-5 mr-3 text-yellow-400" />
-                        <span>Johannispl. 10, 82538 Geretsried</span>
-                    </li>
-                    <li className="flex items-center">
-                        <Mail className="w-5 h-5 mr-3 text-yellow-400" />
-                        <span>zaira.beauty.face@gmail.com</span>
-                    </li>
-                    <li className="flex items-center">
-                        <Phone className="w-5 h-5 mr-3 text-yellow-400" />
-                        <span>+49 1515 9414259</span>
-                    </li>
-                </ul>
-            </div>
+    <footer className="border-t border-ivory/5 bg-ink">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        {/* Oberer Bereich */}
+        <div className="grid gap-12 py-16 md:grid-cols-3">
+          {/* Marke */}
+          <div>
+            <Link href="/" className="relative block h-16 w-44">
+              <Image
+                src="/images/logo.webp"
+                alt="Zaira Beauty Logo"
+                fill
+                className="object-contain object-left"
+                sizes="176px"
+              />
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ivory-mute">
+              Dein Kosmetikstudio in Geretsried — spezialisiert auf sichtbare
+              Ergebnisse mit Herz und Präzision.
+            </p>
+          </div>
 
-            {/* Opening Hours */}
-            <div>
-                <h3 className="text-xl font-bold text-white mb-4">Öffnungszeiten</h3>
-                <ul className="space-y-2">
-                    <li className="flex justify-between">
-                        <span>Montag - Freitag</span>
-                        <span>09:00 - 15:00 Uhr</span>
-                    </li>
-                    <li className="flex justify-between">
-                        <span>Samstag</span>
-                        <span>09:00 - 18:00 Uhr</span>
-                    </li>
-                    <li className="flex justify-between text-neutral-500">
-                        <span>Sonntag</span>
-                        <span>Geschlossen</span>
-                    </li>
-                </ul>
-            </div>
+          {/* Kontakt */}
+          <div>
+            <h3 className="overline-label mb-5">Kontakt</h3>
+            <ul className="space-y-3 text-sm text-ivory-dim">
+              <li>{CONTACT.address}</li>
+              <li>
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  className="transition-colors hover:text-ivory"
+                >
+                  {CONTACT.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${CONTACT.phone}`}
+                  className="transition-colors hover:text-ivory"
+                >
+                  {CONTACT.phoneDisplay}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Öffnungszeiten */}
+          <div>
+            <h3 className="overline-label mb-5">Öffnungszeiten</h3>
+            <ul className="space-y-3 text-sm">
+              <li className="flex justify-between gap-6 text-ivory-dim">
+                <span>Montag – Freitag</span>
+                <span>09:00 – 15:00 Uhr</span>
+              </li>
+              <li className="flex justify-between gap-6 text-ivory-dim">
+                <span>Samstag</span>
+                <span>09:00 – 18:00 Uhr</span>
+              </li>
+              <li className="flex justify-between gap-6 text-ivory-mute">
+                <span>Sonntag</span>
+                <span>Geschlossen</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-gray-800 py-6 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm text-neutral-400">&copy; {new Date().getFullYear()} Zaira Beauty. Deine Beauty-Expertin in Geretsried.</p>
-          <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-            <Link href="/impressum" className="text-sm hover:text-white transition-colors">
+        {/* Untere Leiste */}
+        <div className="flex flex-col items-center justify-between gap-5 border-t border-ivory/5 py-7 sm:flex-row">
+          <p className="text-xs text-ivory-mute">
+            &copy; {new Date().getFullYear()} Zaira Beauty. Deine
+            Beauty-Expertin in Geretsried.
+          </p>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/impressum"
+              className="text-xs text-ivory-mute transition-colors hover:text-ivory"
+            >
               Impressum
             </Link>
-            <Link href="/datenschutz" className="text-sm hover:text-white transition-colors">
+            <Link
+              href="/datenschutz"
+              className="text-xs text-ivory-mute transition-colors hover:text-ivory"
+            >
               Datenschutz
             </Link>
-            <a href="https://www.instagram.com/zairabeautyface/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-              <Instagram size={24} />
+            <a
+              href={CONTACT.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="text-ivory-mute transition-colors hover:text-ivory"
+            >
+              <FaInstagram size={18} />
             </a>
-            <a href="https://wa.me/4915159414259" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-              <Phone size={24} />
+            <a
+              href={waHref()}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="text-ivory-mute transition-colors hover:text-ivory"
+            >
+              <FaWhatsapp size={18} />
             </a>
           </div>
         </div>
@@ -85,4 +117,4 @@ const Footer = () => {
   )
 }
 
-export default Footer 
+export default Footer
