@@ -93,19 +93,20 @@
       drop-shadow(0 7px 14px rgba(0, 0, 0, 0.35));
   }
 
-  /* Glossy Rosé — direkt am Logo orientiert */
+  /* Glossy Pink — Farbstops exakt aus der Logo-Datei gesampelt:
+     Glanz #ff81da · Hauptton #f658b5 · Kanten #a6256b */
   .text-3d-rose {
     background-image: linear-gradient(
       180deg,
-      #ffd7e9 0%,
-      #ec9fc2 45%,
-      #a95f85 100%
+      #ffb1e2 0%,
+      #f658b5 48%,
+      #a6256b 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.5))
-      drop-shadow(0 7px 16px rgba(197, 109, 146, 0.3));
+      drop-shadow(0 7px 18px rgba(246, 88, 181, 0.35));
   }
 
   /* Punktierte Preis-Führungslinie (Preisliste) */
