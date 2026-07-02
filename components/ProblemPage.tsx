@@ -60,8 +60,8 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
               transition={{ duration: 0.8, delay: 0.1, ease }}
               className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl"
             >
-              {problem.titleA}
-              <em className="text-rose">{problem.titleB}</em>
+              <span className="text-3d">{problem.titleA}</span>
+              <em className="text-3d-rose text-rose">{problem.titleB}</em>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -247,7 +247,8 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
       <section className="mx-auto max-w-7xl border-t border-ivory/5 px-5 py-16 sm:px-8 md:py-20">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl text-ivory">
-            Weitere <em className="text-rose">Anliegen</em>
+            <span className="text-3d">Weitere</span>{' '}
+            <em className="text-3d-rose text-rose">Anliegen</em>
           </h2>
           <Link
             href="/#finder"

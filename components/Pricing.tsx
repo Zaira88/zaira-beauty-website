@@ -21,7 +21,8 @@ const Pricing = () => {
         >
           <p className="overline-label mb-5">Transparent & fair</p>
           <h2 className="font-display text-4xl text-ivory sm:text-5xl">
-            Preis<em className="text-rose">liste</em>
+            <span className="text-3d">Preis</span>
+            <em className="text-3d-rose text-rose">liste</em>
           </h2>
         </motion.div>
 

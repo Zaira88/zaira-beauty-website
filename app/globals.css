@@ -74,6 +74,40 @@
       hover:border-ivory/50 hover:bg-ivory/5;
   }
 
+  /* ── 3D-Schrift im Logo-Look (Kundinnen-Wunsch) ──────────────
+     Glanz-Verlauf im Schriftzug (hell oben = Lichtkante, satter
+     unten) + zwei Tiefenschatten: eng/dunkel = Prägung, weich =
+     Schweben. drop-shadow statt text-shadow, weil es der Glyphen-
+     Silhouette folgt und mit background-clip:text sauber arbeitet. */
+  .text-3d {
+    background-image: linear-gradient(
+      180deg,
+      #fffef8 0%,
+      #f5f0e6 42%,
+      #c6bfae 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 7px 14px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Glossy Rosé — direkt am Logo orientiert */
+  .text-3d-rose {
+    background-image: linear-gradient(
+      180deg,
+      #ffd7e9 0%,
+      #ec9fc2 45%,
+      #a95f85 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.5))
+      drop-shadow(0 7px 16px rgba(197, 109, 146, 0.3));
+  }
+
   /* Punktierte Preis-Führungslinie (Preisliste) */
   .dot-leader {
     @apply mx-3 flex-1 border-b border-dotted border-ivory/20 translate-y-[-4px];

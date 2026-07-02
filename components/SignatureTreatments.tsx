@@ -51,7 +51,8 @@ const SignatureTreatments = () => {
           <div>
             <p className="overline-label mb-5">Meine Empfehlungen</p>
             <h2 className="font-display text-4xl text-ivory sm:text-5xl">
-              Signature <em className="text-rose">Treatments</em>
+              <span className="text-3d">Signature</span>{' '}
+              <em className="text-3d-rose text-rose">Treatments</em>
             </h2>
           </div>
           <Link

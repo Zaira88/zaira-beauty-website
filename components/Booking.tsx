@@ -47,7 +47,8 @@ const Booking = () => {
         >
           <p className="overline-label mb-5">Nur eine Nachricht entfernt</p>
           <h2 className="font-display text-4xl text-ivory sm:text-5xl lg:text-6xl">
-            Bereit? <em className="text-rose">Schreib mir.</em>
+            <span className="text-3d">Bereit?</span>{' '}
+            <em className="text-3d-rose text-rose">Schreib mir.</em>
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg text-ivory-mute">
             Erzähl mir kurz von deinem Anliegen — ich antworte meist innerhalb

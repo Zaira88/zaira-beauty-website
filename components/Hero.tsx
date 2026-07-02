@@ -66,9 +66,9 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
             variants={fadeUp}
             className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl xl:text-[5.2rem]"
           >
-            Dein Anliegen.
+            <span className="text-3d">Dein Anliegen.</span>
             <br />
-            <em className="text-rose">Meine Lösung.</em>
+            <em className="text-3d-rose text-rose">Meine Lösung.</em>
           </motion.h1>
 
           <motion.p

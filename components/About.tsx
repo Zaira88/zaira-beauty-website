@@ -25,8 +25,9 @@ const About = ({ reviewCount = 91 }: { reviewCount?: number }) => {
           >
             <p className="overline-label mb-5">Über mich</p>
             <h2 className="font-display text-4xl leading-snug text-ivory sm:text-5xl">
-              Deine Schönheit ist meine{' '}
-              <em className="text-rose">Mission</em>.
+              <span className="text-3d">Deine Schönheit ist meine</span>{' '}
+              <em className="text-3d-rose text-rose">Mission</em>
+              <span className="text-3d">.</span>
             </h2>
           </motion.div>
 

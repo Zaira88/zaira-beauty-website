@@ -20,7 +20,8 @@ const Testimonials = ({ data = FALLBACK_RATING }: { data?: GoogleRatingData }) =
         >
           <p className="overline-label mb-5">Das sagen Kundinnen</p>
           <h2 className="font-display text-4xl text-ivory sm:text-5xl">
-            Echte <em className="text-rose">Erfahrungen</em>
+            <span className="text-3d">Echte</span>{' '}
+            <em className="text-3d-rose text-rose">Erfahrungen</em>
           </h2>
           {data.live && (
             <p className="mt-4 text-sm text-ivory-mute">

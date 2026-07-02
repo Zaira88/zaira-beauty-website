@@ -37,7 +37,9 @@ const ProblemFinder = () => {
         >
           <p className="overline-label mb-5">Womit dürfen wir starten?</p>
           <h2 className="font-display text-4xl text-ivory sm:text-5xl lg:text-6xl">
-            Was möchtest du <em className="text-rose">verbessern</em>?
+            <span className="text-3d">Was möchtest du</span>{' '}
+            <em className="text-3d-rose text-rose">verbessern</em>
+            <span className="text-3d">?</span>
           </h2>
           <p className="mt-5 text-lg text-ivory-mute">
             Wähle dein Anliegen — auf der Detailseite findest du alle passenden
