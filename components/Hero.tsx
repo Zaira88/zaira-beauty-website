@@ -59,7 +59,7 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
             variants={fadeUp}
             className="overline-label mb-6"
           >
-            Kosmetikstudio · Geretsried
+            Zaira Beauty
           </motion.p>
 
           <motion.h1
@@ -69,9 +69,9 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
             variants={fadeUp}
             className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl xl:text-[5.2rem]"
           >
-            <span className="text-3d">Dein Anliegen.</span>
+            <span className="text-3d">Sichtbar schöne Haut</span>
             <br />
-            <em className="text-3d-rose text-rose">Meine Lösung.</em>
+            <span className="text-3d-rose text-rose">in Geretsried</span>
           </motion.h1>
 
           <motion.p
@@ -81,9 +81,9 @@ const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) =
             variants={fadeUp}
             className="mt-7 max-w-xl text-lg leading-relaxed text-ivory-dim"
           >
-            Ob Akne, Pigmentflecken, erste Falten oder unerwünschte Härchen —
-            sag mir, was dich stört, und ich zeige dir die Behandlung, die
-            wirklich hilft.
+            Dein Kosmetikstudio für Aquafacial, Microneedling, Anti-Aging
+            und dauerhafte Haarentfernung. Sag mir, was dich stört, und wir
+            finden gemeinsam die passende Behandlung.
           </motion.p>
 
           <motion.div
