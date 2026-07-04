@@ -24,7 +24,7 @@ const Footer = () => {
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ivory-mute">
-              Dein Kosmetikstudio in Geretsried — spezialisiert auf sichtbare
+              Dein Kosmetikstudio in Geretsried, spezialisiert auf sichtbare
               Ergebnisse mit Herz und Präzision.
             </p>
           </div>

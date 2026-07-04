@@ -61,7 +61,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
               className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl"
             >
               <span className="text-3d">{problem.titleA}</span>
-              <em className="text-3d-rose text-rose">{problem.titleB}</em>
+              <span className="text-3d-rose text-rose">{problem.titleB}</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -248,7 +248,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl text-ivory">
             <span className="text-3d">Weitere</span>{' '}
-            <em className="text-3d-rose text-rose">Anliegen</em>
+            <span className="text-3d-rose text-rose">Anliegen</span>
           </h2>
           <Link
             href="/#finder"

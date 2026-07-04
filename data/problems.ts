@@ -69,7 +69,7 @@ export const problems: Problem[] = [
     titleA: 'Akne &',
     titleB: 'Aknenarben',
     subtitle:
-      'Reine Haut ist kein Zufall. Diese Behandlungen klären dein Hautbild und mildern Narben sichtbar — sanft, professionell, wirksam.',
+      'Reine Haut ist kein Zufall. Diese Behandlungen klären dein Hautbild und mildern Narben sichtbar. Sanft, professionell, wirksam.',
     searchTerms: [
       'akne', 'pickel', 'unreine haut', 'narben', 'aknenarben', 'mitesser',
       'entzündungen', 'fruchtsäure', 'peeling', 'microneedling',
@@ -134,7 +134,7 @@ export const problems: Problem[] = [
         name: 'Clear Skin Treatment',
         price: '189,00€',
         priceNote: 'Aufpreis Jelly Maske 10,00€',
-        includes: 'Vergleichbar mit CO2-Laser, aber viel schonender — inkl. Glow Peel, Nano- & Microneedling',
+        includes: 'Vergleichbar mit CO2-Laser, aber viel schonender. Inkl. Glow Peel, Nano- & Microneedling',
         benefits: [
           'Schonende Alternative zum CO2 Laser',
           'Klärt das Hautbild tiefenwirksam',
@@ -166,7 +166,7 @@ export const problems: Problem[] = [
     titleA: 'Pigment',
     titleB: 'flecken',
     subtitle:
-      'Erlebe, wie deine Haut strahlend schön wird — frei von störenden Flecken und Verfärbungen.',
+      'Erlebe, wie deine Haut strahlend schön wird, frei von störenden Flecken und Verfärbungen.',
     searchTerms: [
       'pigmentflecken', 'dunkle flecken', 'hyperpigmentierung', 'melasma',
       'sonnenflecken', 'verfärbung', 'altersflecken', 'hautton',
@@ -207,7 +207,7 @@ export const problems: Problem[] = [
     titleA: 'Anti-',
     titleB: 'Aging',
     subtitle:
-      'Zeit lässt sich nicht anhalten — aber ihre Spuren lassen sich mildern. Straffere, jüngere Haut ohne Skalpell.',
+      'Zeit lässt sich nicht anhalten, aber ihre Spuren lassen sich mildern. Straffere, jüngere Haut ohne Skalpell.',
     searchTerms: [
       'falten', 'anti-aging', 'anti aging', 'straffung', 'lifting',
       'hautverjüngung', 'mesotherapie', 'rf microneedling', 'hals', 'kollagen',
@@ -277,7 +277,7 @@ export const problems: Problem[] = [
     titleA: 'Gesichts',
     titleB: 'behandlungen',
     subtitle:
-      'Rundum-Pakete für ein strahlendes und jugendliches Hautbild — vom Luxury Aquafacial bis zur Schälkur.',
+      'Rundum-Pakete für ein strahlendes und jugendliches Hautbild, vom Luxury Aquafacial bis zur Schälkur.',
     searchTerms: [
       'glow', 'gesichtsbehandlung', 'aquafacial', 'hydrafacial', 'tiefenreinigung',
       'fahle haut', 'trockene haut', 'collagen', 'kollagen', 'gesichtsreinigung', 'müde haut',
@@ -352,7 +352,7 @@ export const problems: Problem[] = [
     titleA: 'Dauerhafte',
     titleB: 'Haarentfernung',
     subtitle:
-      'Genieße die Freiheit dauerhaft glatter Haut mit modernster Diodenlaser-Technologie — für alle Körperbereiche.',
+      'Genieße die Freiheit dauerhaft glatter Haut mit modernster Diodenlaser-Technologie, für alle Körperbereiche.',
     searchTerms: [
       'haare', 'haarentfernung', 'laser', 'ipl', 'diodenlaser', 'rasieren',
       'waxing', 'achseln', 'beine', 'intimzone', 'oberlippe', 'glatte haut',
@@ -439,7 +439,7 @@ export const problems: Problem[] = [
     titleA: 'Dehnungs',
     titleB: 'streifen',
     subtitle:
-      'Sichtbare Reduzierung von Dehnungsstreifen — für glattere, festere Haut, in der du dich wieder wohlfühlst.',
+      'Sichtbare Reduzierung von Dehnungsstreifen, für glattere und festere Haut, in der du dich wieder wohlfühlst.',
     searchTerms: [
       'dehnungsstreifen', 'schwangerschaftsstreifen', 'cellulite',
       'bindegewebe', 'bauch', 'streifen', 'hautelastizität',
@@ -449,7 +449,7 @@ export const problems: Problem[] = [
       {
         name: 'Dehnungsstreifenbehandlung',
         price: '199,00€',
-        priceNote: 'Bauch — weitere Areale: Aufpreis 19,00€ · Jelly Maske: Aufpreis 10,00€',
+        priceNote: 'Bauch. Weitere Areale: Aufpreis 19,00€ · Jelly Maske: Aufpreis 10,00€',
         includes: 'inkl. RF Microneedling + beruhigende Maske',
         benefits: [
           'Sichtbare Reduzierung von Dehnungsstreifen',
@@ -466,7 +466,7 @@ export const problems: Problem[] = [
     titleA: 'Rücken',
     titleB: 'reinigung',
     subtitle:
-      'Tiefenwirksame Behandlungen gegen Unreinheiten, Akne und Narben am Rücken — für ein glattes, reines Hautbild.',
+      'Tiefenwirksame Behandlungen gegen Unreinheiten, Akne und Narben am Rücken, für ein glattes und reines Hautbild.',
     searchTerms: [
       'rücken', 'rückenakne', 'bacne', 'unreiner rücken', 'pickel am rücken',
       'körperpeeling', 'rückenreinigung',
@@ -523,7 +523,7 @@ export const problems: Problem[] = [
     titleA: 'Clear',
     titleB: 'IntimPeel',
     subtitle:
-      'Diskrete, sichere Behandlungen für einen gleichmäßigen Hautton — in geschützter, vertrauensvoller Atmosphäre.',
+      'Diskrete, sichere Behandlungen für einen gleichmäßigen Hautton, in geschützter, vertrauensvoller Atmosphäre.',
     searchTerms: [
       'intimbereich', 'aufhellung', 'po', 'dunkle stellen', 'intimpeel',
       'po akne', 'hyperpigmentierung intim', 'diskret',
@@ -561,7 +561,7 @@ export const problems: Problem[] = [
     titleA: 'Lashlifting &',
     titleB: 'Browlifting',
     subtitle:
-      'Wache Augen ohne Wimperntusche, volle Brauen ohne Nachziehen — Ergebnisse, die Wochen halten.',
+      'Wache Augen ohne Wimperntusche, volle Brauen ohne Nachziehen. Ergebnisse, die Wochen halten.',
     searchTerms: [
       'wimpern', 'lashlifting', 'lash lifting', 'browlifting', 'augenbrauen',
       'henna brows', 'brauen', 'färben', 'wimpernlifting',

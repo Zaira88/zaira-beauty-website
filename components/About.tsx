@@ -26,7 +26,7 @@ const About = ({ reviewCount = 91 }: { reviewCount?: number }) => {
             <p className="overline-label mb-5">Über mich</p>
             <h2 className="font-display text-4xl leading-snug text-ivory sm:text-5xl">
               <span className="text-3d">Deine Schönheit ist meine</span>{' '}
-              <em className="text-3d-rose text-rose">Mission</em>
+              <span className="text-3d-rose text-rose">Mission</span>
               <span className="text-3d">.</span>
             </h2>
           </motion.div>
@@ -43,13 +43,13 @@ const About = ({ reviewCount = 91 }: { reviewCount?: number }) => {
               Als ehemalige Bekleidungstechnische Assistentin und
               Modedesignerin bringe ich Präzision und ein Auge für Ästhetik in
               jede Behandlung. Nach meiner eigenen Reise zur Selbstfindung habe
-              ich meine wahre Berufung in der Kosmetik entdeckt — und das
+              ich meine wahre Berufung in der Kosmetik entdeckt, und das
               spüren meine Kundinnen jeden Tag.
             </p>
             <p className="mt-5 text-lg leading-relaxed text-ivory-mute">
               Meine Leidenschaft ist es, deine natürliche Schönheit zum
               Strahlen zu bringen. Mit meiner Expertise und den besten
-              Produkten helfe ich dir dabei, dich in deiner Haut wohlzufühlen —
+              Produkten helfe ich dir dabei, dich in deiner Haut wohlzufühlen,
               mit ehrlicher Beratung, Hautanalyse und einem Behandlungsplan,
               der wirklich zu dir passt.
             </p>
