@@ -197,7 +197,7 @@ export const problems: Problem[] = [
       },
     ],
     info: {
-      text: 'Mit der Pigmentfleckenbehandlung werden unerwünschte Hautverfärbungen und dunkle Bereiche minimiert, um einen harmonischen Hautton zu schaffen. Ich passe die Behandlung präzise an die individuellen Bedürfnisse Ihrer Haut an und erreichen damit eine sichtbare Verbesserung der Pigmentierung.',
+      text: 'Bei der Pigmentfleckenbehandlung mildere ich unerwünschte Hautverfärbungen und dunkle Stellen, für einen gleichmäßigen Hautton. Ich passe die Behandlung genau an die Bedürfnisse deiner Haut an und erreiche so eine sichtbare Verbesserung der Pigmentierung.',
     },
   },
   {
@@ -342,7 +342,7 @@ export const problems: Problem[] = [
       },
     ],
     info: {
-      text: 'Entspannen und verwöhnen Sie sich mit unseren Luxury Gesichtsbehandlungen. Von der Hydrofacial-Behandlung, die Ihre Haut tiefenreinigt und mit wertvollen Wirkstoffen versorgt, bis hin zur Microneedling-Behandlung, die Kollagen und Elastin stimuliert und das Bindegewebe stärkt – unsere Gesichtsbehandlungen bieten Ihnen ein Rundum-Paket für ein strahlendes und jugendliches Hautbild.',
+      text: 'Entspann dich und lass dich mit meinen Luxury Gesichtsbehandlungen verwöhnen. Vom Aquafacial, das deine Haut tiefenreinigt und mit wertvollen Wirkstoffen versorgt, bis zum Microneedling, das Kollagen und Elastin anregt und das Bindegewebe stärkt: ein Rundum-Paket für ein strahlendes, jugendliches Hautbild.',
     },
   },
   {
@@ -404,7 +404,7 @@ export const problems: Problem[] = [
       },
     ],
     info: {
-      text: 'Ich biete Ihnen die Freiheit glatter Haut durch meine Dienstleistungen in der dauerhaften Haarentfernung. Mit modernster Diodenlaser-Technologie entferne ich unerwünschte Haare effektiv und sicher. Schon nach der ersten Sitzung werden Sie sichtbare Ergebnisse bemerken. Meine Methoden sind sanft zur Haut und bieten eine langanhaltende Lösung für alle Körperbereiche. Verabschieden Sie sich von der täglichen Rasur und dem schmerzhaften Waxing!',
+      text: 'Ich schenke dir die Freiheit glatter Haut mit dauerhafter Haarentfernung. Mit modernster Diodenlaser-Technologie entferne ich unerwünschte Haare effektiv und sicher. Schon nach der ersten Sitzung siehst du erste Ergebnisse. Meine Methode ist sanft zur Haut und hält lange, an allen Körperbereichen. Verabschiede dich von täglicher Rasur und schmerzhaftem Waxing!',
     },
   },
   {
@@ -629,7 +629,7 @@ export const problems: Problem[] = [
       },
     ],
     info: {
-      text: 'Ein blendend weißes Lächeln steht für Jugend, Anziehungskraft und Eleganz. Allerdings können Lebensgewohnheiten wie der Konsum von Kaffee oder Tabak, sowie genetische Faktoren, die Zahnfarbe im Laufe der Zeit beeinflussen. Solche Verfärbungen können das Selbstwertgefühl negativ beeinflussen. Ich nehme Ihre Sorgen ernst und möchte Ihnen das Vergnügen am Lächeln wieder schenken.',
+      text: 'Ein strahlend weißes Lächeln steht für Frische und Selbstbewusstsein. Kaffee, Tee oder Nikotin und auch die Veranlagung lassen die Zähne mit der Zeit nachdunkeln. Solche Verfärbungen nagen oft am Selbstwertgefühl. Ich nehme das ernst und schenke dir die Freude am Lächeln zurück.',
     },
   },
   {
