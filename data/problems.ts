@@ -216,9 +216,9 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Luxury Anti Aging',
-        price: '119,00€',
+        price: '129,00€',
         priceNote: 'Aufpreis 10,00€ Jelly Mask',
-        includes: 'inkl. Aquafacial, Glow Peel, Ultraschall, Lifting & Tuchmaske',
+        includes: 'inkl. Aquafacial, Glow Peel, Ultraschalltherapie, RF Lifting & Tuchmaske',
         benefits: [
           'Tiefenreinigung und Peeling',
           'Reduziert Hyperpigmentierung',
