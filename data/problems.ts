@@ -239,7 +239,7 @@ export const problems: Problem[] = [
       {
         name: 'RF Microneedling Königsklasse',
         price: '199,00€',
-        priceNote: 'Aufpreis 79,00€ Anti Aging Peeling',
+        priceNote: 'Aufpreis 79,00€ Anti Aging Peeling. Weitere Areale ab 20,00€ dazubuchbar, je nach Größe des Areals.',
         includes: 'inkl. RF Microneedling für Gesicht & Hals, Glow Peel & Jellymaske',
         benefits: [
           'Behandelt gezielt Gesicht und Hals',
