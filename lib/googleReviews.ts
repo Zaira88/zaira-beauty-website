@@ -36,7 +36,7 @@ export interface GoogleRatingData {
 /** Kuratierter Fallback — identisch mit dem bisherigen Stand der Website. */
 export const FALLBACK_RATING: GoogleRatingData = {
   rating: 5.0,
-  count: 91,
+  count: 104,
   live: false,
   reviews: [
     {

@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const About = ({ reviewCount = 91 }: { reviewCount?: number }) => {
+const About = ({ reviewCount = 104 }: { reviewCount?: number }) => {
   const stats = [
     { number: `${reviewCount}+`, label: 'Top-Bewertungen' },
     { number: '10+', label: 'Zertifikate' },

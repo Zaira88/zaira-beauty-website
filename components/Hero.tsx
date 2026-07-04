@@ -19,7 +19,7 @@ const fadeUp = {
   }),
 }
 
-const Hero = ({ rating = 5, count = 91 }: { rating?: number; count?: number }) => {
+const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) => {
   return (
     <section
       id="home"
