@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react'
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
-import { CONTACT, waHref } from '@/data/problems'
+import { CONTACT, openingHoursShort, waHref } from '@/data/problems'
 
 interface ContactItem {
   icon: typeof Phone
@@ -37,7 +37,7 @@ const contactItems: ContactItem[] = [
   {
     icon: Clock,
     label: 'Öffnungszeiten',
-    value: 'Mo–Fr 09–15 Uhr · Sa 09–18 Uhr',
+    value: openingHoursShort,
   },
 ]
 

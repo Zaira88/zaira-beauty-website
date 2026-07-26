@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
 import MotionProvider from '@/components/MotionProvider'
+import { OPENING_HOURS } from '@/data/problems'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -83,32 +84,14 @@ export default function RootLayout({
       "postalCode": "82538",
       "addressCountry": "DE"
     },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        "opens": "09:00",
-        "closes": "19:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "09:00",
-        "closes": "16:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Sunday",
-        "opens": "00:00",
-        "closes": "00:00"
-      }
-    ]
+    // Aus OPENING_HOURS erzeugt (data/problems.ts) — vorher standen hier
+    // andere Zeiten als im Footer. Geschlossene Tage lässt schema.org weg.
+    "openingHoursSpecification": OPENING_HOURS.filter((d) => d.opens).map((d) => ({
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": d.schemaDay,
+      "opens": d.opens,
+      "closes": d.closes,
+    }))
   };
 
   return (

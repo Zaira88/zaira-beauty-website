@@ -15,6 +15,43 @@ export const CONTACT = {
     'https://www.google.com/search?sa=X&sca_esv=70c4004f48b74267&hl=de-DE&tbm=lcl&sxsrf=AE3TifMxk4epomRzKJ5ztwNm5QQQSzeq1Q:1750586131897&q=Zaira+Beauty+Face+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNLIwNDc3MDewNLI0sjAwMDQ3NNnAyPiKUTYqMbMoUcEpNbG0pFLBLTE5VSEotSo1rzgzPy81bxErfnkAuPoFj1sAAAA&rldimm=12817707092928001714&ved=2ahUKEwj0k6nE4YSOAxWH2gIHHc22CCoQ9fQKegQITBAF&biw=2560&bih=1271&dpr=1.5#lkt=LocalPoiReviews',
 }
 
+// ------------------------------------------------------------
+// Öffnungszeiten — Single Source of Truth.
+// Stand: Google-Unternehmensprofil (26.07.2026). Vorher standen im
+// Footer und im Google-Markup zwei verschiedene Zeiten, und der
+// abweichende Montag (erst ab 10 Uhr) fehlte überall.
+// Footer, Kontakt-Kachel und das JSON-LD im Layout lesen von hier.
+// ------------------------------------------------------------
+
+export interface OpeningDay {
+  /** schema.org braucht die englischen Wochentagsnamen */
+  schemaDay: string
+  label: string
+  opens?: string
+  closes?: string
+}
+
+export const OPENING_HOURS: OpeningDay[] = [
+  { schemaDay: 'Monday', label: 'Montag', opens: '10:00', closes: '15:00' },
+  { schemaDay: 'Tuesday', label: 'Dienstag', opens: '09:00', closes: '15:00' },
+  { schemaDay: 'Wednesday', label: 'Mittwoch', opens: '09:00', closes: '15:00' },
+  { schemaDay: 'Thursday', label: 'Donnerstag', opens: '09:00', closes: '15:00' },
+  { schemaDay: 'Friday', label: 'Freitag', opens: '09:00', closes: '15:00' },
+  { schemaDay: 'Saturday', label: 'Samstag', opens: '09:00', closes: '18:00' },
+  { schemaDay: 'Sunday', label: 'Sonntag' },
+]
+
+/** Zusammengefasste Anzeige für den Footer (gleiche Zeiten gebündelt). */
+export const openingHoursGrouped: { label: string; time: string; closed?: boolean }[] = [
+  { label: 'Montag', time: '10:00 – 15:00 Uhr' },
+  { label: 'Dienstag – Freitag', time: '09:00 – 15:00 Uhr' },
+  { label: 'Samstag', time: '09:00 – 18:00 Uhr' },
+  { label: 'Sonntag', time: 'Geschlossen', closed: true },
+]
+
+/** Einzeiler für die Kontakt-Kachel. */
+export const openingHoursShort = 'Mo 10–15 · Di–Fr 09–15 · Sa 09–18 Uhr'
+
 /** WhatsApp-Deeplink, optional mit vorbefülltem Text. */
 export const waHref = (message?: string) =>
   `https://wa.me/4915159414259${

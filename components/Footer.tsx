@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
-import { CONTACT, waHref } from '@/data/problems'
+import { CONTACT, openingHoursGrouped, waHref } from '@/data/problems'
 
 const Footer = () => {
   return (
@@ -57,18 +57,17 @@ const Footer = () => {
           <div>
             <h3 className="overline-label mb-5">Öffnungszeiten</h3>
             <ul className="space-y-3 text-sm">
-              <li className="flex justify-between gap-6 text-ivory-dim">
-                <span>Montag – Freitag</span>
-                <span>09:00 – 15:00 Uhr</span>
-              </li>
-              <li className="flex justify-between gap-6 text-ivory-dim">
-                <span>Samstag</span>
-                <span>09:00 – 18:00 Uhr</span>
-              </li>
-              <li className="flex justify-between gap-6 text-ivory-mute">
-                <span>Sonntag</span>
-                <span>Geschlossen</span>
-              </li>
+              {openingHoursGrouped.map((d) => (
+                <li
+                  key={d.label}
+                  className={`flex justify-between gap-6 ${
+                    d.closed ? 'text-ivory-mute' : 'text-ivory-dim'
+                  }`}
+                >
+                  <span>{d.label}</span>
+                  <span className="whitespace-nowrap">{d.time}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
