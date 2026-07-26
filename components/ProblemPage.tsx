@@ -3,10 +3,20 @@
 import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowLeft, ArrowUpRight, Check, ChevronRight, Clock } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Check,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Star,
+} from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import {
+  CONTACT,
   Problem,
+  needsTitleSpace,
   problems,
   solutionCount,
   waHref,
@@ -21,7 +31,9 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
   const count = solutionCount(problem)
 
   return (
-    <main className="bg-ink pb-28 lg:pb-0">
+    /* div statt main: das Layout liefert bereits ein <main> — vorher
+       hatten alle 12 Detailseiten zwei Landmarks */
+    <div className="bg-ink pb-28 lg:pb-0">
       {/* ===== Kopfbereich ===== */}
       <section className="relative overflow-hidden pt-32 md:pt-40">
         <div className="pointer-events-none absolute -right-40 top-0 h-[30rem] w-[30rem] rounded-full bg-teal/5 blur-3xl" />
@@ -46,42 +58,37 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
           </motion.nav>
 
           <div className="max-w-3xl">
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease }}
-              className="overline-label mb-6"
-            >
-              Dein Anliegen
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease }}
-              className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl"
+            {/* Überzeile und H1 ohne Einblenden: Detailseiten sind
+                Google-Landeseiten, der Titel muss sofort stehen (und
+                zählt mit opacity:0 nicht als LCP-Kandidat). */}
+            <p className="overline-label mb-6">Dein Anliegen</p>
+            <h1
+              className="font-display text-[2.4rem] leading-[1.05] tracking-[-0.01em] text-ivory [hyphens:auto] sm:text-6xl lg:text-7xl lg:tracking-[-0.02em]"
+              lang="de"
             >
               <span className="text-3d">{problem.titleA}</span>
+              {needsTitleSpace(problem) ? ' ' : ''}
               <span className="text-3d-rose text-rose">{problem.titleB}</span>
-            </motion.h1>
+            </h1>
             <motion.p
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease }}
-              className="mt-6 max-w-2xl text-lg leading-relaxed text-ivory-dim"
+              transition={{ duration: 0.5, ease }}
+              className="mt-6 max-w-[62ch] text-lg leading-relaxed text-ivory-dim"
             >
               {problem.subtitle}
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease }}
+              transition={{ duration: 0.5, delay: 0.08, ease }}
               className="mt-8 flex flex-wrap items-center gap-3 text-sm"
             >
               <span className="rounded-full border border-teal/30 bg-teal/5 px-4 py-1.5 text-teal">
                 {count} {count === 1 ? 'Lösung' : 'Lösungen'} zur Auswahl
               </span>
-              <span className="rounded-full border border-ivory/12 px-4 py-1.5 text-ivory-dim">
+              <span className="rounded-full border border-ivory/10 px-4 py-1.5 text-ivory-dim">
                 ab {problem.priceFrom}
               </span>
             </motion.div>
@@ -92,15 +99,10 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
       {/* ===== Lösungen ===== */}
       {problem.treatments.length > 0 && (
         <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 md:py-20">
-          <div
-            className={`grid gap-4 ${
-              problem.treatments.length === 1
-                ? 'mx-auto max-w-xl'
-                : problem.treatments.length === 2
-                  ? 'mx-auto max-w-4xl md:grid-cols-2'
-                  : 'md:grid-cols-2 lg:grid-cols-3'
-            }`}
-          >
+          {/* Flex statt Grid: bei 4, 5 oder 7 Behandlungen blieb im
+              Raster eine einzelne Karte links hängen. Angebrochene
+              Reihen stehen jetzt zentriert. */}
+          <div className="flex flex-wrap justify-center gap-4">
             {problem.treatments.map((t, i) => (
               <motion.article
                 key={t.name}
@@ -108,7 +110,13 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.7, delay: Math.min(i * 0.08, 0.4), ease }}
-                className="group relative flex flex-col panel p-8 transition-all duration-500 hover:border-rose/40"
+                className={`group relative flex flex-col panel p-8 transition-all duration-500 hover:border-rose/40 ${
+                  count === 1
+                    ? 'w-full max-w-xl'
+                    : count === 2
+                      ? 'w-full max-w-md sm:w-[calc(50%-0.5rem)]'
+                      : 'w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]'
+                }`}
               >
                 {t.badge && (
                   <span className="absolute -top-3 left-7 rounded-full bg-rose px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
@@ -236,12 +244,54 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                 {problem.info.title}
               </h2>
             )}
-            <p className="leading-relaxed text-ivory-dim">
+            {/* max-w-[62ch]: vorher liefen bis zu 95 Zeichen pro Zeile,
+                angenehm lesbar sind 60–75 */}
+            <p className="max-w-[62ch] leading-relaxed text-ivory-dim">
               {problem.info.text}
             </p>
           </motion.div>
         </section>
       )}
+
+      {/* ===== Vertrauenssignal =====
+          Die Detailseiten nennen Preise, zeigten aber keinen einzigen
+          Beweis. Bewertung + Studio-Ort direkt vor der Terminanfrage. */}
+      <section className="mx-auto max-w-4xl px-5 pb-16 sm:px-8 md:pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.7, ease }}
+          className="flex flex-col items-center gap-5 border-y border-ivory/[0.07] py-8 text-center sm:flex-row sm:justify-center sm:gap-10 sm:text-left"
+        >
+          <a
+            href={CONTACT.googleReviews}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-3 text-sm text-ivory-dim transition-colors hover:text-ivory"
+          >
+            <span className="flex gap-0.5 text-rose">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-current" />
+              ))}
+            </span>
+            <span>
+              <strong className="font-semibold text-ivory">5,0</strong> bei 104
+              Google-Bewertungen
+            </span>
+          </a>
+          <span className="hidden h-8 w-px bg-ivory/10 sm:block" />
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 text-sm text-ivory-dim transition-colors hover:text-ivory"
+          >
+            <MapPin className="h-4 w-4 shrink-0 text-teal" />
+            {CONTACT.address}
+          </a>
+        </motion.div>
+      </section>
 
       {/* ===== Verwandte Anliegen ===== */}
       <section className="mx-auto max-w-7xl border-t border-ivory/5 px-5 py-16 sm:px-8 md:py-20">
@@ -258,12 +308,13 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
             Alle Anliegen ansehen
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-3">
+        {/* Bei 640px waren 3 Spalten zu eng — erst ab lg */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {related.map((p) => (
             <Link
               key={p.slug}
               href={`/${p.slug}`}
-              className="group flex items-center justify-between gap-4 panel p-6 transition-all duration-500 hover:border-rose/40"
+              className="tap group flex items-center justify-between gap-4 panel p-6 transition-all duration-500 hover:border-rose/40"
             >
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-widestplus text-teal/80">
@@ -283,9 +334,11 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
 
       {/* ===== Sticky Mobile-CTA ===== */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-ink/90 p-4 backdrop-blur-xl lg:hidden">
-        <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-widestplus text-ivory-mute">
+        <div className="mx-auto flex max-w-lg items-center justify-between gap-3">
+          {/* min-w-0 + truncate: lange Anliegen-Namen brachen vorher
+              zweizeilig um und machten die Leiste unnötig hoch */}
+          <div className="min-w-0">
+            <p className="truncate text-[11px] uppercase tracking-widestplus text-ivory-mute">
               {problem.problem}
             </p>
             <p className="text-sm font-semibold text-ivory">
@@ -296,14 +349,14 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
             href={waHref(`Hallo Zaira! 👋 Ich interessiere mich für eine Behandlung gegen ${problem.problem}. Wann hättest du Zeit?`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary-small"
+            className="btn-primary-small shrink-0 whitespace-nowrap"
           >
             <FaWhatsapp className="h-4 w-4" />
             Termin anfragen
           </a>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
 

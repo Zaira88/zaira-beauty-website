@@ -670,6 +670,22 @@ export const problems: Problem[] = [
   },
 ]
 
+/**
+ * Braucht die Überschrift ein Leerzeichen zwischen titleA und titleB?
+ * Die Zweiteilung dient dem Farbakzent. Bei zusammengesetzten Wörtern
+ * ("Pigment"+"flecken") darf KEIN Leerzeichen dazwischen, bei echten
+ * Wortgrenzen ("Dauerhafte"+"Haarentfernung") muss eines hin — sonst
+ * stand dort "DauerhafteHaarentfernung".
+ * Regel: Leerzeichen, außer titleB beginnt klein (Wortfortsetzung)
+ * oder titleA endet auf einen Bindestrich ("Anti-"+"Aging").
+ */
+export const needsTitleSpace = (p: Problem): boolean => {
+  const b = p.titleB.charAt(0)
+  if (b !== b.toUpperCase()) return false
+  if (p.titleA.endsWith('-')) return false
+  return true
+}
+
 export const getProblem = (slug: string): Problem => {
   const p = problems.find((p) => p.slug === slug)
   if (!p) throw new Error(`Unbekanntes Anliegen: ${slug}`)

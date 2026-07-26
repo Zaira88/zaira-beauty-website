@@ -103,5 +103,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // typography war in package.json, aber nie registriert → prose-Klassen
+  // in Impressum/Datenschutz waren wirkungslos (Links sahen wie Text aus)
+  plugins: [require('@tailwindcss/typography')],
 }

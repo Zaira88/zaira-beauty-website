@@ -10,7 +10,7 @@ const Pricing = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <section id="pricing" className="bg-ink-900 py-24 md:py-36">
+    <section id="pricing" className="section-edge bg-ink-900 py-24 md:py-36">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -39,7 +39,7 @@ const Pricing = () => {
               <div key={category.title}>
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-ivory/[0.03] md:p-7"
+                  className="flex min-h-[68px] w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-ivory/[0.03] active:bg-ivory/[0.06] md:p-7"
                   aria-expanded={isOpen}
                 >
                   <h3 className="font-display text-xl text-ivory md:text-2xl">

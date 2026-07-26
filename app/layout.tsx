@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
+import MotionProvider from '@/components/MotionProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,21 +23,31 @@ const siteUrl = "https://zairabeauty.de";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Zaira Beauty | Kosmetikstudio in Geretsried | Aquafacial, Lashlifting & Mehr',
-  description: 'Ihr professionelles Kosmetikstudio in Geretsried. Exklusive Gesichtsbehandlungen, Anti-Aging, dauerhafte Haarentfernung und mehr. Buchen Sie jetzt Ihren Termin bei Zaira Beauty!',
+  description: 'Dein Kosmetikstudio in Geretsried: Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung. Sag mir, was dich stört, und wir finden die passende Behandlung.',
   keywords: 'Kosmetikstudio Geretsried, Zaira Beauty, Aquafacial, Lashlifting, Browlifting, Microneedling, Anti-Aging, dauerhafte Haarentfernung, BB-Glow, Zahnbleaching, Gesichtsbehandlung',
   authors: [{ name: 'Zaira Beauty' }],
   openGraph: {
-    title: 'Zaira Beauty | Exklusives Kosmetikstudio in Geretsried',
-    description: 'Entdecken Sie professionelle Gesichtsbehandlungen, Anti-Aging, Haarentfernung und mehr bei Zaira Beauty.',
+    title: 'Zaira Beauty | Kosmetikstudio in Geretsried',
+    description: 'Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung. Finde die Behandlung, die zu deiner Haut passt.',
     url: siteUrl,
     siteName: 'Zaira Beauty',
     locale: 'de_DE',
     type: 'website',
+    // Ohne Bild zeigte ein geteilter Link in WhatsApp/Instagram nur Text
+    images: [
+      {
+        url: '/images/zaira.png',
+        width: 1122,
+        height: 1402,
+        alt: 'Zaira Beauty, Kosmetikstudio in Geretsried',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Zaira Beauty | Exklusives Kosmetikstudio in Geretsried',
-    description: 'Entdecken Sie professionelle Gesichtsbehandlungen, Anti-Aging, Haarentfernung und mehr bei Zaira Beauty.',
+    title: 'Zaira Beauty | Kosmetikstudio in Geretsried',
+    description: 'Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung in Geretsried.',
+    images: ['/images/zaira.png'],
   },
   robots: {
     index: true,
@@ -107,10 +118,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ScrollToTopButton />
+        <MotionProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <ScrollToTopButton />
+        </MotionProvider>
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ const About = ({ reviewCount = 104 }: { reviewCount?: number }) => {
   ]
 
   return (
-    <section id="about" className="bg-ink py-24 md:py-36">
+    <section id="about" className="section-edge bg-ink py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid items-start gap-14 lg:grid-cols-12">
           {/* Pull-Quote */}

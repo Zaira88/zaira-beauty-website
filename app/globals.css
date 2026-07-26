@@ -55,23 +55,49 @@
     @apply bg-ink-800/80 hairline backdrop-blur-sm;
   }
 
-  /* Primärer CTA — Rosé, Pill */
+  /* Primärer CTA — Rosé, Pill.
+     min-h-[52px] + kompakteres Padding auf kleinen Schirmen: vorher
+     brachen zwei Pills auf 375px in Blöcke um. active: gibt Touch-
+     Geräten Rückmeldung — dort existiert :hover nicht. */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-rose px-8 py-4
-      text-sm font-semibold tracking-wide text-ink transition-all duration-300
-      hover:bg-rose-soft hover:shadow-[0_0_40px_rgba(231,164,191,0.25)];
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full
+      bg-rose px-5 py-3.5 text-sm font-semibold tracking-wide text-ink
+      transition-all duration-300 hover:bg-rose-soft
+      hover:shadow-[0_0_40px_rgba(231,164,191,0.25)]
+      active:scale-[0.97] active:bg-rose-deep sm:px-8 sm:py-4;
   }
 
   .btn-primary-small {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-rose px-5 py-2.5
-      text-sm font-semibold text-ink transition-all duration-300 hover:bg-rose-soft;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full
+      bg-rose px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300
+      hover:bg-rose-soft active:scale-[0.97] active:bg-rose-deep;
   }
 
   /* Sekundärer CTA — Ghost mit Haarlinie */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ivory/20
-      px-8 py-4 text-sm font-medium tracking-wide text-ivory transition-all duration-300
-      hover:border-ivory/50 hover:bg-ivory/5;
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full
+      border border-ivory/20 px-5 py-3.5 text-sm font-medium tracking-wide text-ivory
+      transition-all duration-300 hover:border-ivory/50 hover:bg-ivory/5
+      active:scale-[0.97] active:bg-ivory/10 sm:px-8 sm:py-4;
+  }
+
+  /* Interaktive Karten: Touch-Rückmeldung ohne Hover-Abhängigkeit */
+  .tap {
+    @apply transition-transform duration-200 active:scale-[0.985];
+  }
+
+  /* Sektionsgrenze — macht den Wechsel sichtbar, ohne die dunkle
+     Ästhetik zu brechen (vorher liefen alle Sektionen ineinander) */
+  .section-edge {
+    @apply border-t border-ivory/[0.07];
+  }
+
+  /* Rechtstexte (Impressum/Datenschutz) auf die dunkle Palette */
+  .prose-zaira {
+    @apply prose prose-invert max-w-none
+      prose-headings:font-display prose-headings:text-ivory
+      prose-p:text-ivory-dim prose-li:text-ivory-dim prose-strong:text-ivory
+      prose-a:text-rose prose-a:no-underline hover:prose-a:underline;
   }
 
   /* ── 3D-Schrift im Logo-Look (Kundinnen-Wunsch) ──────────────
@@ -109,9 +135,11 @@
       drop-shadow(0 7px 18px rgba(246, 88, 181, 0.35));
   }
 
-  /* Punktierte Preis-Führungslinie (Preisliste) */
+  /* Punktierte Preis-Führungslinie (Preisliste).
+     min-w-[1.5rem] hält die Linie auch dann sichtbar, wenn ein langer
+     Behandlungsname auf dem Handy fast die ganze Zeile füllt. */
   .dot-leader {
-    @apply mx-3 flex-1 border-b border-dotted border-ivory/20 translate-y-[-4px];
+    @apply mx-2 min-w-[1.5rem] flex-1 translate-y-[-4px] border-b border-dotted border-ivory/25 sm:mx-3;
   }
 
   /* Fokus-Ringe */
@@ -317,11 +345,34 @@ a {
   );
 }
 
-/* Barrierefreiheit: keine Daueranimation bei reduzierter Bewegung */
+/* ============================================================
+   Barrierefreiheit: reduzierte Bewegung
+   Vorher deckte dieser Block nur die Schmetterlinge ab — der
+   12-Sekunden-Dauerzoom des Hero-Bildes, der endlos hüpfende
+   Scroll-Punkt und das Smooth-Scrolling liefen weiter.
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  .bf, .bf * {
+  /* Endlos-Animationen anhalten, Einmal-Animationen praktisch sofort
+     beenden (statt sie zu entfernen — so bleiben Endzustände gültig) */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .animate-breathe,
+  .bf,
+  .bf * {
     animation: none !important;
   }
+
   .bf-layer,
   .bf-spawn {
     transition: none !important;

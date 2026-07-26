@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, Search } from 'lucide-react'
+import { ArrowUpRight, Search, X } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { problems, solutionCount, waHref } from '@/data/problems'
 
@@ -25,7 +25,7 @@ const ProblemFinder = () => {
   }, [query])
 
   return (
-    <section id="finder" className="relative bg-ink py-24 md:py-36">
+    <section id="finder" className="section-edge relative bg-ink py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         {/* Kopf */}
         <motion.div
@@ -62,9 +62,29 @@ const ProblemFinder = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Suche: z. B. Akne, Falten, Haare …"
-              className="w-full rounded-full border border-ivory/15 bg-ink-800/70 py-4 pl-14 pr-6 text-ivory placeholder:text-ivory-mute/70 backdrop-blur-sm transition-colors focus:border-teal/50"
+              className="w-full rounded-full border border-ivory/15 bg-ink-800/70 py-4 pl-14 pr-14 text-ivory placeholder:text-ivory-mute backdrop-blur-sm transition-colors focus:border-teal/50"
               aria-label="Anliegen suchen"
             />
+            {/* Löschen-Knopf: vorher musste man die Eingabe von Hand leeren */}
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                aria-label="Suche zurücksetzen"
+                className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2
+                  items-center justify-center rounded-full text-ivory-mute
+                  transition-colors hover:bg-ivory/10 hover:text-ivory active:scale-90"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Trefferanzahl: macht die Filterung greifbar */}
+          <div className="mt-3 h-5 text-center text-sm text-ivory-mute" aria-live="polite">
+            {query &&
+              (filtered.length === 0
+                ? 'Kein Treffer'
+                : `${filtered.length} von ${problems.length} Anliegen`)}
           </div>
         </motion.div>
 
@@ -80,10 +100,13 @@ const ProblemFinder = () => {
             <button
               key={f}
               onClick={() => setQuery(query === f ? '' : f)}
-              className={`rounded-full border px-4 py-1.5 text-sm transition-all duration-300 ${
+              /* /12 ist keine Tailwind-Stufe und kompilierte zu einem
+                 grellen Standard-Grau. /10 existiert. Zusätzlich
+                 min-h-[38px] für ein taugliches Touch-Ziel. */
+              className={`min-h-[38px] rounded-full border px-4 text-sm transition-all duration-300 active:scale-95 ${
                 query === f
                   ? 'border-teal/60 bg-teal/10 text-teal'
-                  : 'border-ivory/12 text-ivory-mute hover:border-ivory/30 hover:text-ivory-dim'
+                  : 'border-ivory/10 text-ivory-dim hover:border-ivory/30 hover:bg-ivory/5 hover:text-ivory'
               }`}
             >
               {f}
@@ -92,20 +115,37 @@ const ProblemFinder = () => {
         </motion.div>
 
         {/* Karten-Grid */}
-        <motion.div layout className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* layout nur auf den Karten, nicht zusätzlich auf dem Raster:
+            doppelte Layout-Projection über 12 backdrop-blur-Flächen bei
+            jedem Tastendruck war auf Mobil spürbar teuer. */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {filtered.map((p, i) => (
+              /* Ohne Suche beim Hereinscrollen einblenden (die Sektion
+                 liegt unter der Falz — vorher war die Animation längst
+                 durch, das Kernraster stand tot da). Bei aktiver Suche
+                 direkt animieren, damit kein Blitzen entsteht, während
+                 der IntersectionObserver noch wartet. */
               <motion.div
                 key={p.slug}
                 layout
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 28 }}
+                {...(query
+                  ? { animate: { opacity: 1, y: 0 } }
+                  : {
+                      whileInView: { opacity: 1, y: 0 },
+                      viewport: { once: true, margin: '-60px' },
+                    })}
                 exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.35, delay: query ? 0 : Math.min(i * 0.05, 0.4) }}
+                transition={{
+                  duration: 0.6,
+                  delay: query ? 0 : Math.min(i * 0.05, 0.4),
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
                 <Link
                   href={`/${p.slug}`}
-                  className="group relative flex h-full flex-col justify-between overflow-hidden panel p-7 transition-all duration-500 hover:border-rose/40 hover:bg-ink-700/80"
+                  className="tap group relative flex h-full flex-col justify-between overflow-hidden panel p-7 transition-all duration-500 hover:border-rose/40 hover:bg-ink-700/80"
                 >
                   {/* Nummer */}
                   <span className="font-display text-sm italic text-ivory-mute/60">
@@ -142,7 +182,7 @@ const ProblemFinder = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         {/* Leer-Zustand */}
         {filtered.length === 0 && (

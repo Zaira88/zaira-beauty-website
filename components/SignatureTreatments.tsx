@@ -39,7 +39,7 @@ const signatures = [
 
 const SignatureTreatments = () => {
   return (
-    <section id="signature" className="bg-ink-900 py-24 md:py-36">
+    <section id="signature" className="section-edge bg-ink-900 py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -73,29 +73,34 @@ const SignatureTreatments = () => {
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Link href={s.href} className="group block">
+              <Link href={s.href} className="tap group block">
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <Image
                     src={s.image}
-                    alt={`${s.name} — Zaira Beauty Geretsried`}
+                    alt={`${s.name}, Zaira Beauty Geretsried`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
+                  {/* Kräftigerer Verlauf: der Preis stand vorher mit
+                      2,78:1 über dem Foto und war kaum lesbar */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/85 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-xs uppercase tracking-widestplus text-teal-soft/90">
+                    <p className="text-xs uppercase tracking-widestplus text-teal-soft">
                       {s.tagline}
                     </p>
                     <div className="mt-2 flex items-baseline justify-between gap-3">
                       <h3 className="font-display text-2xl text-ivory">
                         {s.name}
                       </h3>
-                      <span className="whitespace-nowrap text-sm font-semibold text-rose">
+                      <span className="whitespace-nowrap text-sm font-semibold text-rose-soft">
                         {s.price}
                       </span>
                     </div>
                   </div>
+                  {/* Rahmen-Akzent beim Hovern, wie auf den anderen Karten */}
+                  <div className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-500 group-hover:border-rose/40" />
                 </div>
               </Link>
             </motion.div>

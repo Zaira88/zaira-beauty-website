@@ -17,8 +17,10 @@ export default async function Home() {
       <ProblemFinder />
       <SignatureTreatments />
       <About reviewCount={google.count} />
-      <Pricing />
+      {/* Beweis vor Preis: die Bewertungen standen vorher erst nach der
+          Preisliste — jetzt liest man sie, bevor es ums Geld geht. */}
       <Testimonials data={google} />
+      <Pricing />
       <Booking />
     </>
   )

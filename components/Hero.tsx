@@ -10,12 +10,20 @@ import { waHref, CONTACT } from '@/data/problems'
 import { formatRating } from '@/lib/googleReviews'
 import Butterflies from '@/components/Butterflies'
 
+/**
+ * Überzeile und H1 werden bewusst OHNE Einblend-Animation gerendert:
+ * sie kamen vorher mit opacity:0 vom Server und wurden erst nach
+ * ~1,2 s sichtbar (ohne JavaScript nie). Text mit opacity:0 zählt
+ * für Chrome außerdem nicht als LCP-Kandidat.
+ * Nur die nachgeordneten Elemente blenden ein — Kette endet bei
+ * ~0,55 s statt 1,65 s.
+ */
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, delay: 0.15 + i * 0.15, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] },
   }),
 }
 
@@ -29,7 +37,7 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
           Mobil: eigener Block oben — das Gesicht bleibt komplett frei
           vom Text (Kundinnen-Wunsch). Desktop: rechte Hälfte hinter
           dem Text wie gehabt. */}
-      <div className="relative z-0 h-[55svh] min-h-[340px] w-full lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0">
+      <div className="relative z-0 h-[37svh] min-h-[235px] w-full sm:h-[55svh] sm:min-h-[340px] lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0">
         <div className="relative h-full w-full overflow-hidden">
           <Image
             src="/images/zaira.png"
@@ -50,36 +58,23 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
       <Butterflies />
 
       {/* == Inhalt ===================================================== */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-2 sm:px-8 lg:pb-32 lg:pt-36">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-3 sm:px-8 sm:pb-20 lg:pb-32 lg:pt-36">
         <div className="max-w-2xl">
+          {/* Sofort sichtbar, ohne Hydration-Abhängigkeit */}
+          <p className="overline-label mb-4 sm:mb-5">Zaira Beauty</p>
+
+          <h1 className="font-display text-[2.6rem] leading-[1.05] tracking-[-0.01em] text-ivory sm:text-6xl lg:text-7xl lg:tracking-[-0.02em] xl:text-[5.2rem]">
+            <span className="text-3d">Sichtbar schöne Haut</span>
+            <br />
+            <span className="text-3d-rose text-rose">in Geretsried</span>
+          </h1>
+
           <motion.p
             custom={0}
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="overline-label mb-6"
-          >
-            Zaira Beauty
-          </motion.p>
-
-          <motion.h1
-            custom={1}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="font-display text-5xl leading-[1.05] text-ivory sm:text-6xl lg:text-7xl xl:text-[5.2rem]"
-          >
-            <span className="text-3d">Sichtbar schöne Haut</span>
-            <br />
-            <span className="text-3d-rose text-rose">in Geretsried</span>
-          </motion.h1>
-
-          <motion.p
-            custom={2}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-ivory-dim"
+            className="mt-3 max-w-xl leading-relaxed text-ivory-dim sm:mt-7 sm:text-lg"
           >
             Dein Kosmetikstudio für Aquafacial, Microneedling, Anti-Aging
             und dauerhafte Haarentfernung. Sag mir, was dich stört, und wir
@@ -87,21 +82,24 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
           </motion.p>
 
           <motion.div
-            custom={3}
+            custom={1}
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            /* Auf 375px stapelten sich die beiden Pills übereinander und
+               schoben den CTA unter die Falz — engeres Padding, kleinerer
+               Abstand und kein Pfeil-Icon halten sie in einer Zeile. */
+            className="mt-6 flex items-center gap-2 sm:mt-10 sm:flex-wrap sm:gap-4"
           >
-            <Link href="/#finder" className="btn-primary">
+            <Link href="/#finder" className="btn-primary whitespace-nowrap max-sm:px-4">
               Finde deine Lösung
-              <ArrowDown className="h-4 w-4" />
+              <ArrowDown className="hidden h-4 w-4 sm:block" />
             </Link>
             <a
               href={waHref('Hallo Zaira! 👋 Ich hätte gerne eine Beratung.')}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost"
+              className="btn-ghost whitespace-nowrap max-sm:px-4"
             >
               <FaWhatsapp className="h-4 w-4" />
               WhatsApp
@@ -110,14 +108,14 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
 
           {/* Trust-Zeile */}
           <motion.a
-            custom={4}
+            custom={2}
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             href={CONTACT.googleReviews}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-12 inline-flex items-center gap-3 text-sm text-ivory-mute transition-colors hover:text-ivory-dim"
+            className="mt-8 inline-flex items-center gap-3 text-sm text-ivory-dim transition-colors hover:text-ivory sm:mt-12"
           >
             <span className="flex gap-0.5 text-rose">
               {[...Array(5)].map((_, i) => (
@@ -138,7 +136,7 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
+        transition={{ delay: 0.9, duration: 0.8 }}
         className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 md:block"
       >
         <div className="flex h-12 w-7 items-start justify-center rounded-full border border-ivory/20 p-1.5">

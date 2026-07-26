@@ -2,11 +2,19 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react'
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
 import { CONTACT, waHref } from '@/data/problems'
 
-const contactItems = [
+interface ContactItem {
+  icon: typeof Phone
+  label: string
+  value: string
+  href?: string
+  external?: boolean
+}
+
+const contactItems: ContactItem[] = [
   {
     icon: Phone,
     label: 'Telefon',
@@ -23,6 +31,8 @@ const contactItems = [
     icon: MapPin,
     label: 'Studio',
     value: CONTACT.address,
+    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address)}`,
+    external: true,
   },
   {
     icon: Clock,
@@ -93,21 +103,40 @@ const Booking = () => {
         >
           {contactItems.map((item) => {
             const Icon = item.icon
+            const isLink = Boolean(item.href)
             const inner = (
-              <div className="flex h-full flex-col gap-3 bg-ink-900 p-6 transition-colors hover:bg-ink-800">
-                <Icon className="h-5 w-5 text-teal" />
+              <div
+                className={`flex h-full flex-col gap-3 bg-ink-900 p-6 transition-colors ${
+                  isLink ? 'group hover:bg-ink-800' : ''
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <Icon className="h-5 w-5 text-teal" />
+                  {/* Pfeil nur auf den klickbaren Kacheln — vorher sahen
+                      alle vier gleich aus, obwohl nur zwei Links waren */}
+                  {isLink && (
+                    <ArrowUpRight className="h-4 w-4 text-ivory-mute transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-rose" />
+                  )}
+                </div>
                 <div>
                   <p className="text-xs uppercase tracking-widestplus text-ivory-mute">
                     {item.label}
                   </p>
-                  <p className="mt-1.5 text-sm font-medium leading-snug text-ivory-dim">
+                  {/* break-words: die E-Mail-Adresse ragte in die Nachbarzelle */}
+                  <p className="mt-1.5 break-words text-sm font-medium leading-snug text-ivory-dim">
                     {item.value}
                   </p>
                 </div>
               </div>
             )
-            return item.href ? (
-              <a key={item.label} href={item.href}>
+            return isLink ? (
+              <a
+                key={item.label}
+                href={item.href}
+                {...(item.external
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+              >
                 {inner}
               </a>
             ) : (

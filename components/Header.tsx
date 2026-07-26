@@ -22,13 +22,17 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 24)
 
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto'
-    window.addEventListener('scroll', handleScroll)
+    // overflow-y, nicht overflow: das pauschale 'auto' überschrieb das
+    // overflow-x:hidden aus globals.css — nach einmal Menü öffnen ließ
+    // sich die Seite seitwärts ziehen. '' statt 'auto' gibt die
+    // Kontrolle sauber ans Stylesheet zurück.
+    document.body.style.overflowY = isOpen ? 'hidden' : ''
+    window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      document.body.style.overflow = 'auto'
+      document.body.style.overflowY = ''
     }
   }, [isOpen])
 
@@ -65,7 +69,10 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium tracking-wide text-ivory-dim transition-colors hover:text-ivory"
+                className="relative py-2 text-sm font-medium tracking-wide text-ivory-dim
+                  transition-colors after:absolute after:bottom-0 after:left-0 after:h-px
+                  after:w-0 after:bg-rose after:transition-all after:duration-300
+                  hover:text-ivory hover:after:w-full"
               >
                 {link.name}
               </Link>
@@ -82,13 +89,30 @@ const Header = () => {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="relative z-50 text-ivory md:hidden"
-            aria-label={isOpen ? 'Menü schließen' : 'Menü öffnen'}
-          >
-            {isOpen ? <X size={26} /> : <Menu size={26} />}
-          </button>
+          {/* Mobil: WhatsApp immer erreichbar. Vorher war der einzige CTA
+              im ausgeklappten Menü versteckt — beim Scrollen durch die
+              Startseite gab es auf dem Handy keinen Kontaktweg. */}
+          <div className="flex items-center gap-1 md:hidden">
+            <a
+              href={waHref('Hallo Zaira! 👋 Ich hätte gerne einen Termin.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Termin per WhatsApp anfragen"
+              className="flex min-h-11 min-w-11 items-center justify-center rounded-full
+                text-rose transition-all hover:bg-rose/10 active:scale-90"
+            >
+              <FaWhatsapp className="h-6 w-6" />
+            </a>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="relative z-50 -mr-2 flex min-h-11 min-w-11 items-center
+                justify-center text-ivory transition-transform active:scale-90"
+              aria-label={isOpen ? 'Menü schließen' : 'Menü öffnen'}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -100,7 +124,7 @@ const Header = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-ink/97 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 z-40 bg-ink/95 backdrop-blur-xl md:hidden"
           >
             <div className="flex h-full flex-col items-center justify-center gap-9">
               {navLinks.map((link, i) => (

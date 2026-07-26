@@ -9,7 +9,7 @@ import { FALLBACK_RATING, GoogleRatingData } from '@/lib/googleReviews'
 
 const Testimonials = ({ data = FALLBACK_RATING }: { data?: GoogleRatingData }) => {
   return (
-    <section id="testimonials" className="bg-ink py-24 md:py-36">
+    <section id="testimonials" className="section-edge bg-ink py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -30,7 +30,8 @@ const Testimonials = ({ data = FALLBACK_RATING }: { data?: GoogleRatingData }) =
           )}
         </motion.div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        {/* sm:grid-cols-2 ergänzt: vorher sprang das Raster von 1 auf 3 */}
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {data.reviews.map((t, i) => (
             <motion.figure
               key={`${t.author}-${i}`}
