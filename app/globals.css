@@ -434,6 +434,44 @@ a {
   );
 }
 
+/* --- Einmaliger Überflug (components/ScrollFlyby.tsx) ---
+   Beim Verlassen des Heros löst sich ein Falter, zieht schräg durchs
+   Bild und verschwindet unten. Läuft GENAU EINMAL, danach nimmt die
+   Komponente das Element aus dem DOM.
+
+   Warum position:fixed: der Falter soll die Abschnittsgrenzen
+   überqueren. Die Sektionen haben `overflow-hidden`, ein absolut
+   positionierter Falter wäre an der ersten Kante abgeschnitten.
+   Fixed heißt außerdem, dass er beim Scrollen im Bild bleibt — er
+   fliegt also tatsächlich mit nach unten statt wegzurutschen.
+   Wichtig: das Element darf keinen transformierten Vorfahren haben,
+   sonst bezieht sich `fixed` auf den statt auf das Fenster. Deshalb
+   hängt es direkt in page.tsx und nicht in einer motion-Komponente.
+
+   Zwei getrennte Ebenen mit verschiedenen Kurven — sonst wäre der Weg
+   eine Gerade. X läuft gleichmäßig aus, Y beschleunigt nach unten. */
+@keyframes bf-flyby-x {
+  from { transform: translate3d(16vw, 0, 0); }
+  to   { transform: translate3d(-44vw, 0, 0); }
+}
+/* -10vh statt -22vh, und eine fast gleichmäßige Kurve statt einer mit
+   trägem Anlauf. Nachgemessen war er sonst bei 25% des Flugs schon voll
+   deckend, aber immer noch oberhalb der Oberkante: das Einblenden lief
+   unsichtbar ab und er wäre schlagartig ins Bild gesprungen. Von 7,6s
+   waren nur 3,7s überhaupt zu sehen. */
+@keyframes bf-flyby-y {
+  from { transform: translate3d(0, -10vh, 0); }
+  to   { transform: translate3d(0, 104vh, 0); }
+}
+/* Sichtbarkeit getrennt geführt: schnell da, lange da, sanft weg.
+   Ohne das eigene Fade würde er an den Rändern hart auftauchen. */
+@keyframes bf-flyby-fade {
+  0%   { opacity: 0; }
+  12%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 /* ============================================================
    Barrierefreiheit: reduzierte Bewegung
    Vorher deckte dieser Block nur die Schmetterlinge ab — der
