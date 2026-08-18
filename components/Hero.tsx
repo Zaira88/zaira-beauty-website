@@ -37,7 +37,13 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
           Mobil: eigener Block oben — das Gesicht bleibt komplett frei
           vom Text (Kundinnen-Wunsch). Desktop: rechte Hälfte hinter
           dem Text wie gehabt. */}
-      <div className="relative z-0 h-[37svh] min-h-[235px] w-full sm:h-[55svh] sm:min-h-[340px] lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0">
+      {/* lg:w-auto ist entscheidend: mit w-full (width:100%) ignoriert CSS
+          bei absoluter Positionierung das right:0 — die Box war 100% breit
+          und startete bei 38%, ragte also 533px über den rechten Rand.
+          Folge: object-cover rechnete auf die zu breite Box (viel zu starker
+          Zoom, nur noch der Kopf sichtbar) und der Verlauf lag gestreckt
+          über dem Motiv. Mit w-auto definieren left:38% + right:0 die Box. */}
+      <div className="relative z-0 h-[37svh] min-h-[235px] w-full sm:h-[55svh] sm:min-h-[340px] lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0 lg:w-auto">
         <div className="relative h-full w-full overflow-hidden">
           {/* 2200px aus der 4K-Fassung: die alte 1122px-Quelle wurde auf
               Retina-Desktops 1,6× hochskaliert und war sichtbar weich */}
