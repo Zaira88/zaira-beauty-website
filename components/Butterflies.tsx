@@ -41,6 +41,10 @@ interface BfInstance {
   pathDelay: number
   reverse: boolean
   flap: number
+  /** Mittlere Zickzack-Ebene: Variante + eigene Dauer/Phase */
+  jig: { variant: 'a' | 'b' | 'c'; dur: number; delay: number }
+  /** Roll-Wobble-Dauer in s (desynchronisiert die Falter) */
+  wob: number
   enter: { x: number; y: number; rot: number; dur: number } // vw/vh
   exit: { x: number; y: number; rot: number; dur: number }
   lingerMs: number
@@ -111,6 +115,12 @@ const makeButterfly = (): BfInstance => {
     pathDelay: -rand(0, 30),
     reverse: Math.random() < 0.5,
     flap: rand(1.6, 2.8),
+    jig: {
+      variant: pick(['a', 'b', 'c'] as const),
+      dur: rand(6.5, 11),
+      delay: -rand(0, 10),
+    },
+    wob: rand(3.4, 5.6),
     // Kein Eile-Effekt: Ein-/Ausflug dauert 9–15s — der Flatterpfad
     // läuft währenddessen weiter, der Schmetterling fliegt also
     // in seinem natürlichen Rhythmus heran statt „hereingeweht“.
@@ -229,7 +239,11 @@ const Bf = ({
         : {
             transform: 'translate3d(0, 0, 0) rotate(0deg)',
             opacity: 1,
-            transition: `transform ${b.enter.dur}s cubic-bezier(0.33, 0.12, 0.33, 1), opacity 2.8s ease-out`,
+            // Fast lineares Easing mit weichem Ende: die alte starke
+            // Ease-Out-Kurve las sich als „hereingeweht, dann
+            // Fallschirm". Gleichmäßiges Reisetempo + die Flatter-
+            // Ebenen darüber = er FLIEGT heran.
+            transition: `transform ${b.enter.dur}s cubic-bezier(0.38, 0.15, 0.55, 0.92), opacity 2.8s ease-out`,
           }
 
   return (
@@ -249,15 +263,30 @@ const Bf = ({
             animationDelay: `${b.pathDelay}s`,
             animationDirection: b.reverse ? 'reverse' : 'normal',
             '--flap': `${b.flap}s`,
+            // Amplituden skalieren mit der Größe: der große Falter
+            // hüpft sichtbar (~14px), der ferne kleine nur ~5px
+            '--hop': `${Math.max(5, Math.round(b.size * 0.16))}px`,
+            '--jig': `${Math.round(b.size * 0.2)}px`,
+            '--wob': `${b.wob.toFixed(2)}s`,
             '--bf-img': img,
           } as React.CSSProperties
         }
       >
-        <div className="bf-bob">
-          <div className="bf-inner">
-            <div className="bf-wing bf-wing-l" />
-            <div className="bf-wing bf-wing-r" />
-            <div className="bf-body" />
+        {/* Mittlere Skala: unregelmäßige Haken, pro Falter einzigartig */}
+        <div
+          className="bf-jig"
+          style={{
+            animationName: `bf-jig-${b.jig.variant}`,
+            animationDuration: `${b.jig.dur.toFixed(2)}s`,
+            animationDelay: `${b.jig.delay.toFixed(2)}s`,
+          }}
+        >
+          <div className="bf-bob">
+            <div className="bf-inner">
+              <div className="bf-wing bf-wing-l" />
+              <div className="bf-wing bf-wing-r" />
+              <div className="bf-body" />
+            </div>
           </div>
         </div>
       </div>
