@@ -64,7 +64,11 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
           <p className="overline-label mb-4 sm:mb-5">Zaira Beauty</p>
 
           <h1 className="font-display text-[2.6rem] leading-[1.05] tracking-[-0.01em] text-ivory sm:text-6xl lg:text-7xl lg:tracking-[-0.02em] xl:text-[5.2rem]">
-            <span className="text-3d">Sichtbar schöne Haut</span>
+            {/* {' '} vor dem Umbruch: ohne das Leerzeichen lasen Google
+                und Screenreader "Sichtbar schöne Hautin Geretsried".
+                Optisch ändert sich nichts, Leerraum vor <br> wird
+                zusammengefasst. */}
+            <span className="text-3d">Sichtbar schöne Haut</span>{' '}
             <br />
             <span className="text-3d-rose text-rose">in Geretsried</span>
           </h1>

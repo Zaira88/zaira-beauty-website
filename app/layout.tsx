@@ -27,6 +27,12 @@ export const metadata: Metadata = {
   description: 'Dein Kosmetikstudio in Geretsried: Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung. Sag mir, was dich stört, und wir finden die passende Behandlung.',
   keywords: 'Kosmetikstudio Geretsried, Zaira Beauty, Aquafacial, Lashlifting, Browlifting, Microneedling, Anti-Aging, dauerhafte Haarentfernung, BB-Glow, Zahnbleaching, Gesichtsbehandlung',
   authors: [{ name: 'Zaira Beauty' }],
+  // './' = jede Seite zeigt auf sich selbst. Ohne canonical konnte Google
+  // dieselbe Seite mit Instagram-Trackingparametern (?utm_...) als
+  // Duplikat werten — bei Traffic aus Story-Links durchaus relevant.
+  alternates: {
+    canonical: './',
+  },
   openGraph: {
     title: 'Zaira Beauty | Kosmetikstudio in Geretsried',
     description: 'Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung. Finde die Behandlung, die zu deiner Haut passt.',
