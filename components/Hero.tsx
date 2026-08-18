@@ -56,10 +56,21 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
             className="animate-breathe object-cover object-[center_22%]"
           />
         </div>
-        {/* Verläufe: mobil nur sanfter Übergang unten (Bild bleibt
-            hell), Desktop seitlich ins Petrol-Schwarz */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent lg:bg-gradient-to-r lg:from-ink lg:via-ink/35 lg:to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent" />
+        {/* Verläufe.
+            Mobil lagen hier ZWEI übereinander: der ganzflächige (Ink an
+            der Unterkante, transparent ab halber Höhe) UND die 160px-
+            Leiste. Auf dem 375x300-Block sind 160px aber 53% des Bildes,
+            und weil sich beide multiplizieren, war es 80px über der
+            Unterkante schon zu 73% schwarz, 40px darüber zu 93%. Vom
+            Motiv blieben effektiv Kopf und Schultern übrig — der Rest
+            der Frau war schlicht übermalt.
+            Die 160px stammen aus dem Desktop-Hero: dort ist der Block
+            volle Viewport-Höhe, also ~20%. Mobil ist er 300px hoch.
+            Deshalb mobil nur EIN Übergang, an der Blockhöhe bemessen.
+            Desktop bleibt unverändert (seitlich ins Petrol-Schwarz plus
+            die 160px unten). */}
+        <div className="absolute inset-0 hidden lg:block lg:bg-gradient-to-r lg:from-ink lg:via-ink/35 lg:to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink to-transparent sm:h-32 lg:h-40" />
       </div>
 
       {/* Lebendige Schmetterlinge — über dem Bild, hinter dem Text */}
