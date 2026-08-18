@@ -133,7 +133,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.7, delay: Math.min(i * 0.08, 0.4), ease }}
-                className={`group relative flex flex-col panel p-8 transition-all duration-500 hover:border-rose/40 ${
+                className={`group relative flex flex-col panel p-7 transition-all duration-500 hover:border-rose/40 ${
                   count === 1
                     ? 'w-full max-w-xl'
                     : count === 2
@@ -161,7 +161,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                   {t.benefits.map((benefit) => (
                     <li key={benefit} className="flex items-start gap-3">
                       <Check className="mt-1 h-4 w-4 shrink-0 text-teal" />
-                      <span className="text-sm leading-relaxed text-ivory-dim">
+                      <span className="text-base leading-relaxed text-ivory-dim sm:text-sm">
                         {benefit}
                       </span>
                     </li>

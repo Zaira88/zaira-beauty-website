@@ -39,8 +39,10 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
           dem Text wie gehabt. */}
       <div className="relative z-0 h-[37svh] min-h-[235px] w-full sm:h-[55svh] sm:min-h-[340px] lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0">
         <div className="relative h-full w-full overflow-hidden">
+          {/* 2200px aus der 4K-Fassung: die alte 1122px-Quelle wurde auf
+              Retina-Desktops 1,6× hochskaliert und war sichtbar weich */}
           <Image
-            src="/images/zaira.png"
+            src="/images/zaira.jpg"
             alt="Frau im Schmetterlingskleid im nächtlichen Wald — Zaira Beauty"
             fill
             priority

@@ -13,6 +13,9 @@ const signatures = [
     price: 'ab 119€',
     image: '/images/Aquafacial.webp',
     href: '/gesichtsbehandlung',
+    // Querformat-Foto: das Gesicht mit der Maske liegt links der Mitte.
+    // Der Standard-Mittelcrop (4:5-Karte) schnitt es an.
+    pos: '32% center',
   },
   {
     name: 'Anti-Aging',
@@ -81,6 +84,7 @@ const SignatureTreatments = () => {
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+                    style={s.pos ? { objectPosition: s.pos } : undefined}
                   />
                   {/* Kräftigerer Verlauf: der Preis stand vorher mit
                       2,78:1 über dem Foto und war kaum lesbar */}

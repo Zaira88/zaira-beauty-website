@@ -30,8 +30,9 @@ const Testimonials = ({ data = FALLBACK_RATING }: { data?: GoogleRatingData }) =
           )}
         </motion.div>
 
-        {/* sm:grid-cols-2 ergänzt: vorher sprang das Raster von 1 auf 3 */}
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        {/* Zentriertes Umbruch-Layout: im 2-Spalten-Raster (640–767px)
+            hing die dritte Karte als Waise links unten */}
+        <div className="flex flex-wrap justify-center gap-4">
           {data.reviews.map((t, i) => (
             <motion.figure
               key={`${t.author}-${i}`}
@@ -39,7 +40,7 @@ const Testimonials = ({ data = FALLBACK_RATING }: { data?: GoogleRatingData }) =
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col panel p-8"
+              className="flex w-full flex-col panel p-7 sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.667rem)]"
             >
               <span
                 aria-hidden

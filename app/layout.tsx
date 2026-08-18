@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     // Ohne Bild zeigte ein geteilter Link in WhatsApp/Instagram nur Text
     images: [
       {
-        url: '/images/zaira.png',
-        width: 1122,
-        height: 1402,
+        url: '/images/zaira.jpg',
+        width: 2200,
+        height: 2749,
         alt: 'Zaira Beauty, Kosmetikstudio in Geretsried',
       },
     ],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Zaira Beauty | Kosmetikstudio in Geretsried',
     description: 'Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung in Geretsried.',
-    images: ['/images/zaira.png'],
+    images: ['/images/zaira.jpg'],
   },
   robots: {
     index: true,
