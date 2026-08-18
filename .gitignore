@@ -37,3 +37,6 @@ next-env.d.ts
 # Interne Arbeitsnotizen (nicht ins oeffentliche Repo)
 HANDOFF.md
 DESIGN-ANALYSE.md
+
+# Lokale Werkzeug-Konfiguration (Dev-Server-Eintrag fuer die Vorschau)
+.claude/
