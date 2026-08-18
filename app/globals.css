@@ -50,9 +50,17 @@
     @apply border border-ivory/10;
   }
 
-  /* Karten-Grundfläche */
+  /* Karten-Grundfläche.
+     BEWUSST OHNE backdrop-blur: hinter den Karten liegt nur eine
+     einfarbige Fläche (geprüft — keine Bilder, keine Verläufe, keine
+     Schmetterlinge). Eine gleichmäßige Fläche weichzuzeichnen ändert
+     optisch nichts, kostet den Compositor aber pro Scroll-Bild eine
+     eigene Ebene. Bei 16 solchen Elementen führte das auf Mobil dazu,
+     dass beim Scrollen alle Karten kurz verschwanden und wieder
+     auftauchten. Weichzeichner nur dort, wo wirklich etwas dahinter
+     liegt: Header, Mobil-Menü, Sticky-CTA, Scroll-Knopf. */
   .panel {
-    @apply bg-ink-800/80 hairline backdrop-blur-sm;
+    @apply bg-ink-800/80 hairline;
   }
 
   /* Primärer CTA — Rosé, Pill.

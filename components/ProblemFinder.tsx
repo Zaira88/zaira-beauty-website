@@ -62,7 +62,7 @@ const ProblemFinder = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Suche: z. B. Akne, Falten, Haare …"
-              className="w-full rounded-full border border-ivory/15 bg-ink-800/70 py-4 pl-14 pr-14 text-ivory placeholder:text-ivory-mute backdrop-blur-sm transition-colors focus:border-teal/50"
+              className="w-full rounded-full border border-ivory/15 bg-ink-800/70 py-4 pl-14 pr-14 text-ivory placeholder:text-ivory-mute transition-colors focus:border-teal/50"
               aria-label="Anliegen suchen"
             />
             {/* Löschen-Knopf: vorher musste man die Eingabe von Hand leeren */}
