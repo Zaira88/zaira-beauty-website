@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react'
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
 import { CONTACT, openingHoursShort, waHref } from '@/data/problems'
+import LandingButterfly from '@/components/LandingButterfly'
 
 interface ContactItem {
   icon: typeof Phone
@@ -73,15 +74,20 @@ const Booking = () => {
           transition={{ duration: 0.8, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <a
-            href={waHref('Hallo Zaira! 👋 Ich würde gerne einen Termin vereinbaren.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary text-base"
-          >
-            <FaWhatsapp className="h-5 w-5" />
-            WhatsApp Chat starten
-          </a>
+          {/* Der Falter setzt sich beim Reinscrollen auf den Haupt-CTA.
+              Einmalig per IntersectionObserver ausgelöst, danach nur noch
+              Flügelschlag auf dem Compositor — kostet den Scroll nichts. */}
+          <LandingButterfly>
+            <a
+              href={waHref('Hallo Zaira! 👋 Ich würde gerne einen Termin vereinbaren.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary text-base"
+            >
+              <FaWhatsapp className="h-5 w-5" />
+              WhatsApp Chat starten
+            </a>
+          </LandingButterfly>
           <a
             href={CONTACT.instagram}
             target="_blank"
