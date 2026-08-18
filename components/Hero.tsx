@@ -63,7 +63,7 @@ const Hero = ({ rating = 5, count = 104 }: { rating?: number; count?: number }) 
           {/* Sofort sichtbar, ohne Hydration-Abhängigkeit */}
           <p className="overline-label mb-4 sm:mb-5">Zaira Beauty</p>
 
-          <h1 className="font-display text-[2.6rem] leading-[1.05] tracking-[-0.01em] text-ivory sm:text-6xl lg:text-7xl lg:tracking-[-0.02em] xl:text-[5.2rem]">
+          <h1 className="font-display text-hero-sm tracking-[-0.01em] text-ivory sm:text-6xl lg:text-7xl lg:tracking-[-0.02em] xl:text-hero-xl">
             {/* {' '} vor dem Umbruch: ohne das Leerzeichen lasen Google
                 und Screenreader "Sichtbar schöne Hautin Geretsried".
                 Optisch ändert sich nichts, Leerraum vor <br> wird

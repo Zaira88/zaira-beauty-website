@@ -10,7 +10,7 @@ const Pricing = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <section id="pricing" className="section-edge bg-ink-900 py-24 md:py-36">
+    <section id="pricing" className="section-edge bg-surface-alt py-24 md:py-36">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

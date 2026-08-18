@@ -153,7 +153,7 @@ const ProblemFinder = () => {
                   </span>
 
                   <div className="mt-6">
-                    <p className="mb-2 text-[11px] font-medium uppercase tracking-widestplus text-teal/80">
+                    <p className="overline-label mb-2 text-teal/80">
                       {p.problem}
                     </p>
                     <h3 className="font-display text-2xl leading-snug text-ivory transition-colors group-hover:text-rose-soft">

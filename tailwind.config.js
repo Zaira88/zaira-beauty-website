@@ -17,6 +17,14 @@ module.exports = {
           600: '#182225',
           500: '#223034',
         },
+        // Hintergrund der abwechselnden Sektionen.
+        // Vorher lag dort ink-900 — der Unterschied zu ink betrug 1,029:1
+        // und war damit unter der Wahrnehmungsschwelle, die Abwechslung
+        // bewirkte also nichts. Dieser Ton liegt bei ~1,13:1: als ruhiger
+        // Absatz spürbar, ohne die Seite in Streifen zu zerlegen.
+        surface: {
+          alt: '#111a1c',
+        },
         // Warmes Elfenbein statt hartem Weiß
         ivory: {
           DEFAULT: '#f3eee5',
@@ -69,6 +77,18 @@ module.exports = {
       },
       letterSpacing: {
         widestplus: '0.28em',
+      },
+      // ── Typo-Skala ────────────────────────────────────────────────
+      // Alles Übrige nutzt Tailwinds Standardskala
+      // (12·14·16·18·20·24·30·36·48·60·72). Nur die Hero-Titel brauchen
+      // Werte dazwischen bzw. darüber — die stehen hier benannt, statt
+      // als text-[2.6rem] und text-[5.2rem] im Markup verstreut zu sein.
+      fontSize: {
+        // Hero-Titel auf schmalen Schirmen: zwischen 36 und 48, damit
+        // "Sichtbar schöne Haut" auf 375px in zwei Zeilen passt
+        'hero-sm': ['2.6rem', { lineHeight: '1.05' }],
+        // Hero-Titel auf großen Schirmen: eine Stufe über 72
+        'hero-xl': ['5.2rem', { lineHeight: '1.05' }],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

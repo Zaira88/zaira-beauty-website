@@ -43,7 +43,7 @@ const contactItems: ContactItem[] = [
 
 const Booking = () => {
   return (
-    <section id="contact" className="relative overflow-hidden bg-ink-900 py-24 md:py-36">
+    <section id="contact" className="section-edge relative overflow-hidden bg-surface-alt py-24 md:py-36">
       {/* Dezente Glow-Akzente */}
       <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-teal/5 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-rose/5 blur-3xl" />
@@ -106,7 +106,7 @@ const Booking = () => {
             const isLink = Boolean(item.href)
             const inner = (
               <div
-                className={`flex h-full flex-col gap-3 bg-ink-900 p-6 transition-colors ${
+                className={`flex h-full flex-col gap-3 bg-ink p-6 transition-colors ${
                   isLink ? 'group hover:bg-ink-800' : ''
                 }`}
               >
@@ -119,7 +119,7 @@ const Booking = () => {
                   )}
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widestplus text-ivory-mute">
+                  <p className="overline-label text-ivory-mute">
                     {item.label}
                   </p>
                   {/* break-words: die E-Mail-Adresse ragte in die Nachbarzelle */}

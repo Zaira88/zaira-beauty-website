@@ -39,7 +39,7 @@ const signatures = [
 
 const SignatureTreatments = () => {
   return (
-    <section id="signature" className="section-edge bg-ink-900 py-24 md:py-36">
+    <section id="signature" className="section-edge bg-surface-alt py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -87,7 +87,7 @@ const SignatureTreatments = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/85 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-xs uppercase tracking-widestplus text-teal-soft">
+                    <p className="overline-label text-teal-soft">
                       {s.tagline}
                     </p>
                     <div className="mt-2 flex items-baseline justify-between gap-3">

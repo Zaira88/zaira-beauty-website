@@ -63,7 +63,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                 zählt mit opacity:0 nicht als LCP-Kandidat). */}
             <p className="overline-label mb-6">Dein Anliegen</p>
             <h1
-              className="font-display text-[2.4rem] leading-[1.05] tracking-[-0.01em] text-ivory [hyphens:auto] sm:text-6xl lg:text-7xl lg:tracking-[-0.02em]"
+              className="font-display text-4xl leading-[1.05] tracking-[-0.01em] text-ivory [hyphens:auto] sm:text-6xl lg:text-7xl lg:tracking-[-0.02em]"
               lang="de"
             >
               <span className="text-3d">{problem.titleA}</span>
@@ -99,6 +99,29 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
       {/* ===== Lösungen ===== */}
       {problem.treatments.length > 0 && (
         <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 md:py-20">
+          {/* Zwischenüberschrift: schließt die Hierarchielücke zwischen
+              dem 83px-Titel und den 24px-Behandlungsnamen und benennt
+              den Strategie-Schritt (Anliegen -> Lösungen) ausdrücklich. */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease }}
+            className="mb-10 text-center"
+          >
+            <p className="overline-label mb-4">
+              {count === 1 ? 'Meine Empfehlung' : 'Deine Auswahl'}
+            </p>
+            <h2 className="font-display text-3xl text-ivory sm:text-4xl">
+              <span className="text-3d">
+                {count === 1 ? 'Die passende ' : 'Diese '}
+              </span>
+              <span className="text-3d-rose text-rose">
+                {count === 1 ? 'Behandlung' : 'Behandlungen helfen'}
+              </span>
+            </h2>
+          </motion.div>
+
           {/* Flex statt Grid: bei 4, 5 oder 7 Behandlungen blieb im
               Raster eine einzelne Karte links hängen. Angebrochene
               Reihen stehen jetzt zentriert. */}
@@ -124,9 +147,9 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                   </span>
                 )}
 
-                <h2 className="font-display text-2xl leading-snug text-ivory">
+                <h3 className="font-display text-2xl leading-snug text-ivory">
                   {t.name}
-                </h2>
+                </h3>
 
                 {t.includes && (
                   <p className="mt-3 text-sm leading-relaxed text-ivory-mute">
@@ -191,9 +214,9 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.7, delay: gi * 0.08, ease }}
               >
-                <h2 className="mb-6 font-display text-2xl text-rose">
+                <h3 className="mb-6 font-display text-2xl text-rose">
                   {group.group}
-                </h2>
+                </h3>
                 <ul className="space-y-3.5">
                   {group.items.map((zone) => (
                     <li key={zone.name} className="flex items-baseline">
@@ -317,7 +340,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
               className="tap group flex items-center justify-between gap-4 panel p-6 transition-all duration-500 hover:border-rose/40"
             >
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-widestplus text-teal/80">
+                <p className="overline-label text-teal/80">
                   {p.problem}
                 </p>
                 <p className="mt-1.5 font-display text-lg leading-snug text-ivory">
@@ -338,7 +361,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
           {/* min-w-0 + truncate: lange Anliegen-Namen brachen vorher
               zweizeilig um und machten die Leiste unnötig hoch */}
           <div className="min-w-0">
-            <p className="truncate text-[11px] uppercase tracking-widestplus text-ivory-mute">
+            <p className="overline-label truncate text-ivory-mute">
               {problem.problem}
             </p>
             <p className="text-sm font-semibold text-ivory">
