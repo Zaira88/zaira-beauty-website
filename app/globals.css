@@ -434,42 +434,101 @@ a {
   );
 }
 
-/* --- Einmaliger Überflug (components/ScrollFlyby.tsx) ---
-   Beim Verlassen des Heros löst sich ein Falter, zieht schräg durchs
-   Bild und verschwindet unten. Läuft GENAU EINMAL, danach nimmt die
-   Komponente das Element aus dem DOM.
+/* --- Begleiter (components/ScrollCompanion.tsx) ---
+   Ein Falter, der beim Scrollen mitfliegt.
 
-   Warum position:fixed: der Falter soll die Abschnittsgrenzen
-   überqueren. Die Sektionen haben `overflow-hidden`, ein absolut
-   positionierter Falter wäre an der ersten Kante abgeschnitten.
-   Fixed heißt außerdem, dass er beim Scrollen im Bild bleibt — er
-   fliegt also tatsächlich mit nach unten statt wegzurutschen.
-   Wichtig: das Element darf keinen transformierten Vorfahren haben,
-   sonst bezieht sich `fixed` auf den statt auf das Fenster. Deshalb
-   hängt es direkt in page.tsx und nicht in einer motion-Komponente.
+   Der Vorgänger war ein zeitgesteuerter Überflug: einmal quer durchs
+   Bild, 7,6 Sekunden, fertig — unabhängig davon, was der Besucher tat.
+   Genau das wirkte billig, weil die Bewegung nichts mit dem Scrollen
+   zu tun hatte.
 
-   Zwei getrennte Ebenen mit verschiedenen Kurven — sonst wäre der Weg
-   eine Gerade. X läuft gleichmäßig aus, Y beschleunigt nach unten. */
-@keyframes bf-flyby-x {
-  from { transform: translate3d(16vw, 0, 0); }
-  to   { transform: translate3d(-44vw, 0, 0); }
+   Hier treibt die Scroll-Position die Bewegung (`animation-timeline:
+   scroll(root block)`). Der Falter zieht mit nach unten, während man
+   scrollt, und bleibt stehen, wenn man stehen bleibt. Scrollt man
+   zurück, fliegt er zurück. Der Flügelschlag läuft weiter über die
+   Zeit — er flattert also auch im Stillstand auf der Stelle.
+
+   Kosten trotzdem null im Haupt-Thread: scroll-getriebene Animationen
+   laufen auf dem Compositor. Das ist der Unterschied zu Lenis & Co.,
+   die pro Bild in JavaScript rechnen.
+
+   Reichweite: Chromium ab 115 (Juli 2023), Safari erst ab 26, also
+   iOS 26 aufwärts. Firefox kann es bis heute nur hinter einem Schalter.
+   Deshalb steht die Anzeige per @supports hinter der Technik: wo sie
+   fehlt, erscheint gar kein Falter statt eines eingefrorenen.
+
+   Zwei Fallen der Spezifikation, beide hier vermieden:
+   1) `animation-timeline` MUSS nach der `animation`-Kurzform stehen,
+      sonst setzt die Kurzform sie auf `auto` zurück. Deshalb hier
+      ausschliesslich Langschreibweise.
+   2) `animation-duration` ist bei einer Scroll-Zeitachse wirkungslos;
+      ohne `animation-fill-mode: both` springt der Falter am Seitenanfang
+      in seinen Ausgangszustand zurück. */
+.bf-companion {
+  display: none;
 }
-/* -10vh statt -22vh, und eine fast gleichmäßige Kurve statt einer mit
-   trägem Anlauf. Nachgemessen war er sonst bei 25% des Flugs schon voll
-   deckend, aber immer noch oberhalb der Oberkante: das Einblenden lief
-   unsichtbar ab und er wäre schlagartig ins Bild gesprungen. Von 7,6s
-   waren nur 3,7s überhaupt zu sehen. */
-@keyframes bf-flyby-y {
-  from { transform: translate3d(0, -10vh, 0); }
-  to   { transform: translate3d(0, 104vh, 0); }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bf-companion {
+      display: block;
+    }
+  }
 }
-/* Sichtbarkeit getrennt geführt: schnell da, lange da, sanft weg.
-   Ohne das eigene Fade würde er an den Rändern hart auftauchen. */
-@keyframes bf-flyby-fade {
-  0%   { opacity: 0; }
-  12%  { opacity: 1; }
-  86%  { opacity: 1; }
-  100% { opacity: 0; }
+.bf-companion-x,
+.bf-companion-y,
+.bf-companion-tilt,
+.bf-companion-fade {
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: scroll(root block);
+}
+.bf-companion-x    { animation-name: bf-comp-x; }
+.bf-companion-y    { animation-name: bf-comp-y; }
+.bf-companion-tilt { animation-name: bf-comp-tilt; }
+.bf-companion-fade { animation-name: bf-comp-fade; }
+
+/* Seitliches Pendeln: bleibt in der rechten Bildhaelfte, damit er den
+   Text nicht dauerhaft ueberlagert. */
+@keyframes bf-comp-x {
+  0%   { transform: translate3d(94vw, 0, 0); }
+  14%  { transform: translate3d(74vw, 0, 0); }
+  30%  { transform: translate3d(85vw, 0, 0); }
+  46%  { transform: translate3d(60vw, 0, 0); }
+  62%  { transform: translate3d(80vw, 0, 0); }
+  78%  { transform: translate3d(57vw, 0, 0); }
+  92%  { transform: translate3d(78vw, 0, 0); }
+  100% { transform: translate3d(96vw, 0, 0); }
+}
+/* Hoehe: wandert, kehrt aber nie ganz nach oben zurueck — sonst wirkt
+   es wie ein Pendel statt wie ein Tier. */
+@keyframes bf-comp-y {
+  0%   { transform: translate3d(0, -14vh, 0); }
+  14%  { transform: translate3d(0, 24vh, 0); }
+  30%  { transform: translate3d(0, 13vh, 0); }
+  46%  { transform: translate3d(0, 47vh, 0); }
+  62%  { transform: translate3d(0, 31vh, 0); }
+  78%  { transform: translate3d(0, 59vh, 0); }
+  92%  { transform: translate3d(0, 34vh, 0); }
+  100% { transform: translate3d(0, -10vh, 0); }
+}
+/* Neigung folgt der Flugrichtung: nach links geneigt, wenn er nach
+   links zieht. Ohne das schwebt ein Aufkleber durchs Bild. */
+@keyframes bf-comp-tilt {
+  0%   { transform: rotate(16deg); }
+  14%  { transform: rotate(-17deg); }
+  30%  { transform: rotate(13deg); }
+  46%  { transform: rotate(-19deg); }
+  62%  { transform: rotate(11deg); }
+  78%  { transform: rotate(-17deg); }
+  92%  { transform: rotate(15deg); }
+  100% { transform: rotate(19deg); }
+}
+/* Er taucht erst nach dem Hero auf (dort fliegt schon der Schwarm) und
+   verabschiedet sich vor dem Footer. */
+@keyframes bf-comp-fade {
+  0%, 6%    { opacity: 0; }
+  12%, 88%  { opacity: 1; }
+  96%, 100% { opacity: 0; }
 }
 
 /* ============================================================
@@ -503,5 +562,22 @@ a {
   .bf-layer,
   .bf-spawn {
     transition: none !important;
+  }
+}
+
+/* Zurück-nach-oben weicht dem Sticky-CTA aus.
+   Der Knopf war früher `hidden lg:flex`, also auf Mobil abgeschaltet,
+   weil er auf den Detailseiten über der WhatsApp-Leiste lag und deren
+   Tap abfing. Statt ihn zu verstecken sitzt er jetzt darüber. `:has`
+   statt JavaScript, damit es auch nach einem Seitenwechsel ohne
+   Neuladen stimmt — die Leiste ist 77px hoch, 6rem lässt Luft. */
+body:has([data-sticky-cta]) .scroll-top-btn {
+  bottom: 6rem;
+}
+/* Ab lg ist die Leiste selbst ausgeblendet (lg:hidden), der Knopf darf
+   also wieder nach unten. */
+@media (min-width: 1024px) {
+  body:has([data-sticky-cta]) .scroll-top-btn {
+    bottom: 2rem;
   }
 }

@@ -5,7 +5,7 @@ import About from '@/components/About'
 import Pricing from '@/components/Pricing'
 import Testimonials from '@/components/Testimonials'
 import Booking from '@/components/Booking'
-import ScrollFlyby from '@/components/ScrollFlyby'
+import ScrollCompanion from '@/components/ScrollCompanion'
 import { getGoogleReviews } from '@/lib/googleReviews'
 
 export default async function Home() {
@@ -17,7 +17,7 @@ export default async function Home() {
       {/* Muss hier stehen und nicht tiefer: der Falter ist position:fixed,
           und ein transformierter Vorfahre (jede motion-Komponente) würde
           ihn an sich binden statt ans Fenster. */}
-      <ScrollFlyby />
+      <ScrollCompanion />
       <Hero rating={google.rating} count={google.count} />
       <ProblemFinder />
       <SignatureTreatments />

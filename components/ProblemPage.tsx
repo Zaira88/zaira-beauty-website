@@ -370,7 +370,10 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
           als scharfer Geist bei ~rgb(31,32,32) durchgekommen. Deckend löst
           beides: keine eigene Compositor-Ebene und kein Durchscheinen.
           Die border-t hält die Kante weiterhin sichtbar. */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-ink p-4 lg:hidden">
+      <div
+        data-sticky-cta
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-ink p-4 lg:hidden"
+      >
         <div className="mx-auto flex max-w-lg items-center justify-between gap-3">
           {/* min-w-0 + truncate: lange Anliegen-Namen brachen vorher
               zweizeilig um und machten die Leiste unnötig hoch */}
