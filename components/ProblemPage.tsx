@@ -355,8 +355,22 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
         </div>
       </section>
 
-      {/* ===== Sticky Mobile-CTA ===== */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-ink/90 p-4 backdrop-blur-xl lg:hidden">
+      {/* ===== Sticky Mobile-CTA =====
+          Deckend statt bg-ink/90 + backdrop-blur-xl. Diese Leiste war der
+          letzte Weichzeichner, unter dem tatsächlich Inhalt durchscrollt —
+          und sie liegt über die volle Breite genau an der Kante, an der
+          neue Karten ins Bild kommen. Der Compositor musste dadurch bei
+          JEDEM Scroll-Bild den Streifen neu rastern und 24px weichzeichnen;
+          auf Mobil flackerten deshalb auf allen 12 Detailseiten die Karten,
+          obwohl die Startseite nach dem Entfernen der wirkungslosen Blur-
+          Flächen längst ruhig war (die Leiste gibt es nur hier).
+          Nur den Blur zu streichen hätte nicht gereicht: bei 90% Deckung
+          kommen 10% des Hintergrunds durch — für die Kartenfläche ist das
+          rund eine RGB-Stufe (unsichtbar), heller Text darunter wäre aber
+          als scharfer Geist bei ~rgb(31,32,32) durchgekommen. Deckend löst
+          beides: keine eigene Compositor-Ebene und kein Durchscheinen.
+          Die border-t hält die Kante weiterhin sichtbar. */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ivory/10 bg-ink p-4 lg:hidden">
         <div className="mx-auto flex max-w-lg items-center justify-between gap-3">
           {/* min-w-0 + truncate: lange Anliegen-Namen brachen vorher
               zweizeilig um und machten die Leiste unnötig hoch */}

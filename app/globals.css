@@ -58,7 +58,11 @@
      eigene Ebene. Bei 16 solchen Elementen führte das auf Mobil dazu,
      dass beim Scrollen alle Karten kurz verschwanden und wieder
      auftauchten. Weichzeichner nur dort, wo wirklich etwas dahinter
-     liegt: Header, Mobil-Menü, Sticky-CTA, Scroll-Knopf. */
+     liegt: Header, Mobil-Menü, Scroll-Knopf.
+     Nachtrag: Der Sticky-CTA der Detailseiten stand hier zunächst auch
+     als berechtigt — dort scrollt zwar echter Inhalt durch, aber die
+     Leiste deckt zu 90% ab, der Blur war also unsichtbar und kostete
+     trotzdem pro Scroll-Bild eine volle Breite. Sie ist jetzt deckend. */
   .panel {
     @apply bg-ink-800/80 hairline;
   }
