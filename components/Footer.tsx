@@ -77,6 +77,17 @@ const Footer = () => {
           <p className="text-xs text-ivory-mute">
             &copy; {new Date().getFullYear()} Zaira Beauty. Deine
             Beauty-Expertin in Geretsried.
+            <span className="mt-1 block">
+              Website:{' '}
+              <a
+                href="https://brandwerkx.de/de/webdesign/kosmetikstudio"
+                target="_blank"
+                rel="noopener"
+                className="transition-colors hover:text-ivory"
+              >
+                BrandWerkX
+              </a>
+            </span>
           </p>
           <div className="flex items-center gap-6">
             <Link
