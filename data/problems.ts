@@ -115,8 +115,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'FruchtsäurePeel / Anti Acne Peeling',
-        price: '129,00€',
-        priceNote: 'Aufpreis Jelly Mask 10,00€',
+        price: '129€',
+        priceNote: 'Aufpreis Jelly Mask 10€',
         includes: 'inkl. Voreinigung + FruchsäurePeel & Microneedling + Tuchmaske',
         benefits: [
           'Hilft bei Pigmentflecken & Akne',
@@ -126,7 +126,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Vampirlifting / Microneedling',
-        price: '199,00€',
+        price: '199€',
         includes: 'inkl. Voreinigung + Microneedling + Vampirlifting & Jelly Mask',
         benefits: [
           'Glättet und minimiert Fältchen',
@@ -136,8 +136,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Pur Microneedling',
-        price: '79,00€',
-        priceNote: 'Aufpreis Jelly Mask 10,00€',
+        price: '79€',
+        priceNote: 'Aufpreis Jelly Mask 10€',
         includes: 'inkl. Microneedling + Tuchmaske',
         benefits: [
           'Reduziert Narben und Akne',
@@ -147,8 +147,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Luxury Aquafacial & Carboxytherapie',
-        price: '109,00€ + 89,00€',
-        priceNote: 'Aufpreis Jelly Mask 10,00€',
+        price: '109€ + 89€',
+        priceNote: 'Aufpreis Jelly Mask 10€',
         includes: 'inkl. Aquafacial Gesichtsreinigung + Tuchmaske',
         benefits: [
           'Minimiert Falten und feine Linien',
@@ -158,8 +158,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Das Schälkur 100% natural',
-        price: '159,00€',
-        priceNote: 'Aufpreis Jelly Mask 10,00€',
+        price: '159€',
+        priceNote: 'Aufpreis Jelly Mask 10€',
         includes: 'Natürliches Glow Peel, inkl. Reinigung + Tuchmaske',
         benefits: [
           '100% natürliche Inhaltsstoffe',
@@ -169,8 +169,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Clear Skin Treatment',
-        price: '189,00€',
-        priceNote: 'Aufpreis Jelly Maske 10,00€',
+        price: '189€',
+        priceNote: 'Aufpreis Jelly Maske 10€',
         includes: 'Vergleichbar mit CO2-Laser, aber viel schonender. Inkl. Glow Peel, Nano- & Microneedling',
         benefits: [
           'Schonende Alternative zum CO2 Laser',
@@ -181,8 +181,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'RF Microneedling Königsklasse',
-        price: '199,00€',
-        priceNote: 'Aufpreis Peeling 89,00€ und Jelly Maske 10,00€',
+        price: '199€',
+        priceNote: 'Aufpreis Peeling 89€ und Jelly Maske 10€',
         includes: 'inkl. Vorreinigung, Glow Peel, RF Microneedling & Maske',
         benefits: [
           'Königsklasse der Hautverjüngung',
@@ -193,7 +193,7 @@ export const problems: Problem[] = [
     ],
     info: {
       title: 'Gezielte Aknenarbenbehandlung',
-      text: 'Wir verstehen, wie Aknenarben das Selbstbewusstsein beeinflussen können. Unsere gezielte Aknenarbenbehandlung wirkt effektiv gegen Narben und verbessert das Hautbild. Wir verwenden spezielle Techniken und Wirkstoffe, um die Hautstruktur zu glätten und das Erscheinungsbild von Aknenarben zu minimieren.',
+      text: 'Ich weiß, wie sehr Aknenarben am Selbstbewusstsein nagen können. Meine gezielte Aknenarbenbehandlung arbeitet an den Narben und am Hautbild. Dafür nutze ich spezielle Techniken und Wirkstoffe, die die Hautstruktur glätten und die Narben weniger sichtbar machen.',
     },
   },
   {
@@ -212,8 +212,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Lasertherapie Pigmentflecken',
-        price: '99,00€',
-        priceNote: 'Aufpreis + 10,00€ Jelly Mask',
+        price: '99€',
+        priceNote: 'Aufpreis + 10€ Jelly Mask',
         includes: 'inkl. Voreinigung, Glow Peel, IPL Laserbehandlung & Tuchmaske',
         benefits: [
           'Minimiert unerwünschte Hautverfärbungen',
@@ -223,8 +223,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Anti Pigment Peel & Microneedling',
-        price: '129,00€',
-        priceNote: 'Aufpreis +10,00€ Jelly Mask oder Goldmaske',
+        price: '129€',
+        priceNote: 'Aufpreis +10€ Jelly Mask oder Goldmaske',
         includes: 'inkl. Voreinigung, Microneedling, Glow Peel, Anti Pigment Peel, Tuchmaske & Lifting',
         benefits: [
           'Kombiniert Peeling & Microneedling',
@@ -253,8 +253,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Luxury Anti Aging',
-        price: '129,00€',
-        priceNote: 'Aufpreis 10,00€ Jelly Mask',
+        price: '129€',
+        priceNote: 'Aufpreis 10€ Jelly Mask',
         includes: 'inkl. Aquafacial, Glow Peel, Ultraschalltherapie, RF Lifting & Tuchmaske',
         benefits: [
           'Tiefenreinigung und Peeling',
@@ -264,8 +264,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Microneedling & Spezial-Peel',
-        price: '129,00€',
-        priceNote: 'Aufpreis 10,00€ Jelly Mask',
+        price: '129€',
+        priceNote: 'Aufpreis 10€ Jelly Mask',
         includes: 'inkl. Microneedling, BioRePeel/PRX/MediCare Peel, Glow Peel & Jellymaske',
         benefits: [
           'Effektive Hauterneuerung & Verjüngung',
@@ -275,8 +275,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'RF Microneedling Königsklasse',
-        price: '199,00€',
-        priceNote: 'Aufpreis 79,00€ Anti Aging Peeling. Weitere Areale ab 20,00€ dazubuchbar, je nach Größe des Areals.',
+        price: '199€',
+        priceNote: 'Aufpreis 79€ Anti Aging Peeling. Weitere Areale ab 20€ dazubuchbar, je nach Größe des Areals.',
         includes: 'inkl. RF Microneedling für Gesicht & Hals, Glow Peel & Jellymaske',
         benefits: [
           'Behandelt gezielt Gesicht und Hals',
@@ -287,7 +287,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Lasertherapie Hautverjüngung',
-        price: '109,00€',
+        price: '109€',
         includes: 'Gezielte Laserbehandlung zur Stimulation der Kollagenproduktion',
         benefits: [
           'Reduziert feine Linien und Falten',
@@ -297,7 +297,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Mesotherapie',
-        price: '169,00€',
+        price: '169€',
         includes: 'inkl. Ausreinigung, Glow Peel, RF-Lifting, Ultraschall & MesoBooster Vitamine',
         benefits: [
           'Tiefenwirksame Regeneration',
@@ -323,8 +323,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Luxury Collagenbehandlung',
-        price: '89,00€',
-        priceNote: 'Aufpreis 10,00€ Jelly Maske',
+        price: '89€',
+        priceNote: 'Aufpreis 10€ Jelly Maske',
         includes: 'inkl. Voreinigung, Hyaluron, Collagenbehandlung, Lifting & Tuchmaske',
         benefits: [
           'Füllt die Kollagenspeicher auf',
@@ -334,8 +334,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Luxury Lifting',
-        price: '89,00€',
-        priceNote: 'Aufpreis 10,00€ Jelly Maske',
+        price: '89€',
+        priceNote: 'Aufpreis 10€ Jelly Maske',
         includes: 'inkl. Voreinigung, Hyaluron, RF-Lifting, Ultraschall & Tuchmaske',
         benefits: [
           'Sofortiger Straffungseffekt',
@@ -345,8 +345,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Das Schälkur 100% natural',
-        price: '159,00€',
-        priceNote: 'Aufpreis 10,00€ Jelly Maske',
+        price: '159€',
+        priceNote: 'Aufpreis 10€ Jelly Maske',
         includes: 'inkl. Reinigung, Glow Peel & Tuchmaske',
         benefits: [
           'Intensive Hauterneuerung auf Naturbasis',
@@ -356,7 +356,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Luxury Aquafacial',
-        price: '119,00€',
+        price: '119€',
         priceNote: '+19€ Ultra Lifting & Jelly Mask / +89€ Glow Ampulle, Carboxy & Jelly Mask',
         includes: 'inkl. Aquafacial Gesichtsreinigung, Hyaluron & Tuchmaske',
         benefits: [
@@ -368,7 +368,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Yellow Peel',
-        price: '189,00€',
+        price: '189€',
         priceNote: 'Neue Haut in 10 Tagen',
         includes: 'inkl. Glow Peel & Jelly Mask',
         benefits: [
@@ -459,12 +459,12 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Hair Growth Treatment',
-        price: '169,00€',
+        price: '169€',
         includes: 'Microneedling mit Stammzellen + Hair Growth Laser',
         benefits: [
           'Microneedling mit Stammzellen: aktiviert die Haarfollikel und regt das Haarwachstum an',
           'Hair Growth Laser: fördert die Durchblutung und stärkt die Follikel',
-          'Sichtbare Ergebnisse ab der 5. Sitzung – auch bei Geheimratsecken und dünnem Haar',
+          'Sichtbare Ergebnisse ab der 5. Sitzung, auch bei Geheimratsecken und dünnem Haar',
         ],
       },
     ],
@@ -485,8 +485,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Dehnungsstreifenbehandlung',
-        price: '199,00€',
-        priceNote: 'Bauch. Weitere Areale: Aufpreis 19,00€ · Jelly Maske: Aufpreis 10,00€',
+        price: '199€',
+        priceNote: 'Bauch. Weitere Areale: Aufpreis 19€ · Jelly Maske: Aufpreis 10€',
         includes: 'inkl. RF Microneedling + beruhigende Maske',
         benefits: [
           'Sichtbare Reduzierung von Dehnungsstreifen',
@@ -512,7 +512,7 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Deluxe Rückenreinigung',
-        price: '159,00€',
+        price: '159€',
         includes: 'Wahlweise mit Aquafacial & Algenmaske, Microneedling & Peeling oder nur Microneedling',
         benefits: [
           'Tiefenwirksame Reinigung des Rückens',
@@ -523,7 +523,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Lasertherapie für den Rücken',
-        price: '139,00€',
+        price: '139€',
         includes: 'Moderne Laserbehandlung zur gezielten Verbesserung der Haut am Rücken',
         benefits: [
           'Behandelt Aknenarben und Pigmentflecken',
@@ -533,7 +533,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Schälkur für den Rücken',
-        price: '169,00€',
+        price: '169€',
         includes: 'Intensive Erneuerung der Haut am Rücken für ein glattes und reines Ergebnis',
         benefits: [
           'Entfernt abgestorbene Hautschüppchen',
@@ -543,7 +543,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'RF Microneedling Königsklasse',
-        price: '199,00€',
+        price: '199€',
         includes: 'inkl. Vorreinigung, RF Microneedling & Jellymaske',
         benefits: [
           'Intensive Straffung und Regeneration',
@@ -569,8 +569,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Po Aknebehandlung',
-        price: '159,00€',
-        priceNote: 'Aufpreis Jelly Maske 10,00€',
+        price: '159€',
+        priceNote: 'Aufpreis Jelly Maske 10€',
         includes: 'Gezielte Behandlung zur Klärung der Haut und Reduzierung von Unreinheiten und Akne im Po-Bereich für ein glattes und ebenmäßiges Hautbild',
         benefits: [
           'Reduziert Akne und Entzündungen',
@@ -580,8 +580,8 @@ export const problems: Problem[] = [
       },
       {
         name: 'Aufhellung Intimbereiche',
-        price: '159,00€',
-        priceNote: 'Aufpreis Jelly Maske 10,00€',
+        price: '159€',
+        priceNote: 'Aufpreis Jelly Maske 10€',
         includes: 'Sanftes und effektives Peeling zur Aufhellung von hyperpigmentierten Stellen im Intimbereich, für einen gleichmäßigen und schönen Hautton',
         benefits: [
           'Hellt Hyperpigmentierung auf',
@@ -607,8 +607,8 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Hydra Lash Lifting',
-        price: '49,00€',
-        priceNote: 'Aufpreis Färben 10,00€',
+        price: '49€',
+        priceNote: 'Aufpreis Färben 10€',
         includes: 'Keine Lust mehr auf Wimpernzange und -tusche? Nach dem Lash Lifting kannst du dir das für 5-8 Wochen sparen',
         benefits: [
           'Verleiht den Wimpern perfekten Schwung',
@@ -619,7 +619,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Beauty Browlift',
-        price: '39,00€',
+        price: '39€',
         priceNote: 'inkl. Färben',
         includes: 'Hast du lückenhafte, dünne oder störrische Augenbrauen? Das Brow Lifting ist DIE Lösung!',
         benefits: [
@@ -630,7 +630,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Sweet Henna Brows',
-        price: '39,00€',
+        price: '39€',
         includes: 'Eine natürliche Alternative zum klassischen Färben für definierte und langanhaltende Augenbrauen',
         benefits: [
           'Färbt Haut und Härchen',
@@ -655,7 +655,7 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Zahnbleaching',
-        price: '79,00€',
+        price: '79€',
         duration: 'ca. 45-60 min',
         includes: 'Professionelle, schonende Zahnaufhellung im Studio',
         benefits: [
@@ -685,7 +685,7 @@ export const problems: Problem[] = [
     treatments: [
       {
         name: 'Schröpfmassage Medical',
-        price: '49,00€',
+        price: '49€',
         includes: 'Eine intensive Therapie zur Lockerung von Verspannungen und zur Linderung von Schmerzen',
         benefits: [
           'Fördert die Durchblutung des Gewebes',
@@ -695,7 +695,7 @@ export const problems: Problem[] = [
       },
       {
         name: 'Anti-Migräne Massage',
-        price: '29,00€',
+        price: '29€',
         includes: 'Eine spezielle Massagetechnik zur Linderung von Kopfschmerzen und Migräne-Symptomen',
         benefits: [
           'Löst Verspannungen im Nacken- & Kopfbereich',
@@ -748,53 +748,53 @@ export const pricingCategories: PriceCategory[] = [
   {
     title: 'Gesichtsbehandlungen & Anti-Aging',
     items: [
-      { name: 'Luxury Aquafacial', price: '119,00€' },
-      { name: 'Luxury Collagenbehandlung', price: '89,00€' },
-      { name: 'Luxury Lifting', price: '89,00€' },
-      { name: 'Microneedling & Spezial-Peel', price: '129,00€' },
-      { name: 'RF Microneedling Königsklasse', price: '199,00€' },
-      { name: 'Lasertherapie Hautverjüngung', price: '109,00€' },
-      { name: 'Mesotherapie', price: '169,00€' },
-      { name: 'Vampirlifting', price: '199,00€' },
-      { name: 'Carboxytherapie', price: '89,00€' },
-      { name: 'Luxury Aquafacial & Carboxytherapie', price: '109,00€ + 89,00€' },
+      { name: 'Luxury Aquafacial', price: '119€' },
+      { name: 'Luxury Collagenbehandlung', price: '89€' },
+      { name: 'Luxury Lifting', price: '89€' },
+      { name: 'Microneedling & Spezial-Peel', price: '129€' },
+      { name: 'RF Microneedling Königsklasse', price: '199€' },
+      { name: 'Lasertherapie Hautverjüngung', price: '109€' },
+      { name: 'Mesotherapie', price: '169€' },
+      { name: 'Vampirlifting', price: '199€' },
+      { name: 'Carboxytherapie', price: '89€' },
+      { name: 'Luxury Aquafacial & Carboxytherapie', price: '109€ + 89€' },
     ],
   },
   {
     title: 'Problemhaut & Hauterneuerung',
     items: [
-      { name: 'FruchtsäurePeel / Anti Acne Peeling', price: '129,00€' },
-      { name: 'Vampirlifting / Microneedling (Akne)', price: '199,00€' },
-      { name: 'Pur Microneedling (Akne)', price: '79,00€' },
-      { name: 'Clear Skin Treatment', price: '189,00€' },
-      { name: 'Lasertherapie Pigmentflecken', price: '99,00€' },
-      { name: 'Anti Pigment Peel & Microneedling', price: '129,00€' },
-      { name: 'Das Schälkur 100% natural', price: '159,00€' },
-      { name: 'Yellow Peel (Neue Haut in 10 Tagen)', price: '189,00€' },
+      { name: 'FruchtsäurePeel / Anti Acne Peeling', price: '129€' },
+      { name: 'Vampirlifting / Microneedling (Akne)', price: '199€' },
+      { name: 'Pur Microneedling (Akne)', price: '79€' },
+      { name: 'Clear Skin Treatment', price: '189€' },
+      { name: 'Lasertherapie Pigmentflecken', price: '99€' },
+      { name: 'Anti Pigment Peel & Microneedling', price: '129€' },
+      { name: 'Das Schälkur 100% natural', price: '159€' },
+      { name: 'Yellow Peel (Neue Haut in 10 Tagen)', price: '189€' },
     ],
   },
   {
     title: 'Lashes & Brows',
     items: [
-      { name: 'Hydra Lash Lifting', price: '49,00€' },
-      { name: 'Beauty Browlift (inkl. Färben)', price: '39,00€' },
-      { name: 'Sweet Henna Brows', price: '39,00€' },
+      { name: 'Hydra Lash Lifting', price: '49€' },
+      { name: 'Beauty Browlift (inkl. Färben)', price: '39€' },
+      { name: 'Sweet Henna Brows', price: '39€' },
     ],
   },
   {
     title: 'Körper- & Spezialbehandlungen',
     items: [
-      { name: 'Deluxe Rückenreinigung', price: '159,00€' },
-      { name: 'Lasertherapie für den Rücken', price: '139,00€' },
-      { name: 'Schälkur für den Rücken', price: '169,00€' },
-      { name: 'RF Microneedling (Rücken)', price: '199,00€' },
-      { name: 'Dehnungsstreifenbehandlung (Bauch)', price: '199,00€' },
-      { name: 'Po Aknebehandlung', price: '159,00€' },
-      { name: 'Aufhellung Intimbereiche', price: '159,00€' },
-      { name: 'Hair Growth Treatment', price: '169,00€' },
-      { name: 'Schröpfmassage Medical', price: '49,00€' },
-      { name: 'Anti-Migräne Massage', price: '29,00€' },
-      { name: 'Zahnbleaching', price: '79,00€' },
+      { name: 'Deluxe Rückenreinigung', price: '159€' },
+      { name: 'Lasertherapie für den Rücken', price: '139€' },
+      { name: 'Schälkur für den Rücken', price: '169€' },
+      { name: 'RF Microneedling (Rücken)', price: '199€' },
+      { name: 'Dehnungsstreifenbehandlung (Bauch)', price: '199€' },
+      { name: 'Po Aknebehandlung', price: '159€' },
+      { name: 'Aufhellung Intimbereiche', price: '159€' },
+      { name: 'Hair Growth Treatment', price: '169€' },
+      { name: 'Schröpfmassage Medical', price: '49€' },
+      { name: 'Anti-Migräne Massage', price: '29€' },
+      { name: 'Zahnbleaching', price: '79€' },
     ],
   },
   {

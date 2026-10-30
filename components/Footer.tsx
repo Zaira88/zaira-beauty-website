@@ -23,9 +23,13 @@ const Footer = () => {
                 sizes="176px"
               />
             </Link>
+            {/* Halbsatz zur Entfernung: macht das Einzugsgebiet sichtbar,
+                ohne die Nachbargemeinden aufzulisten. Ein Nachbarort genügt,
+                das vollständige Gebiet steht im areaServed in
+                app/layout.tsx. */}
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ivory-mute">
-              Dein Kosmetikstudio in Geretsried, spezialisiert auf sichtbare
-              Ergebnisse mit Herz und Präzision.
+              Dein Kosmetikstudio in Geretsried, gleich bei Wolfratshausen,
+              spezialisiert auf sichtbare Ergebnisse mit Herz und Präzision.
             </p>
           </div>
 

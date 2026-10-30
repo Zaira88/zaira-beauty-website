@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const About = ({ reviewCount = 104 }: { reviewCount?: number }) => {
+const About = ({ reviewCount = 108 }: { reviewCount?: number }) => {
   const stats = [
     { number: `${reviewCount}+`, label: 'Top-Bewertungen' },
     { number: '10+', label: 'Zertifikate' },
@@ -46,12 +46,18 @@ const About = ({ reviewCount = 104 }: { reviewCount?: number }) => {
               ich meine wahre Berufung in der Kosmetik entdeckt, und das
               spüren meine Kundinnen jeden Tag.
             </p>
+            {/* Der Ortssatz am Ende ist Absicht. Das Studio war auf der
+                Startseite nur mit Geretsried verortet, obwohl das
+                Einzugsgebiet den Nachbarort mit einschließt (siehe
+                areaServed in app/layout.tsx). Ein Satz in ihrer Stimme,
+                keine Ortsliste. */}
             <p className="mt-5 text-lg leading-relaxed text-ivory-mute">
               Meine Leidenschaft ist es, deine natürliche Schönheit zum
               Strahlen zu bringen. Mit meiner Expertise und den besten
               Produkten helfe ich dir dabei, dich in deiner Haut wohlzufühlen,
               mit ehrlicher Beratung, Hautanalyse und einem Behandlungsplan,
-              der wirklich zu dir passt.
+              der wirklich zu dir passt. Du findest mich am Johannisplatz in
+              Geretsried, der Nachbarstadt von Wolfratshausen.
             </p>
           </motion.div>
         </div>

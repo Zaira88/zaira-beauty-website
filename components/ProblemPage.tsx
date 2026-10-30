@@ -13,6 +13,7 @@ import {
   Star,
 } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
+import TreatmentFaq from '@/components/TreatmentFaq'
 import {
   CONTACT,
   Problem,
@@ -276,6 +277,13 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
         </section>
       )}
 
+      {/* ===== Häufige Fragen =====
+          Steht hinter den Behandlungen und dem Info-Panel, weil die
+          Antworten auf die Preise „oben" verweisen. Vor dem
+          Vertrauenssignal, damit Bewertung und Adresse direkt über der
+          Terminanfrage bleiben. Bringt das FAQPage-Markup mit. */}
+      <TreatmentFaq problem={problem} />
+
       {/* ===== Vertrauenssignal =====
           Die Detailseiten nennen Preise, zeigten aber keinen einzigen
           Beweis. Bewertung + Studio-Ort direkt vor der Terminanfrage. */}
@@ -299,7 +307,7 @@ const ProblemPage = ({ problem }: { problem: Problem }) => {
               ))}
             </span>
             <span>
-              <strong className="font-semibold text-ivory">5,0</strong> bei 104
+              <strong className="font-semibold text-ivory">5,0</strong> bei 108
               Google-Bewertungen
             </span>
           </a>

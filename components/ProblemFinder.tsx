@@ -35,7 +35,11 @@ const ProblemFinder = () => {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mb-14 max-w-2xl text-center"
         >
-          <p className="overline-label mb-5">Womit dürfen wir starten?</p>
+          {/* "Womit dürfen wir starten?" war der Dienstleistungs-Plural,
+              wie im Restaurant. Das Studio ist eine Frau, sie sagt sonst
+              überall "ich". "Fangen wir an" meint sie und die Kundin
+              zusammen, genau wie "wir finden gemeinsam" im Hero. */}
+          <p className="overline-label mb-5">Womit fangen wir an?</p>
           <h2 className="font-display text-4xl text-ivory sm:text-5xl lg:text-6xl">
             <span className="text-3d">Was möchtest du</span>{' '}
             <span className="text-3d-rose text-rose">verbessern</span>
