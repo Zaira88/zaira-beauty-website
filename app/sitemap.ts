@@ -12,28 +12,32 @@ import { problems } from '@/data/problems'
 const BASE = 'https://zairabeauty.de'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date()
-
+  // Bewusst OHNE lastModified. Vorher stand dort new Date(), also der
+  // Zeitpunkt des Builds. Jeder Deploy behauptete damit, alle 13 Seiten
+  // hätten sich geändert, auch wenn nur eine Zeile Code anders war.
+  // Google entwertet lastmod-Angaben, die sich so verhalten, und dann
+  // nützt die Angabe auch dort nichts mehr, wo sie stimmen würde.
+  // Lieber keine Angabe als eine unglaubwürdige.
   return [
     {
-      url: BASE,
-      lastModified: now,
+      url: `${BASE}/`,
       changeFrequency: 'weekly',
       priority: 1,
     },
-    // Die 12 Anliegen-Seiten — das inhaltliche Herz und die Landeseiten
+    // Die 12 Anliegen-Seiten, das inhaltliche Herz und die Landeseiten
     // aus der Google-Suche
     ...problems.map((p) => ({
       url: `${BASE}/${p.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.9,
     })),
-    ...['impressum', 'datenschutz'].map((slug) => ({
-      url: `${BASE}/${slug}`,
-      lastModified: now,
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    })),
+    // Impressum und Datenschutz stehen bewusst NICHT mehr drin.
+    // Beide liefern <meta name="robots" content="noindex">. Eine
+    // eingereichte Sitemap mit noindex-Seiten quittiert die Search
+    // Console mit "Eingereichte URL als noindex gekennzeichnet" —
+    // ein Fehler im Bericht, der die Sitemap-Statistik verfälscht,
+    // und genau diese Statistik ist die Kennzahl, an der wir die
+    // Indexierung messen. Rechtlich sind beide über den Footer
+    // verlinkt und damit erreichbar, das genügt.
   ]
 }
