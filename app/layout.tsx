@@ -5,7 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
 import MotionProvider from '@/components/MotionProvider'
-import { OPENING_HOURS } from '@/data/problems'
+import { CONTACT, OPENING_HOURS } from '@/data/problems'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,8 +23,11 @@ const siteUrl = "https://zairabeauty.de";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Zaira Beauty | Kosmetikstudio in Geretsried | Aquafacial, Lashlifting & Mehr',
-  description: 'Dein Kosmetikstudio in Geretsried: Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung. Sag mir, was dich stört, und wir finden die passende Behandlung.',
+  // Die Startseite war als einzige Seite zu lang (Titel 76, Beschreibung 181
+  // Zeichen, beides von Google gekürzt) und nannte Wolfratshausen nicht,
+  // obwohl 1.999 der 2.000 Wolfratshausen-Impressionen genau hier landen.
+  title: 'Kosmetikstudio Geretsried & Wolfratshausen | Zaira Beauty',
+  description: 'Dein Kosmetikstudio in Geretsried, nah an Wolfratshausen. Aquafacial, Anti-Aging, Microneedling, Lashlifting und dauerhafte Haarentfernung.',
   keywords: 'Kosmetikstudio Geretsried, Zaira Beauty, Aquafacial, Lashlifting, Browlifting, Microneedling, Anti-Aging, dauerhafte Haarentfernung, BB-Glow, Zahnbleaching, Gesichtsbehandlung',
   authors: [{ name: 'Zaira Beauty' }],
   // './' = jede Seite zeigt auf sich selbst. Ohne canonical konnte Google
@@ -90,6 +93,27 @@ export default function RootLayout({
       "postalCode": "82538",
       "addressCountry": "DE"
     },
+    // Koordinaten aus dem Google-Unternehmensprofil (30.10.2026).
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 47.8778199,
+      "longitude": 11.4726694
+    },
+    // Einzugsgebiet. Wolfratshausen stand nirgends auf der Seite, obwohl
+    // die Search Console dort 2.000 Impressionen auf Position 16 zeigt,
+    // also etwa so viel Nachfrage wie Geretsried selbst.
+    // Hier standen zwischenzeitlich acht Orte. Das war zu viel behauptet:
+    // Bad Tölz (14,5 km) und Penzberg (15,8 km) sind keine Nachbargemeinden,
+    // und für die übrigen gibt es keine Quelle. Belegt sind genau diese
+    // beiden. Weitere Orte erst aufnehmen, wenn Zaira sie bestätigt.
+    "areaServed": ["Geretsried", "Wolfratshausen"].map((ort) => ({
+      "@type": "City",
+      "name": ort,
+    })),
+    // Verbindet Website, Instagram und Google-Profil zu einer Entität.
+    "sameAs": [CONTACT.instagram],
+    "priceRange": "€€",
+    "currenciesAccepted": "EUR",
     // Aus OPENING_HOURS erzeugt (data/problems.ts) — vorher standen hier
     // andere Zeiten als im Footer. Geschlossene Tage lässt schema.org weg.
     "openingHoursSpecification": OPENING_HOURS.filter((d) => d.opens).map((d) => ({

@@ -1,17 +1,21 @@
 import { Metadata } from 'next'
+import { ogBase } from '@/lib/metadata'
 import PigmentfleckenContent from './content';
 
 export const metadata: Metadata = {
   title: 'Pigmentflecken entfernen in Geretsried | Zaira Beauty',
-  description: 'Reduzieren Sie Pigmentflecken und Altersflecken mit modernen Behandlungen wie Lasertherapie und Spezial-Peelings bei Zaira Beauty in Geretsried.',
-  keywords: ['Pigmentflecken entfernen', 'Altersflecken', 'Hyperpigmentierung', 'Lasertherapie', 'Anti Pigment Peel', 'Microneedling', 'Zaira Beauty', 'Geretsried'],
-  openGraph: {
-    title: 'Behandlung von Pigmentflecken in Geretsried | Zaira Beauty',
-    description: 'Für einen ebenmäßigen und strahlenden Teint ohne störende Pigmentflecken.',
-    url: 'https://zairabeauty.de/pigmentflecken',
-  },
+  description: 'Pigmentflecken, Altersflecken und Hyperpigmentierung mildere ich für einen ebenmäßigen Teint. Ab 99€ in Geretsried bei Wolfratshausen.',
+  keywords: ['Pigmentflecken entfernen', 'Altersflecken', 'Hyperpigmentierung', 'ebenmäßiger Teint', 'Melasma', 'Sonnenflecken', 'Lasertherapie', 'Anti Pigment Peel', 'Microneedling', 'Zaira Beauty', 'Geretsried'],
+  // ogBase statt eines eigenen openGraph-Objekts: Next.js merged Metadata nur
+  // flach, ein lokales openGraph hätte images, siteName, locale und type aus
+  // app/layout.tsx ersatzlos überschrieben (geteilter Link = nackter Text).
+  openGraph: ogBase(
+    'pigmentflecken',
+    'Pigmentflecken behandeln in Geretsried | Zaira Beauty',
+    'Für einen ebenmäßigen Teint ohne störende Pigmentflecken. Lasertherapie oder Anti Pigment Peel mit Microneedling, ab 99€.'
+  ),
 };
 
 export default function PigmentfleckenPage() {
     return <PigmentfleckenContent />;
-} 
+}

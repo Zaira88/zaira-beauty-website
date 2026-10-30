@@ -1,15 +1,16 @@
 import { Metadata } from 'next'
+import { ogBase } from '@/lib/metadata'
 import DehnungsstreifenContent from './content'
 
 export const metadata: Metadata = {
   title: 'Dehnungsstreifen entfernen in Geretsried | Zaira Beauty',
-  description: 'Reduzieren Sie sichtbar Dehnungsstreifen mit RF Microneedling bei Zaira Beauty in Geretsried. Verbessern Sie Ihre Hautelastizität und -festigkeit.',
-  keywords: ['Dehnungsstreifen entfernen', 'Schwangerschaftsstreifen', 'RF Microneedling', 'Hautstraffung', 'Kollagenproduktion', 'Zaira Beauty', 'Geretsried'],
-  openGraph: {
-    title: 'Behandlung von Dehnungsstreifen in Geretsried | Zaira Beauty',
-    description: 'Effektive Reduzierung von Dehnungsstreifen für eine glattere Haut mit RF Microneedling.',
-    url: 'https://zairabeauty.de/dehnungsstreifen',
-  },
+  description: 'Dehnungsstreifen und Schwangerschaftsstreifen mit RF Microneedling, ab 199€. Bei mir in Geretsried, nah an Wolfratshausen. Schreib mir auf WhatsApp.',
+  keywords: ['Dehnungsstreifen entfernen', 'Schwangerschaftsstreifen', 'RF Microneedling', 'RF Microneedling Geretsried', 'Hautstraffung', 'Kollagenproduktion', 'Kosmetikstudio Geretsried', 'Zaira Beauty', 'Geretsried'],
+  openGraph: ogBase(
+    'dehnungsstreifen',
+    'Behandlung von Dehnungsstreifen in Geretsried | Zaira Beauty',
+    'RF Microneedling bei Dehnungsstreifen und zur Hautstraffung. Mein Studio in Geretsried, Termin per WhatsApp.'
+  ),
 };
 
 const DehnungsstreifenPage = () => {

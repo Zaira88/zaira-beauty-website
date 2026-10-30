@@ -1,17 +1,21 @@
 import { Metadata } from 'next'
+import { ogBase } from '@/lib/metadata'
 import ClearIntimPeelContent from './content';
 
 export const metadata: Metadata = {
-  title: 'Clear Intimpeel in Geretsried | Intim-Aufhellung | Zaira Beauty',
-  description: 'Diskrete und professionelle Behandlung zur Aufhellung im Intimbereich oder bei Po-Akne. Zaira Beauty in Geretsried bietet sichere Lösungen für ein ebenmäßiges Hautbild.',
-  keywords: ['Clear Intimpeel', 'Intim-Aufhellung', 'Po-Akne', 'Hyperpigmentierung Intimbereich', 'diskrete Kosmetik', 'Zaira Beauty', 'Geretsried'],
-  openGraph: {
-    title: 'Clear Intimpeel & Po-Akne Behandlung in Geretsried | Zaira Beauty',
-    description: 'Spezialisierte Behandlungen für den Intimbereich und Po. Sicher und diskret für ein gleichmäßiges Hautbild.',
-    url: 'https://zairabeauty.de/clear-intimpeel',
-  },
+  title: 'Intimbleaching in Geretsried | Zaira Beauty',
+  description: 'Dunkle Stellen im Intimbereich oder Po-Akne? Clear IntimPeel für dein ebenmäßiges Hautbild, ab 159€. Diskret in Geretsried, gleich bei Wolfratshausen.',
+  keywords: ['Intimbleaching', 'Intimpeeling', 'Clear Intimpeel', 'dunkle Stellen aufhellen', 'Intim-Aufhellung', 'Po-Akne', 'Hyperpigmentierung Intimbereich', 'diskrete Kosmetik', 'Zaira Beauty', 'Geretsried'],
+  // ogBase() statt eigenem openGraph-Objekt: Next.js ersetzt das Layout-og
+  // flach, ein Inline-Objekt hätte og:image, siteName, locale und type
+  // verloren. Siehe lib/metadata.ts.
+  openGraph: ogBase(
+    'clear-intimpeel',
+    'Clear IntimPeel & Po-Akne in Geretsried | Zaira Beauty',
+    'Diskrete Behandlungen für Intimbereich und Po, für dein gleichmäßiges Hautbild. Po Aknebehandlung und Aufhellung ab 159€.'
+  ),
 };
 
 export default function ClearIntimPeelPage() {
     return <ClearIntimPeelContent />;
-} 
+}
