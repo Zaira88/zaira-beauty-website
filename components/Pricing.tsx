@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { pricingCategories, waHref } from '@/data/problems'
@@ -54,29 +54,44 @@ const Pricing = () => {
                   </span>
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
+                {/* Die Posten stehen IMMER im Markup, auch zugeklappt. Vorher
+                    rendere ein AnimatePresence nur die offene Kategorie, also
+                    kamen von 32 Preisen nur die 10 der ersten ins ausgelieferte
+                    HTML — „Schröpfmassage Medical 49€" und der ganze Rest waren
+                    für einen Crawler nicht vorhanden. Aufgeklappt wird jetzt
+                    rein optisch über grid-template-rows 0fr→1fr.
+                    Die Werte stehen bewusst als inline style und nicht als
+                    Tailwind-Arbitrary-Utility (grid-rows-[0fr]): solche
+                    Utilities sind in diesem Setup schon still weggefallen. */}
+                <div
+                  className="grid"
+                  style={{
+                    gridTemplateRows: isOpen ? '1fr' : '0fr',
+                    transition:
+                      'grid-template-rows 350ms cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
+                >
+                  <div className="overflow-hidden">
+                    <ul
+                      className="space-y-4 px-6 pb-8 md:px-7"
+                      style={{
+                        opacity: isOpen ? 1 : 0,
+                        transition: 'opacity 250ms ease',
+                      }}
+                      aria-hidden={!isOpen}
                     >
-                      <ul className="space-y-4 px-6 pb-8 md:px-7">
-                        {category.items.map((item) => (
-                          <li key={item.name} className="flex items-baseline">
-                            <span className="text-ivory-dim">{item.name}</span>
-                            <span className="dot-leader" />
-                            <span className="whitespace-nowrap font-medium text-ivory">
-                              {item.price}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      {category.items.map((item) => (
+                        <li key={item.name} className="flex items-baseline">
+                          <span className="text-ivory-dim">{item.name}</span>
+                          <span className="dot-leader" />
+                          <span className="whitespace-nowrap font-medium text-ivory">
+                            {item.price}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             )
           })}
