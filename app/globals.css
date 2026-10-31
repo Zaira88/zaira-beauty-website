@@ -518,35 +518,53 @@ a {
 }
 
 /* Drei Schläge, dann Gleiten — derselbe Rhythmus wie beim Schwarm
-   (bf-flap-l/r, bf-bob), nur als Schwenk statt als Faltung.
-   Durchgehend ease-in-out: die schnappenden Kurven von vorher lasen
-   sich als Zucken. */
+   (bf-flap-l/r, bf-bob), aber als VERKÜRZUNG, nicht als Schwenk.
+
+   Der erste Versuch am 31.10.2026 ließ den Flügel um den Körperpunkt
+   pendeln (0° bis 68°). Zaurs Urteil: „querfliegende schmetterling ist
+   fehlerhaft" — und zwar zu Recht, denn das ist geometrisch falsch.
+   Der Flügel dreht um die LÄNGSACHSE des Körpers. Im Profil heißt das:
+   die Flügelspitze läuft senkrecht auf und ab und der Flügel wirkt
+   dabei kürzer, er schwenkt NICHT zur Seite über den Körper. Beim
+   Pendeln kippte der Falter mitten im Schlag um, als wäre er
+   umgefallen.
+
+   Ganz exakt wäre scaleY bis fast 0: ein Flügel genau waagerecht ist
+   von der Seite ein Strich. Am Bild geprüft flackert das bei 50–90 px
+   wie ein Darstellungsfehler. Deshalb nur bis 0,56 verkürzen, dazu
+   eine kleine Drehung — in jeder Phase ein erkennbarer Schmetterling.
+   Wieder Lesbarkeit vor Physik, wie bei den Flugpfaden weiter oben. */
 @keyframes bf-seite-nah {
-  0%   { transform: translateX(-50%) rotate(-6deg); }
-  7%   { transform: translateX(-50%) rotate(68deg); }
-  14%  { transform: translateX(-50%) rotate(-4deg); }
-  21%  { transform: translateX(-50%) rotate(64deg); }
-  28%  { transform: translateX(-50%) rotate(-2deg); }
-  35%  { transform: translateX(-50%) rotate(60deg); }
-  42%  { transform: translateX(-50%) rotate(8deg); }
-  58%  { transform: translateX(-50%) rotate(22deg); }
-  74%  { transform: translateX(-50%) rotate(12deg); }
-  88%  { transform: translateX(-50%) rotate(18deg); }
-  100% { transform: translateX(-50%) rotate(-6deg); }
+  0%   { transform: translateX(-50%) rotate(0deg)  scaleY(1); }
+  7%   { transform: translateX(-50%) rotate(30deg) scaleY(0.56); }
+  14%  { transform: translateX(-50%) rotate(2deg)  scaleY(0.96); }
+  21%  { transform: translateX(-50%) rotate(28deg) scaleY(0.58); }
+  28%  { transform: translateX(-50%) rotate(4deg)  scaleY(0.94); }
+  35%  { transform: translateX(-50%) rotate(26deg) scaleY(0.6); }
+  42%  { transform: translateX(-50%) rotate(12deg) scaleY(0.86); }
+  58%  { transform: translateX(-50%) rotate(16deg) scaleY(0.8); }
+  74%  { transform: translateX(-50%) rotate(8deg)  scaleY(0.9); }
+  88%  { transform: translateX(-50%) rotate(12deg) scaleY(0.85); }
+  100% { transform: translateX(-50%) rotate(0deg)  scaleY(1); }
 }
-/* Läuft dem nahen Flügel leicht nach und schwingt flacher */
+/* Gleicher Takt, nur ein paar Grad versetzt und etwas kleiner.
+   KEIN Nachlauf: Der erste Versuch ließ den Fernflügel 2 % hinterher
+   kommen, dadurch klappte der Falter mitten im Schlag zu einem V auf
+   und sah kaputt aus. In echter Seitenansicht heben und senken sich
+   beide Flügel gemeinsam — der ferne verschwindet fast hinter dem
+   nahen, das ist genau richtig so. */
 @keyframes bf-seite-fern {
-  0%   { transform: translateX(-50%) rotate(2deg)  scale(0.94); }
-  9%   { transform: translateX(-50%) rotate(62deg) scale(0.94); }
-  16%  { transform: translateX(-50%) rotate(3deg)  scale(0.94); }
-  23%  { transform: translateX(-50%) rotate(58deg) scale(0.94); }
-  30%  { transform: translateX(-50%) rotate(5deg)  scale(0.94); }
-  37%  { transform: translateX(-50%) rotate(55deg) scale(0.94); }
-  44%  { transform: translateX(-50%) rotate(13deg) scale(0.94); }
-  60%  { transform: translateX(-50%) rotate(25deg) scale(0.94); }
-  76%  { transform: translateX(-50%) rotate(15deg) scale(0.94); }
-  90%  { transform: translateX(-50%) rotate(20deg) scale(0.94); }
-  100% { transform: translateX(-50%) rotate(2deg)  scale(0.94); }
+  0%   { transform: translateX(-50%) rotate(5deg)  scaleY(1)    scale(0.94); }
+  7%   { transform: translateX(-50%) rotate(35deg) scaleY(0.56) scale(0.94); }
+  14%  { transform: translateX(-50%) rotate(7deg)  scaleY(0.96) scale(0.94); }
+  21%  { transform: translateX(-50%) rotate(33deg) scaleY(0.58) scale(0.94); }
+  28%  { transform: translateX(-50%) rotate(9deg)  scaleY(0.94) scale(0.94); }
+  35%  { transform: translateX(-50%) rotate(31deg) scaleY(0.6)  scale(0.94); }
+  42%  { transform: translateX(-50%) rotate(17deg) scaleY(0.86) scale(0.94); }
+  58%  { transform: translateX(-50%) rotate(21deg) scaleY(0.8)  scale(0.94); }
+  74%  { transform: translateX(-50%) rotate(13deg) scaleY(0.9)  scale(0.94); }
+  88%  { transform: translateX(-50%) rotate(17deg) scaleY(0.85) scale(0.94); }
+  100% { transform: translateX(-50%) rotate(5deg)  scaleY(1)    scale(0.94); }
 }
 
 /* --- Querflieger (components/CrossingButterfly.tsx) ---
