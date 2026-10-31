@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, Search, X } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { problems, solutionCount, waHref } from '@/data/problems'
-import CrossingButterfly from '@/components/CrossingButterfly'
+import PanelButterflies from '@/components/PanelButterflies'
 
 /** Schnellfilter-Chips über dem Grid */
 const quickFilters = ['Akne', 'Falten', 'Pigmentflecken', 'Haare', 'Wimpern', 'Glow']
@@ -28,10 +28,10 @@ const ProblemFinder = () => {
   return (
     <section id="finder" className="section-edge relative bg-ink py-24 md:py-36">
       {/* MUSS das erste Kind bleiben: Geschwister malen in DOM-Reihenfolge,
-          nur so fliegt er HINTER den Kärtchen und nicht davor. Genau das
-          ist sein Zweck — die Kärtchen nehmen als mattes Glas seine Farbe
-          an, während er vorbeizieht. */}
-      <CrossingButterfly />
+          nur so fliegen sie HINTER den Kärtchen und nicht davor. Genau das
+          ist ihr Zweck — die Kärtchen nehmen als Glas ihre Farbe an,
+          während sie vorbeiziehen. */}
+      <PanelButterflies />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         {/* Kopf */}
         <motion.div
@@ -155,7 +155,7 @@ const ProblemFinder = () => {
               >
                 <Link
                   href={`/${p.slug}`}
-                  className="tap group relative flex h-full flex-col justify-between overflow-hidden panel p-7 transition-all duration-500 hover:border-rose/40 hover:bg-ink-700/80"
+                  className="tap group relative flex h-full flex-col justify-between overflow-hidden panel p-7 transition-all duration-500 hover:border-rose/40 hover:bg-ink-700/[0.68]"
                 >
                   {/* Nummer */}
                   <span className="font-display text-sm italic text-ivory-mute/60">

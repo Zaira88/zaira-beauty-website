@@ -70,10 +70,25 @@
      — das Kärtchen nimmt seine Farbe an, wie mattes Glas.
      saturate hebt die Farbe an, ohne sie bunt zu machen; ohne das
      verschluckt das dunkle Petrol das Blau fast vollständig. */
+  /* Mattglas. Am 31.10.2026 deutlich glasiger gestellt (Zaurs Wunsch),
+     an drei Schrauben gleichzeitig:
+
+     1) DECKKRAFT 80 % → 62 %. Vorher kamen nur 20 % von dem durch, was
+        hinter der Karte liegt, jetzt 38 %. Auf dem Abschnittsgrund
+        kostet das fast nichts: ink-800 und ink unterscheiden sich um
+        6 Helligkeitsstufen, der Kartenton verschiebt sich dadurch um
+        rund 1 Stufe. Sichtbar wird der Unterschied nur dort, wo
+        tatsächlich etwas dahinter fliegt.
+     2) STREUUNG 16px → 26px. Vorher erkannte man die Flügelform durch
+        die Karte. Glas zeigt keinen Umriss, sondern einen Farbhauch.
+     3) brightness(1.35) NEU. Auf dem fast schwarzen Grund (7,9,10)
+        ändert das nichts Sichtbares, auf einem rosa Falter dagegen
+        sehr viel — der Filter hebt also gezielt das an, was wirklich
+        dahinter ist, und lässt den Rest in Ruhe. */
   .panel {
-    @apply bg-ink-800/80 hairline;
-    backdrop-filter: blur(16px) saturate(165%);
-    -webkit-backdrop-filter: blur(16px) saturate(165%);
+    @apply bg-ink-800/[0.62] hairline;
+    backdrop-filter: blur(26px) saturate(210%) brightness(1.35);
+    -webkit-backdrop-filter: blur(26px) saturate(210%) brightness(1.35);
   }
 
   /* Primärer CTA — Rosé, Pill.
@@ -452,123 +467,37 @@ a {
   100% { transform: translate3d(0, 0, 0) rotate(4deg); }
 }
 
-/* --- Querflieger (components/CrossingButterfly.tsx) ----------------
-   Wandert durch den Anliegen-Abschnitt, HINTER den Kärtchen. Dass die
-   Kärtchen dabei als mattes Glas seine Farbe annehmen, ist der ganze
-   Zweck — deshalb muss er das erste Kind des Abschnitts bleiben.
+/* --- Falter hinter den Kärtchen (components/PanelButterflies.tsx) ---
+   Zwei Stück im Anliegen-Abschnitt, einer oben, einer unten. Zweck ist
+   das Glas: `.panel` trägt `backdrop-filter`, nimmt also die Farbe
+   dessen an, was dahinter vorbeizieht. Ohne etwas dahinter ist der
+   Filter wirkungslos, der Abschnittsgrund ist gleichmäßig dunkel.
 
-   Das SCROLLEN treibt ihn, kein Zeitgeber. Bis zum 31.10.2026 stand
-   hier ein JavaScript-Timer, der alle 16 bis 34 Sekunden einen Falter
-   losschickte; die Bewegung hatte mit dem Besucher nichts zu tun und
-   wirkte aufgesetzt. Dieselbe Erkenntnis steht seit jeher im Kopf von
-   ScrollCompanion.tsx, das den Vorgänger genau deshalb abgelöst hat.
+   Sie brauchen keine eigenen Bahnen — sie nutzen die Flugpfade des
+   Hero-Schwarms (bf-path-a / bf-path-c) mit eigener Dauer und Phase.
 
-   `view()` statt `scroll(root block)` wie beim Begleiter: Die Zeitachse
-   hängt an der Durchfahrt DIESES Abschnitts durchs Fenster, nicht an
-   der Gesamthöhe der Seite. Kommt oben oder unten Inhalt dazu, stimmt
-   sie weiterhin.
+   Zeitgetrieben, NICHT scroll-getrieben: Zaurs ausdrücklicher Wunsch,
+   sie sollen auch leben, wenn man stillsteht und liest. (Eine
+   Zwischenfassung hing an `animation-timeline: view()`; das passt zum
+   Begleiter, aber nicht zu dieser Aufgabe.)
 
-   Ohne Unterstützung (Firefox, Safari vor 26) ist schlicht kein Falter
-   da, statt einem, der eingefroren im Bild klebt — dieselbe
-   Entscheidung wie beim Begleiter. */
-.bf-quer {
-  display: none;
-}
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .bf-quer {
-      display: block;
-    }
-  }
-}
-.bf-quer {
+   clip-path, NICHT overflow: hidden — letzteres würde hier zwar
+   funktionieren, aber die Ebene zum Scroll-Container machen, was
+   jeden späteren `view()`-Versuch darin still bricht.
+
+   Bei reduzierter Bewegung ganz ausblenden: Die globale Regel
+   `.bf, .bf * { animation: none }` würde sie sonst als zwei
+   festgeklebte Aufkleber stehen lassen. */
+.bf-glas {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  /* clip-path, NICHT overflow: hidden. Der Abschnitt selbst schneidet
-     nicht zu (.section-edge setzt nur einen Rahmen), zugeschnitten
-     werden muss also hier. Aber `overflow: hidden` macht dieses
-     Element zum Scroll-Container, und dann sucht sich `view()` der
-     Kinder DIESEN als Bezug statt des Fensters — eine Achse, die sich
-     nie bewegt. Der Falter stünde still. `clip-path` schneidet nur
-     beim Zeichnen zu und lässt die Zeitachse in Ruhe. */
   clip-path: inset(0);
 }
-/* Die beiden BAHN-Ebenen sind abschnittsgroß. Dadurch beziehen sich
-   ihre Prozent-Verschiebungen auf die Abschnittsmaße und nicht auf die
-   Faltergröße — die Bahn bleibt bei jeder Bildschirmgröße dieselbe.
-
-   Die NEIGUNG darf das nicht sein. Sie sitzt im Markup innerhalb des
-   kleinen Tier-Elements, weil eine Drehung immer um die Mitte ihres
-   eigenen Kastens geht: Auf einer abschnittsgroßen Ebene (hier 1511 ×
-   1892 px) schleudern schon 20° den Falter um hunderte Pixel quer
-   durchs Bild. Genau so ist die erste Fassung gescheitert. */
-.bf-quer-x,
-.bf-quer-y,
-.bf-quer-neig {
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: both;
-  animation-timeline: view(block);
-}
-.bf-quer-x,
-.bf-quer-y {
-  width: 100%;
-  height: 100%;
-}
-.bf-quer-x    { animation-name: bf-quer-x; }
-.bf-quer-y    { animation-name: bf-quer-y; }
-.bf-quer-neig { animation-name: bf-quer-neig; }
-.bf-quer-tier {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: block;
-}
-
-/* Seitwärts: lockere Diagonale nach rechts, mit Haken dazwischen —
-   ein Falter fliegt keine Gerade. Die Kärtchen liegen zwischen 8 % und
-   92 % der Breite, er zieht also hinter allen drei Spalten durch. */
-@keyframes bf-quer-x {
-  0%   { transform: translateX(-9%); }
-  12%  { transform: translateX(14%); }
-  26%  { transform: translateX(36%); }
-  38%  { transform: translateX(27%); }
-  52%  { transform: translateX(57%); }
-  64%  { transform: translateX(46%); }
-  76%  { transform: translateX(75%); }
-  88%  { transform: translateX(66%); }
-  100% { transform: translateX(106%); }
-}
-/* Höhe: Er MUSS im Mittel mit der Scroll-Geschwindigkeit absinken,
-   sonst wandert er aus dem Fenster. Bei `view()`-Abdeckung verschiebt
-   sich der Abschnitt um (Abschnittshöhe + Fensterhöhe), während diese
-   Zeitachse von 0 auf 100 läuft — wer hier eine zu flache Kurve legt,
-   sieht den Falter nur am Anfang. Deshalb −20 % bis 120 %, mit
-   Abweichung darum herum statt einer geraden Linie. */
-@keyframes bf-quer-y {
-  0%   { transform: translateY(-20%); }
-  14%  { transform: translateY(3%); }
-  28%  { transform: translateY(16%); }
-  42%  { transform: translateY(41%); }
-  56%  { transform: translateY(55%); }
-  70%  { transform: translateY(80%); }
-  84%  { transform: translateY(94%); }
-  100% { transform: translateY(120%); }
-}
-/* Neigung folgt der Richtung: Bei den Haken nach links kippt er mit,
-   sonst schwebt ein Aufkleber durchs Bild. Moderat gehalten (±26°) —
-   die Bilddatei ist eine Draufsicht, bei voller Ausrichtung läge sie
-   quer zur Flugrichtung und die Silhouette zerfiele. */
-@keyframes bf-quer-neig {
-  0%   { transform: rotate(17deg); }
-  12%  { transform: rotate(23deg); }
-  26%  { transform: rotate(13deg); }
-  38%  { transform: rotate(-21deg); }
-  52%  { transform: rotate(25deg); }
-  64%  { transform: rotate(-19deg); }
-  76%  { transform: rotate(22deg); }
-  88%  { transform: rotate(-17deg); }
-  100% { transform: rotate(20deg); }
+@media (prefers-reduced-motion: reduce) {
+  .bf-glas {
+    display: none;
+  }
 }
 
 /* --- Tiefen-Parallax auf Mausbewegung (CSS-Variablen vom Hero) --- */
