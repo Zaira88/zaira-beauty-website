@@ -38,6 +38,7 @@ next-env.d.ts
 HANDOFF.md
 DESIGN-ANALYSE.md
 SEO-PLAN.md
+BUCHUNGSPLATTFORM-ANMELDUNG.md
 
 # Lokale Werkzeug-Konfiguration (Dev-Server-Eintrag fuer die Vorschau)
 .claude/
