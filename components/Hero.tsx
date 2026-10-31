@@ -57,20 +57,69 @@ const fadeUp = {
  * Das ist keine Kür: ein endlos laufendes Video ist genau das, was diese
  * Einstellung abstellen soll.
  */
-const useReducedMotion = () => {
-  const [reduziert, setReduziert] = React.useState(false)
+/**
+ * Gibt `null` zurück, solange der Client nicht gemessen hat — und
+ * solange wird bewusst KEIN <video> gerendert.
+ *
+ * Das ist der Punkt: Stünde das Element schon im Server-HTML, lüde der
+ * Browser sofort die große Fassung und die Telefon-Fassung käme zu
+ * spät. Das Video ist Schmuck, der LCP ist das <Image> darunter — ein
+ * paar hundert Millisekunden später schadet nichts, ein halbes
+ * Megabyte über Mobilfunk schon.
+ */
+const useVideoLage = () => {
+  const [lage, setLage] = React.useState<{
+    reduziert: boolean
+    telefon: boolean
+  } | null>(null)
   React.useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const lies = () => setReduziert(mq.matches)
+    const bewegung = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const telefon = window.matchMedia('(max-width: 639px)')
+    const lies = () =>
+      setLage({ reduziert: bewegung.matches, telefon: telefon.matches })
     lies()
-    mq.addEventListener('change', lies)
-    return () => mq.removeEventListener('change', lies)
+    bewegung.addEventListener('change', lies)
+    telefon.addEventListener('change', lies)
+    return () => {
+      bewegung.removeEventListener('change', lies)
+      telefon.removeEventListener('change', lies)
+    }
   }, [])
-  return reduziert
+  return lage
+}
+
+/**
+ * Hält das Video an, sobald der Hero aus dem Bild gescrollt ist.
+ *
+ * Nachgemessen am 31.10.2026 auf der Live-Seite: Der Browser macht das
+ * NICHT von selbst — der Zeitstempel lief weiter, während der Hero
+ * längst oben aus dem Fenster war. Ein 1760×2200-Video weiter zu
+ * dekodieren, das niemand sieht, kostet auf dem Telefon Akku.
+ *
+ * Spart keine Daten: Die sind beim Laden längst geflossen. Dafür gibt
+ * es die eigene Telefon-Fassung.
+ */
+const useNurImBild = (aktiv: boolean) => {
+  const ref = React.useRef<HTMLVideoElement>(null)
+  React.useEffect(() => {
+    const v = ref.current
+    if (!v || !aktiv) return
+    const beobachter = new IntersectionObserver(
+      ([eintrag]) => {
+        if (eintrag.isIntersecting) v.play().catch(() => {})
+        else v.pause()
+      },
+      { threshold: 0 }
+    )
+    beobachter.observe(v)
+    return () => beobachter.disconnect()
+  }, [aktiv])
+  return ref
 }
 
 const Hero = ({ rating = 5, count = 108 }: { rating?: number; count?: number }) => {
-  const reduzierteBewegung = useReducedMotion()
+  const lage = useVideoLage()
+  const videoRef = useNurImBild(!!lage && !lage.reduziert)
 
   return (
     <section
@@ -81,13 +130,25 @@ const Hero = ({ rating = 5, count = 108 }: { rating?: number; count?: number }) 
           Mobil: eigener Block oben — das Gesicht bleibt komplett frei
           vom Text (Kundinnen-Wunsch). Desktop: rechte Hälfte hinter
           dem Text wie gehabt. */}
+      {/* Höhe auf dem Telefon: 37svh ist KEIN runder Wert, sondern das
+          Maximum für kleine Geräte. Gemessen am 31.10.2026: Der
+          Textblock unter dem Bild ist konstant 414 px hoch, der
+          CTA-Knopf muss darüber hinaus über die Falz passen. Daraus
+          folgt je Gerät eine Obergrenze — iPhone SE (667 px): 38 %,
+          iPhone 13 mini (812): 49 %, iPhone 15 Pro Max (932): 56 %.
+          Die alten 37 % lagen also genau an der SE-Grenze, auf allen
+          neueren Telefonen lagen 98 bis 173 px brach.
+          Deshalb 44svh ab 700 px Fensterhöhe: +57 px Bild auf einem
+          812er, und das SE bleibt unangetastet. Wer das weiter
+          aufdreht, schiebt den CTA unter die Falz — vorher nachrechnen,
+          nicht schätzen. */}
       {/* lg:w-auto ist entscheidend: mit w-full (width:100%) ignoriert CSS
           bei absoluter Positionierung das right:0 — die Box war 100% breit
           und startete bei 38%, ragte also 533px über den rechten Rand.
           Folge: object-cover rechnete auf die zu breite Box (viel zu starker
           Zoom, nur noch der Kopf sichtbar) und der Verlauf lag gestreckt
           über dem Motiv. Mit w-auto definieren left:38% + right:0 die Box. */}
-      <div className="relative z-0 h-[37svh] min-h-[235px] w-full sm:h-[55svh] sm:min-h-[340px] lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0 lg:w-auto">
+      <div className="relative z-0 h-[37svh] min-h-[235px] w-full max-sm:[@media(min-height:700px)]:h-[44svh] sm:h-[55svh] sm:min-h-[340px] lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto lg:min-h-0 lg:w-auto">
         <div className="relative h-full w-full overflow-hidden">
           {/* 2200px aus der 4K-Fassung: die alte 1122px-Quelle wurde auf
               Retina-Desktops 1,6× hochskaliert und war sichtbar weich */}
@@ -102,11 +163,12 @@ const Hero = ({ rating = 5, count = 108 }: { rating?: number; count?: number }) 
             priority
             sizes="(max-width: 1024px) 100vw, 62vw"
             className={`object-cover object-[center_22%] ${
-              reduzierteBewegung ? 'animate-breathe' : ''
+              lage?.reduziert ? 'animate-breathe' : ''
             }`}
           />
-          {!reduzierteBewegung && (
+          {lage && !lage.reduziert && (
             <video
+              ref={videoRef}
               autoPlay
               muted
               loop
@@ -115,8 +177,22 @@ const Hero = ({ rating = 5, count = 108 }: { rating?: number; count?: number }) 
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover object-[center_22%]"
             >
-              <source src="/videos/hero.webm" type="video/webm" />
-              <source src="/videos/hero.mp4" type="video/mp4" />
+              {/* Eigene Fassung fürs Telefon: 1124 statt 1760 px breit,
+                  186 statt 519 KB. Auf 375 px Anzeigebreite ist sie vom
+                  Original nicht zu unterscheiden — am Bild verglichen.
+                  Vorher war das Video mit 520 von 521 KB praktisch die
+                  gesamte Übertragung der Startseite auf dem Telefon. */}
+              {lage.telefon ? (
+                <>
+                  <source src="/videos/hero-mobil.webm" type="video/webm" />
+                  <source src="/videos/hero-mobil.mp4" type="video/mp4" />
+                </>
+              ) : (
+                <>
+                  <source src="/videos/hero.webm" type="video/webm" />
+                  <source src="/videos/hero.mp4" type="video/mp4" />
+                </>
+              )}
             </video>
           )}
         </div>
