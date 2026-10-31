@@ -94,6 +94,14 @@ const Footer = () => {
             </span>
           </p>
           <div className="flex items-center gap-6">
+            {/* Ortsseite: braucht einen internen Link von jeder Seite,
+                sonst findet Google sie nur über die Sitemap. */}
+            <Link
+              href="/kosmetik-wolfratshausen"
+              className="text-xs text-ivory-mute transition-colors hover:text-ivory"
+            >
+              Für Wolfratshausen
+            </Link>
             <Link
               href="/impressum"
               className="text-xs text-ivory-mute transition-colors hover:text-ivory"

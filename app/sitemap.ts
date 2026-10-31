@@ -31,6 +31,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.9,
     })),
+    // Ortsseite Wolfratshausen. Steht hier von Hand und nicht in einer
+    // Liste: es ist vorerst die einzige, und eine Schleife über
+    // erfundene Nachbarorte wäre genau die Doorway-Struktur, die diese
+    // Seite vermeiden soll. Kommt irgendwann eine zweite, bekommt sie
+    // eigenen Inhalt und eine eigene Zeile.
+    {
+      url: `${BASE}/kosmetik-wolfratshausen`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
     // Impressum und Datenschutz stehen bewusst NICHT mehr drin.
     // Beide liefern <meta name="robots" content="noindex">. Eine
     // eingereichte Sitemap mit noindex-Seiten quittiert die Search
