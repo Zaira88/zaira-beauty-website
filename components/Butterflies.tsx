@@ -115,9 +115,32 @@ const basePosition = () => {
   return { left: 30, top: 10 }
 }
 
+/**
+ * Faltergröße an die Bildschirmbreite koppeln.
+ *
+ * Die Größen 34–88 px waren fest verdrahtet und am Desktop bemessen:
+ * dort sind 88 px knapp 6 % der Fensterbreite. Auf einem 390-px-Telefon
+ * sind dieselben 88 px über 20 % — ein Falter so breit wie ein Fünftel
+ * des Bildschirms, der dem Text im Weg steht. Zaur hat es am Gerät
+ * gesehen, am Desktop fällt es nicht auf.
+ *
+ * Untergrenze 0,36 statt rein proportional: Das Heldenbild ist mobil
+ * nur 37 svh hoch, aber die Falter sollen trotzdem als Tiere lesbar
+ * bleiben und nicht zu Staubkörnern werden.
+ */
+const breitenSkala = () => {
+  if (typeof window === 'undefined') return 1
+  return Math.min(1, Math.max(0.36, window.innerWidth / 1400))
+}
+
 const makeButterfly = (): BfInstance => {
-  const size = rand(34, 88)
-  const far = size < 56
+  // far/near MUSS am unskalierten Wert entschieden werden — sonst
+  // fielen auf dem Telefon alle unter die 56-px-Schwelle und der ganze
+  // Schwarm wäre unscharf und blass.
+  const roh = rand(34, 88)
+  const far = roh < 56
+  const skala = breitenSkala()
+  const size = roh * skala
   const { left, top } = basePosition()
   return {
     id: makeId(),
@@ -125,7 +148,9 @@ const makeButterfly = (): BfInstance => {
     left,
     top,
     size: Math.round(size),
-    blur: far ? rand(0.8, 1.9) : size < 72 ? rand(0, 0.5) : 0,
+    // Schwelle am unskalierten Wert, Unschärfe MIT skaliert: 1,9 px auf
+    // einem 14-px-Falter wären anteilig fünfmal so viel wie am Desktop.
+    blur: (far ? rand(0.8, 1.9) : roh < 72 ? rand(0, 0.5) : 0) * skala,
     opacity: far ? rand(0.6, 0.85) : rand(0.9, 1),
     depth: far ? 'far' : 'near',
     path: pick(['a', 'b', 'c'] as const),
