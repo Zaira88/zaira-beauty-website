@@ -42,3 +42,6 @@ BUCHUNGSPLATTFORM-ANMELDUNG.md
 
 # Lokale Werkzeug-Konfiguration (Dev-Server-Eintrag fuer die Vorschau)
 .claude/
+
+# Lokales Werkzeug fuer die Hero-Animation (Ausgabe + Skript, kein Schluessel darin)
+skripte/
