@@ -452,172 +452,123 @@ a {
   100% { transform: translate3d(0, 0, 0) rotate(4deg); }
 }
 
-/* --- Seitenansicht (nur Querflieger) -------------------------------
-   Der Querflieger zieht IMMER waagerecht durchs Bild. Genau dort ist
-   die Draufsicht falsch: Man sähe einen Falter, der quer zu seiner
-   Flugrichtung liegt. Hier gibt es deshalb eine echte Profilansicht.
+/* --- Querflieger (components/CrossingButterfly.tsx) ----------------
+   Wandert durch den Anliegen-Abschnitt, HINTER den Kärtchen. Dass die
+   Kärtchen dabei als mattes Glas seine Farbe annehmen, ist der ganze
+   Zweck — deshalb muss er das erste Kind des Abschnitts bleiben.
 
-   Sie braucht keine neue Bilddatei. Ein Falter von der Seite ist im
-   Kern EIN Flügelpaar, aufgestellt, mit dem Körper darunter — und ein
-   Flügelpaar steckt bereits in der vorhandenen Draufsicht: die linke
-   Hälfte (background-size: 192.4%, position: left). Aufgerichtet und
-   am unteren Rand angelenkt liest sie sich sofort als Profil, auch
-   bei 48 px.
+   Das SCROLLEN treibt ihn, kein Zeitgeber. Bis zum 31.10.2026 stand
+   hier ein JavaScript-Timer, der alle 16 bis 34 Sekunden einen Falter
+   losschickte; die Bewegung hatte mit dem Besucher nichts zu tun und
+   wirkte aufgesetzt. Dieselbe Erkenntnis steht seit jeher im Kopf von
+   ScrollCompanion.tsx, das den Vorgänger genau deshalb abgelöst hat.
 
-   Drehpunkt bewusst UNTEN MITTIG, nicht an der Flügelnaht. Geometrisch
-   wäre die Naht richtig, am Bild getestet sieht sie aus wie ein
-   liegender Flügel. Lesbarkeit schlägt Geometrie — dieselbe Lektion
-   wie bei den Flugpfaden weiter oben.
+   `view()` statt `scroll(root block)` wie beim Begleiter: Die Zeitachse
+   hängt an der Durchfahrt DIESES Abschnitts durchs Fenster, nicht an
+   der Gesamthöhe der Seite. Kommt oben oder unten Inhalt dazu, stimmt
+   sie weiterhin.
 
-   Der Fernflügel ist eine zweite, dunklere und leicht nachlaufende
-   Kopie: ohne ihn wirkt der Falter wie aus Papier. Der Körper ist
-   bewusst gezeichnet und nicht aus der Bilddatei geschnitten — dort
-   stehen die Fühler nach oben, im Profil müssten sie nach vorn. */
-.bf-seite {
-  position: relative;
-  width: 100%;
-  height: 100%;
+   Ohne Unterstützung (Firefox, Safari vor 26) ist schlicht kein Falter
+   da, statt einem, der eingefroren im Bild klebt — dieselbe
+   Entscheidung wie beim Begleiter. */
+.bf-quer {
+  display: none;
 }
-.bf-seite-fluegel,
-.bf-seite-fern {
-  position: absolute;
-  left: 50%;
-  bottom: 16%;
-  width: 52%;
-  height: 82%;
-  transform-origin: 50% 100%;
-  background-image: var(--bf-img, url('/images/butterfly-blue.webp'));
-  background-repeat: no-repeat;
-  background-size: 192.4% 100%;
-  background-position: left center;
-  animation-duration: var(--flap, 2.6s);
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bf-quer {
+      display: block;
+    }
+  }
 }
-.bf-seite-fluegel { animation-name: bf-seite-nah; }
-.bf-seite-fern {
-  animation-name: bf-seite-fern;
-  filter: brightness(0.52) saturate(0.8);
-}
-/* Leib: vorne (Kopf, rechts) dichter, hinten auslaufend.
-   Bewusst neutral dunkel und NICHT in der Flügelfarbe: Der erste
-   Versuch war weinrot und passte zum rosa Falter, sah unter dem
-   blauen aber aus wie ein fremdes Teil. Echte Schmetterlingsleiber
-   sind dunkelbraun bis schwarz, egal wie bunt die Flügel sind. */
-.bf-seite-koerper {
-  position: absolute;
-  left: 48%;
-  bottom: 13%;
-  width: 22%;
-  height: 3.6%;
-  min-height: 2px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent 0%, #1b1a20 30%, #2c2a33 76%, #17161b 100%);
-  transform: translateX(-50%) rotate(-6deg);
-  opacity: 0.85;
-}
-
-/* Drei Schläge, dann Gleiten — derselbe Rhythmus wie beim Schwarm
-   (bf-flap-l/r, bf-bob), aber als VERKÜRZUNG, nicht als Schwenk.
-
-   Der erste Versuch am 31.10.2026 ließ den Flügel um den Körperpunkt
-   pendeln (0° bis 68°). Zaurs Urteil: „querfliegende schmetterling ist
-   fehlerhaft" — und zwar zu Recht, denn das ist geometrisch falsch.
-   Der Flügel dreht um die LÄNGSACHSE des Körpers. Im Profil heißt das:
-   die Flügelspitze läuft senkrecht auf und ab und der Flügel wirkt
-   dabei kürzer, er schwenkt NICHT zur Seite über den Körper. Beim
-   Pendeln kippte der Falter mitten im Schlag um, als wäre er
-   umgefallen.
-
-   Ganz exakt wäre scaleY bis fast 0: ein Flügel genau waagerecht ist
-   von der Seite ein Strich. Am Bild geprüft flackert das bei 50–90 px
-   wie ein Darstellungsfehler. Deshalb nur bis 0,56 verkürzen, dazu
-   eine kleine Drehung — in jeder Phase ein erkennbarer Schmetterling.
-   Wieder Lesbarkeit vor Physik, wie bei den Flugpfaden weiter oben. */
-@keyframes bf-seite-nah {
-  0%   { transform: translateX(-50%) rotate(0deg)  scaleY(1); }
-  7%   { transform: translateX(-50%) rotate(30deg) scaleY(0.56); }
-  14%  { transform: translateX(-50%) rotate(2deg)  scaleY(0.96); }
-  21%  { transform: translateX(-50%) rotate(28deg) scaleY(0.58); }
-  28%  { transform: translateX(-50%) rotate(4deg)  scaleY(0.94); }
-  35%  { transform: translateX(-50%) rotate(26deg) scaleY(0.6); }
-  42%  { transform: translateX(-50%) rotate(12deg) scaleY(0.86); }
-  58%  { transform: translateX(-50%) rotate(16deg) scaleY(0.8); }
-  74%  { transform: translateX(-50%) rotate(8deg)  scaleY(0.9); }
-  88%  { transform: translateX(-50%) rotate(12deg) scaleY(0.85); }
-  100% { transform: translateX(-50%) rotate(0deg)  scaleY(1); }
-}
-/* Gleicher Takt, nur ein paar Grad versetzt und etwas kleiner.
-   KEIN Nachlauf: Der erste Versuch ließ den Fernflügel 2 % hinterher
-   kommen, dadurch klappte der Falter mitten im Schlag zu einem V auf
-   und sah kaputt aus. In echter Seitenansicht heben und senken sich
-   beide Flügel gemeinsam — der ferne verschwindet fast hinter dem
-   nahen, das ist genau richtig so. */
-@keyframes bf-seite-fern {
-  0%   { transform: translateX(-50%) rotate(5deg)  scaleY(1)    scale(0.94); }
-  7%   { transform: translateX(-50%) rotate(35deg) scaleY(0.56) scale(0.94); }
-  14%  { transform: translateX(-50%) rotate(7deg)  scaleY(0.96) scale(0.94); }
-  21%  { transform: translateX(-50%) rotate(33deg) scaleY(0.58) scale(0.94); }
-  28%  { transform: translateX(-50%) rotate(9deg)  scaleY(0.94) scale(0.94); }
-  35%  { transform: translateX(-50%) rotate(31deg) scaleY(0.6)  scale(0.94); }
-  42%  { transform: translateX(-50%) rotate(17deg) scaleY(0.86) scale(0.94); }
-  58%  { transform: translateX(-50%) rotate(21deg) scaleY(0.8)  scale(0.94); }
-  74%  { transform: translateX(-50%) rotate(13deg) scaleY(0.9)  scale(0.94); }
-  88%  { transform: translateX(-50%) rotate(17deg) scaleY(0.85) scale(0.94); }
-  100% { transform: translateX(-50%) rotate(5deg)  scaleY(1)    scale(0.94); }
-}
-
-/* --- Querflieger (components/CrossingButterfly.tsx) ---
-   Zieht gelegentlich hinter den Kärtchen durchs Bild. Drei Ebenen,
-   damit es nicht wie ein Schlitten auf einer Schiene aussieht:
-   waagerechte Strecke, langsame Höhenwelle, Neigung. Darunter hängen
-   die Schwarm-Ebenen für Zickzack und Schub (jig, bob) und darin die
-   Seitenansicht.
-   Die Strecke läuft bewusst von -16vw bis 116vw: so taucht er außerhalb
-   des Bildes auf und verschwindet dort wieder, statt am Rand zu
-   erscheinen. */
 .bf-quer {
   position: absolute;
-  left: 0;
+  inset: 0;
   pointer-events: none;
-  will-change: transform;
-  animation-name: bf-quer-flug;
-  /* Kein animation-timing-function hier: Die Keyframes setzen es pro
-     Abschnitt selbst, ein linear an dieser Stelle wäre irreführend. */
-  animation-fill-mode: both;
-  animation-iteration-count: 1;
+  /* clip-path, NICHT overflow: hidden. Der Abschnitt selbst schneidet
+     nicht zu (.section-edge setzt nur einen Rahmen), zugeschnitten
+     werden muss also hier. Aber `overflow: hidden` macht dieses
+     Element zum Scroll-Container, und dann sucht sich `view()` der
+     Kinder DIESEN als Bezug statt des Fensters — eine Achse, die sich
+     nie bewegt. Der Falter stünde still. `clip-path` schneidet nur
+     beim Zeichnen zu und lässt die Zeitachse in Ruhe. */
+  clip-path: inset(0);
 }
-/* Bummeln und ziehen statt gleichmäßig rollen. Vorher war das ein
-   schlichtes from/to mit linear — nachgemessen ein Tempo-Verhältnis
-   von exakt 1,0, also konstante Geschwindigkeit auf gerader Linie.
-   Genau der „Schlitten auf der Schiene". Die Abschnitte liegen jetzt
-   zwischen 0,65× und 1,2× des Durchschnitts, mit milder Kurve innen:
-   stärker wäre es wieder ein Sprint. */
-@keyframes bf-quer-flug {
-  0%   { transform: translate3d(-16vw, 0, 0); animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  16%  { transform: translate3d(4vw, 0, 0);   animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  26%  { transform: translate3d(13vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  44%  { transform: translate3d(39vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  54%  { transform: translate3d(47vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  72%  { transform: translate3d(72vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  82%  { transform: translate3d(81vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
-  100% { transform: translate3d(108vw, 0, 0); }
-}
-.bf-quer-hoehe {
-  width: 100%;
-  height: 100%;
-  animation-name: bf-quer-hoehe;
+/* Die beiden BAHN-Ebenen sind abschnittsgroß. Dadurch beziehen sich
+   ihre Prozent-Verschiebungen auf die Abschnittsmaße und nicht auf die
+   Faltergröße — die Bahn bleibt bei jeder Bildschirmgröße dieselbe.
+
+   Die NEIGUNG darf das nicht sein. Sie sitzt im Markup innerhalb des
+   kleinen Tier-Elements, weil eine Drehung immer um die Mitte ihres
+   eigenen Kastens geht: Auf einer abschnittsgroßen Ebene (hier 1511 ×
+   1892 px) schleudern schon 20° den Falter um hunderte Pixel quer
+   durchs Bild. Genau so ist die erste Fassung gescheitert. */
+.bf-quer-x,
+.bf-quer-y,
+.bf-quer-neig {
   animation-timing-function: ease-in-out;
-  animation-direction: alternate;
-  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timeline: view(block);
 }
-@keyframes bf-quer-hoehe {
-  from { transform: translateY(-3.5vh); }
-  to   { transform: translateY(3.5vh); }
-}
-.bf-quer-neigung {
+.bf-quer-x,
+.bf-quer-y {
   width: 100%;
   height: 100%;
+}
+.bf-quer-x    { animation-name: bf-quer-x; }
+.bf-quer-y    { animation-name: bf-quer-y; }
+.bf-quer-neig { animation-name: bf-quer-neig; }
+.bf-quer-tier {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+}
+
+/* Seitwärts: lockere Diagonale nach rechts, mit Haken dazwischen —
+   ein Falter fliegt keine Gerade. Die Kärtchen liegen zwischen 8 % und
+   92 % der Breite, er zieht also hinter allen drei Spalten durch. */
+@keyframes bf-quer-x {
+  0%   { transform: translateX(-9%); }
+  12%  { transform: translateX(14%); }
+  26%  { transform: translateX(36%); }
+  38%  { transform: translateX(27%); }
+  52%  { transform: translateX(57%); }
+  64%  { transform: translateX(46%); }
+  76%  { transform: translateX(75%); }
+  88%  { transform: translateX(66%); }
+  100% { transform: translateX(106%); }
+}
+/* Höhe: Er MUSS im Mittel mit der Scroll-Geschwindigkeit absinken,
+   sonst wandert er aus dem Fenster. Bei `view()`-Abdeckung verschiebt
+   sich der Abschnitt um (Abschnittshöhe + Fensterhöhe), während diese
+   Zeitachse von 0 auf 100 läuft — wer hier eine zu flache Kurve legt,
+   sieht den Falter nur am Anfang. Deshalb −20 % bis 120 %, mit
+   Abweichung darum herum statt einer geraden Linie. */
+@keyframes bf-quer-y {
+  0%   { transform: translateY(-20%); }
+  14%  { transform: translateY(3%); }
+  28%  { transform: translateY(16%); }
+  42%  { transform: translateY(41%); }
+  56%  { transform: translateY(55%); }
+  70%  { transform: translateY(80%); }
+  84%  { transform: translateY(94%); }
+  100% { transform: translateY(120%); }
+}
+/* Neigung folgt der Richtung: Bei den Haken nach links kippt er mit,
+   sonst schwebt ein Aufkleber durchs Bild. Moderat gehalten (±26°) —
+   die Bilddatei ist eine Draufsicht, bei voller Ausrichtung läge sie
+   quer zur Flugrichtung und die Silhouette zerfiele. */
+@keyframes bf-quer-neig {
+  0%   { transform: rotate(17deg); }
+  12%  { transform: rotate(23deg); }
+  26%  { transform: rotate(13deg); }
+  38%  { transform: rotate(-21deg); }
+  52%  { transform: rotate(25deg); }
+  64%  { transform: rotate(-19deg); }
+  76%  { transform: rotate(22deg); }
+  88%  { transform: rotate(-17deg); }
+  100% { transform: rotate(20deg); }
 }
 
 /* --- Tiefen-Parallax auf Mausbewegung (CSS-Variablen vom Hero) --- */
