@@ -32,6 +32,8 @@ interface Flug {
   dauer: number
   nachLinks: boolean
   neigung: number
+  /** Rollung um die Längsachse in Grad */
+  roll: number
   flap: number
   wob: number
   jig: { variant: 'a' | 'b' | 'c'; dur: number }
@@ -50,7 +52,11 @@ const machFlug = (): Flug => {
     // liest sich als Pfeil, nicht als Tier.
     dauer: rand(9, 17),
     nachLinks: Math.random() < 0.5,
-    neigung: rand(-14, 14),
+    // Steigen/Sinken, nicht mehr Schräglage: Seit der Körper in
+    // Flugrichtung zeigt, kippt diese Drehung die Nase hoch oder
+    // runter statt den ganzen Falter zu verdrehen.
+    neigung: rand(-12, 12),
+    roll: rand(28, 46) * (Math.random() < 0.5 ? 1 : -1),
     flap: rand(1.9, 3.1),
     wob: rand(3.4, 5.6),
     jig: { variant: pick(['a', 'b', 'c'] as const), dur: rand(6.5, 11) },
@@ -137,15 +143,24 @@ const Querflug = ({ f, onDone }: { f: Flug; onDone: (id: string) => void }) => {
         } as React.CSSProperties
       }
     >
-      {/* Neigung auf einer eigenen Ebene: Käme sie auf .bf-inner, würde
-          sie dessen Roll-Animation (bf-wobble) überschreiben. */}
+      {/* Ausrichtung auf einer eigenen Ebene: Käme sie auf .bf-inner,
+          würde sie dessen Wobble-Animation überschreiben.
+          ±90° richten den Körper in die Flugrichtung aus — davor zeigte
+          er immer nach oben, während er waagerecht zog. Er lief also
+          seitwärts wie eine Krabbe, und genau das las sich als
+          Aufkleber. Die Bilddatei ist eine Draufsicht, ihr Kopf zeigt
+          im Bild nach oben; rotate(90deg) dreht im Uhrzeigersinn,
+          schickt den Kopf also nach rechts. */}
       <div
         className="bf-quer-hoehe"
         style={{
           animationDuration: `${(f.dauer / 3).toFixed(1)}s`,
         }}
       >
-        <div className="bf-quer-neigung" style={{ rotate: `${f.neigung}deg` }}>
+        <div
+          className="bf-quer-neigung"
+          style={{ rotate: `${(f.nachLinks ? -90 : 90) + f.neigung}deg` }}
+        >
           <div
             className="bf-jig"
             style={{
@@ -154,10 +169,15 @@ const Querflug = ({ f, onDone }: { f: Flug; onDone: (id: string) => void }) => {
             }}
           >
             <div className="bf-bob">
-              <div className="bf-inner">
-                <div className="bf-wing bf-wing-l" />
-                <div className="bf-wing bf-wing-r" />
-                <div className="bf-body" />
+              <div
+                className="bf-roll"
+                style={{ '--roll': `${f.roll}deg` } as React.CSSProperties}
+              >
+                <div className="bf-inner">
+                  <div className="bf-wing bf-wing-l" />
+                  <div className="bf-wing bf-wing-r" />
+                  <div className="bf-body" />
+                </div>
               </div>
             </div>
           </div>
