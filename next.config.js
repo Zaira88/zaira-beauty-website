@@ -17,8 +17,21 @@ const nextConfig = {
   // Relaunch gelöscht und liefern seitdem 404, die Google Search Console
   // meldet sie weiterhin. Statt das verbliebene Ranking-Signal zu verlieren,
   // zeigt jede alte Adresse dauerhaft (308) auf die passende neue Seite oder,
-  // wenn es keine gibt, auf die Startseite. Pfade bewusst OHNE abschließenden
-  // Schrägstrich: trailingSlash ist nicht gesetzt, Next.js normalisiert selbst.
+  // wenn es keine gibt, auf die Startseite.
+  //
+  // Pfade ohne abschließenden Schrägstrich. Google meldet diese Adressen zwar
+  // durchgängig MIT Schrägstrich, und dann sind es zwei Sprünge statt einem:
+  // Next.js normalisiert den Schrägstrich in einem eigenen 308, der vor den
+  // Regeln hier läuft.
+  //
+  // Am 31.10.2026 wurde versucht, das mit `{/}?` im source auf einen Sprung zu
+  // bringen. Der Build nimmt die Syntax an, gemessen ändert sie nichts — die
+  // Normalisierung kommt zuerst. Auf einen Sprung käme man nur über
+  // `skipTrailingSlashRedirect: true` plus eine eigene Catch-all-Regel, die
+  // die Normalisierung nachbaut. Bewusst NICHT gemacht: das ist ein Eingriff
+  // ins globale Routing aller Seiten, und eine Kette aus zwei dauerhaften
+  // Weiterleitungen überträgt das Ranking-Signal vollständig. Der Aufwand
+  // stünde in keinem Verhältnis. Wer es erneut versucht: erst messen.
   async redirects() {
     return [
       { source: '/home', destination: '/', permanent: true },
@@ -50,6 +63,15 @@ const nextConfig = {
       {
         source: '/wie-behandelt-man-sproede-lippen',
         destination: '/',
+        permanent: true,
+      },
+      // BB Glow stand in der alten, handgepflegten sitemap.xml und wurde
+      // Google damit aktiv gemeldet. Aus der Sitemap ist die Adresse raus,
+      // eine Regel gab es aber nie — sie lieferte weiter 404. BB Glow ist
+      // eine Gesichtsbehandlung, deshalb dorthin und nicht auf die Startseite.
+      {
+        source: '/bb-glow',
+        destination: '/gesichtsbehandlung',
         permanent: true,
       },
       // Alte Blog-Schlagwort-Archive, beliebig viele Segmente
