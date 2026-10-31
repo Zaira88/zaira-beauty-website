@@ -27,30 +27,75 @@ export interface OpeningDay {
   /** schema.org braucht die englischen Wochentagsnamen */
   schemaDay: string
   label: string
+  /** Kürzel für den Einzeiler in der Kontakt-Kachel */
+  kurz: string
   opens?: string
   closes?: string
 }
 
+/**
+ * Die EINZIGE Quelle für Öffnungszeiten. Footer, Kontakt-Kachel, die FAQ auf
+ * den Detailseiten und das JSON-LD im Markup leiten alle hieraus ab.
+ *
+ * Das war nicht immer so: vor Juli standen im Footer und im Markup zwei
+ * verschiedene Zeiten, und bis zum 31.10.2026 pflegten `openingHoursGrouped`
+ * und `openingHoursShort` noch eigene, handgeschriebene Kopien. Wer unten
+ * etwas ändert, muss deshalb nichts weiter suchen.
+ */
 export const OPENING_HOURS: OpeningDay[] = [
-  { schemaDay: 'Monday', label: 'Montag', opens: '10:00', closes: '15:00' },
-  { schemaDay: 'Tuesday', label: 'Dienstag', opens: '09:00', closes: '15:00' },
-  { schemaDay: 'Wednesday', label: 'Mittwoch', opens: '09:00', closes: '15:00' },
-  { schemaDay: 'Thursday', label: 'Donnerstag', opens: '09:00', closes: '15:00' },
-  { schemaDay: 'Friday', label: 'Freitag', opens: '09:00', closes: '15:00' },
-  { schemaDay: 'Saturday', label: 'Samstag', opens: '09:00', closes: '18:00' },
-  { schemaDay: 'Sunday', label: 'Sonntag' },
+  { schemaDay: 'Monday', label: 'Montag', kurz: 'Mo', opens: '10:00', closes: '15:00' },
+  { schemaDay: 'Tuesday', label: 'Dienstag', kurz: 'Di', opens: '09:00', closes: '15:00' },
+  { schemaDay: 'Wednesday', label: 'Mittwoch', kurz: 'Mi', opens: '09:00', closes: '15:00' },
+  // Langer Tag: deckt das Feierabend-Fenster ab, in dem die meisten Termine
+  // gesucht werden. Google zeigt bei lokalen Suchen „Geöffnet"/„Geschlossen"
+  // direkt am Eintrag, und in Maps gibt es den Filter „Jetzt geöffnet".
+  { schemaDay: 'Thursday', label: 'Donnerstag', kurz: 'Do', opens: '09:00', closes: '19:00' },
+  { schemaDay: 'Friday', label: 'Freitag', kurz: 'Fr', opens: '09:00', closes: '15:00' },
+  { schemaDay: 'Saturday', label: 'Samstag', kurz: 'Sa', opens: '09:00', closes: '18:00' },
+  { schemaDay: 'Sunday', label: 'Sonntag', kurz: 'So' },
 ]
+
+/**
+ * Aufeinanderfolgende Tage mit identischen Zeiten zu einem Block bündeln.
+ * Nur echte Nachbartage: aus Dienstag und Donnerstag darf nie
+ * „Dienstag bis Donnerstag" werden, wenn der Mittwoch dazwischen abweicht.
+ */
+const zeitbloecke = (): { tage: OpeningDay[]; opens?: string; closes?: string }[] => {
+  const bloecke: { tage: OpeningDay[]; opens?: string; closes?: string }[] = []
+  for (const tag of OPENING_HOURS) {
+    const letzter = bloecke[bloecke.length - 1]
+    if (letzter && letzter.opens === tag.opens && letzter.closes === tag.closes) {
+      letzter.tage.push(tag)
+    } else {
+      bloecke.push({ tage: [tag], opens: tag.opens, closes: tag.closes })
+    }
+  }
+  return bloecke
+}
+
+const spanne = (tage: OpeningDay[], feld: 'label' | 'kurz', trenner: string): string =>
+  tage.length === 1
+    ? tage[0][feld]
+    : `${tage[0][feld]}${trenner}${tage[tage.length - 1][feld]}`
 
 /** Zusammengefasste Anzeige für den Footer (gleiche Zeiten gebündelt). */
-export const openingHoursGrouped: { label: string; time: string; closed?: boolean }[] = [
-  { label: 'Montag', time: '10:00 – 15:00 Uhr' },
-  { label: 'Dienstag – Freitag', time: '09:00 – 15:00 Uhr' },
-  { label: 'Samstag', time: '09:00 – 18:00 Uhr' },
-  { label: 'Sonntag', time: 'Geschlossen', closed: true },
-]
+export const openingHoursGrouped: { label: string; time: string; closed?: boolean }[] =
+  zeitbloecke().map((block) => ({
+    label: spanne(block.tage, 'label', ' – '),
+    ...(block.opens && block.closes
+      ? { time: `${block.opens} – ${block.closes} Uhr` }
+      : { time: 'Geschlossen', closed: true }),
+  }))
 
-/** Einzeiler für die Kontakt-Kachel. */
-export const openingHoursShort = 'Mo 10–15 · Di–Fr 09–15 · Sa 09–18 Uhr'
+/** Einzeiler für die Kontakt-Kachel. Geschlossene Tage bleiben weg. */
+export const openingHoursShort =
+  zeitbloecke()
+    .filter((block) => block.opens && block.closes)
+    .map(
+      (block) =>
+        `${spanne(block.tage, 'kurz', '–')} ${block.opens!.slice(0, 2)}–${block.closes!.slice(0, 2)}`
+    )
+    .join(' · ') + ' Uhr'
 
 /** WhatsApp-Deeplink, optional mit vorbefülltem Text. */
 export const waHref = (message?: string) =>
