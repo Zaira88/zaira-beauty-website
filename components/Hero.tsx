@@ -32,15 +32,26 @@ const fadeUp = {
  *
  * `public/videos/hero.*` ist kein Filmchen, sondern dasselbe Foto in
  * Bewegung: Seedance 2.5 aus `zaira.jpg`, mit dem ausdrücklichen Auftrag,
- * dass SIE sich nicht rührt. Sie steht still, das Licht atmet leicht, und
- * im Hintergrund driften einzelne Falter. Vorwärts und rückwärts gependelt,
- * deshalb schließt die Schleife ohne Überblendung (erstes gegen letztes
- * Bild: 0,97 — ein Viertel eines normalen Bildwechsels).
+ * dass SIE sich nicht rührt. Übrig bleibt wanderndes Licht — oben wird es
+ * über die halbe Schleife bis zu doppelt so hell, unten dunkler. Vorwärts
+ * und rückwärts gependelt, deshalb schließt die Schleife ohne Überblendung.
  *
- * Der Weg dahin steht in `skripte/out/`: Vier Läufe waren nötig, weil
- * „sie soll sich nicht bewegen" und „man soll sehen, dass es lebt" sich
- * widersprechen. Wer das Video neu baut, misst vorher Video gegen Original
- * (`blend=all_mode=difference`) — die KI dichtet Dinge dazu.
+ * WICHTIGSTE REGEL für dieses Video: Beim Pendeln darf NICHTS im Bild eine
+ * Richtung haben. Eine Rampe rückwärts ist wieder eine Rampe, das sieht
+ * niemand. Eine gerichtete Bewegung rückwärts sieht jeder. Seedance hatte
+ * zwei driftende Falter ins Bild gesetzt; die flogen in der zweiten
+ * Schleifenhälfte sichtbar rückwärts und haben das Video als Video
+ * verraten. Am 31.10.2026 entfernt (Maske aus der Bewegungskarte, darin
+ * der zeitliche Median — bewegte Objekte verschwinden daraus, langsame
+ * Helligkeitsverläufe überleben). Die Falterbewegung im Hero kommt seither
+ * ausschließlich aus `Butterflies.tsx`, und die schleift korrekt.
+ *
+ * Der Weg dahin steht in `skripte/out/`. Wer das Video neu baut, misst
+ * vorher zweierlei, denn eine Messung allein führt in die Irre:
+ * Bild gegen NACHBARBILD findet gerichtete Bewegung (Falter), Bild gegen
+ * Schleifenmitte findet die langsamen Verläufe (Licht). Die Lichtrampe
+ * ist zwischen zwei Bildern unsichtbar, die Falter über die halbe
+ * Schleife kaum vom Licht zu trennen.
  *
  * Bei `prefers-reduced-motion` läuft kein Video, dort bleibt das Standbild.
  * Das ist keine Kür: ein endlos laufendes Video ist genau das, was diese
