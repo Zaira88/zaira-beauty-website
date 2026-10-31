@@ -17,8 +17,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
  *   – bei langsamer Verbindung wird die kleine Bildvariante genutzt
  *
  * Transform-Ebenen: .bf-spawn (Ein-/Ausflug, CSS-Transition)
- *   → .bf (Flugpfad) → .bf-bob (Höhe) → .bf-inner (Wobble/3D)
- *   → Flügelhälften (rotateY-Faltung) + stabiler Körper.
+ *   → .bf (Flugpfad, Kopf zeigt nach vorne) → .bf-jig (Zickzack)
+ *   → .bf-bob (Höhe pro Flügelschlag) → .bf-roll (Rollung um die
+ *   Längsachse) → .bf-inner (Nicken/Gieren) → Flügelhälften
+ *   (rotateY-Faltung) + stabiler Körper.
  */
 
 const MIN_COUNT = 2
@@ -40,6 +42,8 @@ interface BfInstance {
   pathDur: number
   pathDelay: number
   reverse: boolean
+  /** Rollung um die Längsachse in Grad (Vorzeichen = von welcher Seite) */
+  roll: number
   flap: number
   /** Mittlere Zickzack-Ebene: Variante + eigene Dauer/Phase */
   jig: { variant: 'a' | 'b' | 'c'; dur: number; delay: number }
@@ -114,6 +118,10 @@ const makeButterfly = (): BfInstance => {
     pathDur: rand(22, 46),
     pathDelay: -rand(0, 30),
     reverse: Math.random() < 0.5,
+    // Nicht alle gleich stark gekippt, sonst sieht der Schwarm
+    // gestanzt aus. Vorzeichen entscheidet, von welcher Seite man
+    // ihn sieht — beides ist richtig, das gibt Abwechslung.
+    roll: rand(26, 46) * (Math.random() < 0.5 ? 1 : -1),
     flap: rand(1.6, 2.8),
     jig: {
       variant: pick(['a', 'b', 'c'] as const),
@@ -282,10 +290,25 @@ const Bf = ({
           }}
         >
           <div className="bf-bob">
-            <div className="bf-inner">
-              <div className="bf-wing bf-wing-l" />
-              <div className="bf-wing bf-wing-r" />
-              <div className="bf-body" />
+            {/* Rollung um die Längsachse: kippt die Draufsicht so weit
+                aus der Bildebene, dass der Falter von der Seite und
+                ein paar Grad von oben gesehen aussieht. --dir dreht
+                rückwärts abgespielte Pfade um, sonst flögen sie
+                verkehrt herum (siehe .bf-roll in globals.css). */}
+            <div
+              className="bf-roll"
+              style={
+                {
+                  '--roll': `${b.roll}deg`,
+                  '--dir': b.reverse ? '180deg' : '0deg',
+                } as React.CSSProperties
+              }
+            >
+              <div className="bf-inner">
+                <div className="bf-wing bf-wing-l" />
+                <div className="bf-wing bf-wing-r" />
+                <div className="bf-body" />
+              </div>
             </div>
           </div>
         </div>
