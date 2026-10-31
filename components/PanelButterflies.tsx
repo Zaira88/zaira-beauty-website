@@ -29,6 +29,23 @@ import React from 'react'
  * ist blau wie die Falter im Heldenbild, damit die beiden nicht wie
  * Zwillinge wirken.
  *
+ * Deutlich verschieden groß (Zaurs Wunsch), und zwar als TIEFE, nicht
+ * als Zufall: Der obere ist klein, leicht unscharf und blasser, der
+ * untere gut doppelt so groß und scharf. Dazu schlägt der kleine
+ * schneller — so wie ein kleiner Falter es tut. Dasselbe Prinzip wie
+ * im Hero-Schwarm, wo `far = size < 56` über Unschärfe und Deckkraft
+ * entscheidet. Nur Größe allein läse sich als Unstimmigkeit.
+ *
+ * WICHTIG für die Größen: Die Glas-Tönung fällt QUADRATISCH mit der
+ * Faltergröße. Das Kärtchen streut seinen Hintergrund um 26 px; ein
+ * 35-px-Falter verteilt sich dadurch auf rund 90 px und verliert etwa
+ * 85 % seiner Spitzenfarbe — am Bild geprüft war von ihm hinter dem
+ * Kärtchen schlicht nichts mehr zu sehen. Unter etwa 50 px trägt ein
+ * Falter zum Glas also nichts mehr bei.
+ *
+ * Deshalb liegt der Größenunterschied bei 56 zu 92 px und nicht bei
+ * 35 zu 76: derselbe Eindruck von Nähe und Ferne, aber beide tönen.
+ *
  * Die Höhen sind GEMESSEN, nicht geschätzt: Das Kärtchen-Raster läuft
  * von 34 % bis 94 % der Abschnittshöhe. Ein erster Entwurf setzte den
  * oberen auf 17 % — der schwebte über dem Raster und kam nie hinter
@@ -54,39 +71,47 @@ interface Falter {
   hop: string
   jig: string
   art: 'pink' | 'blue'
+  /** Tiefe: der ferne Falter ist leicht unscharf und blasser */
+  unschaerfe?: string
+  deckkraft?: number
 }
 
 const FALTER: Falter[] = [
   {
+    // Der ferne: klein, leicht unscharf, blasser — und er schlaegt
+    // schneller, so wie ein kleiner Falter es tut.
     links: '31%',
     oben: '44%',
-    masse: 'h-[34px] w-[42px] sm:h-[42px] sm:w-[51px]',
+    masse: 'h-[38px] w-[46px] sm:h-[46px] sm:w-[56px]',
     pfad: 'a',
     dauer: '52s',
     phase: '-13s',
     zickzack: 'a',
     zickzackDauer: '11.5s',
     zickzackPhase: '-4s',
-    flap: '2.6s',
+    flap: '2.2s',
     wob: '4.4s',
     hop: '5px',
     jig: '6px',
     art: 'blue',
+    unschaerfe: '0.6px',
+    deckkraft: 0.88,
   },
   {
+    // Der nahe: gut doppelt so gross, scharf, langsamerer Schlag.
     links: '62%',
     oben: '76%',
-    masse: 'h-[40px] w-[49px] sm:h-[48px] sm:w-[59px]',
+    masse: 'h-[62px] w-[75px] sm:h-[76px] sm:w-[92px]',
     pfad: 'c',
     dauer: '67s',
     phase: '-38s',
     zickzack: 'b',
     zickzackDauer: '13.5s',
     zickzackPhase: '-9s',
-    flap: '3.0s',
+    flap: '3.2s',
     wob: '5.2s',
-    hop: '7px',
-    jig: '8px',
+    hop: '9px',
+    jig: '11px',
     art: 'pink',
   },
 ]
@@ -101,6 +126,8 @@ const PanelButterflies = () => (
           {
             left: f.links,
             top: f.oben,
+            opacity: f.deckkraft,
+            filter: f.unschaerfe ? `blur(${f.unschaerfe})` : undefined,
             animationName: `bf-path-${f.pfad}`,
             animationDuration: f.dauer,
             animationDelay: f.phase,
