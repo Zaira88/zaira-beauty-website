@@ -10,11 +10,19 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
  *   Flatterpfad) → wegfliegen (zu zufälligem Rand) → entfernt.
  *
  * Schwarm-Regeln:
- *   – mindestens MIN_COUNT sind immer sichtbar (sofortiger Nachschub)
- *   – Spawner würfelt regelmäßig, ob ein weiterer dazukommt
- *   – Obergrenze richtet sich nach der Verbindungsqualität
- *     (Network Information API) + Save-Data + Gerätetyp
+ *   – mindestens `budget.min` sind immer sichtbar (sofortiger Nachschub)
+ *   – Spawner würfelt alle 6,5 s mit `budget.chance`, ob einer dazukommt
+ *   – Obergrenze richtet sich nach Verbindungsqualität (Network
+ *     Information API), Save-Data und Gerätetyp
  *   – bei langsamer Verbindung wird die kleine Bildvariante genutzt
+ *
+ * Die ANZAHL stellt man über `chance` ein, nicht über `max` — siehe
+ * den Kommentar an SwarmBudget. Am 31.10.2026 nachgemessen: Der
+ * Schwarm füllt sich in den ersten 40 s auf 6 auf, danach sterben die
+ * ersten und er pendelt sich bei rund 3 ein. Der Desktop-Deckel von 7
+ * wird dabei nie erreicht, die Anzahl ist also direkt proportional zu
+ * `chance`. Wer nach zehn Sekunden misst, misst die Auffüllphase und
+ * nicht den Dauerzustand.
  *
  * Transform-Ebenen: .bf-spawn (Ein-/Ausflug, CSS-Transition)
  *   → .bf (Flugpfad, sanfte Neigung) → .bf-jig (Zickzack)
@@ -175,9 +183,28 @@ const makeButterfly = (): BfInstance => {
   }
 }
 
-// ---------- Verbindungs-Budget ----------
+// ---------- Verbindungs- und Geraete-Budget ----------
+/**
+ * WICHTIG: `max` ist nur ein Deckel, nicht die Anzahl.
+ *
+ * Wie viele Falter tatsaechlich im Bild sind, ergibt sich aus
+ * Nachschubrate mal Lebensdauer: alle 6,5 s mit `chance`
+ * Wahrscheinlichkeit einer dazu, jeder lebt 34–59 s (Einflug +
+ * Verweilen + Ausflug). Bei chance 0,4 sind das rund 2,8 Falter — der
+ * alte Deckel von 7 am Desktop und 5 mobil wurde also nie erreicht.
+ *
+ * Am 31.10.2026 gemessen: am Desktop UND am emulierten Telefon standen
+ * beide konstant bei 3. Wer die Anzahl aendern will, muss deshalb an
+ * `chance` drehen; der Deckel allein bewirkt fast nichts und fing nur
+ * die seltenen Ausreisser ab.
+ */
 interface SwarmBudget {
+  /** Deckel — begrenzt nur Ausreisser nach oben */
   max: number
+  /** Untergrenze: faellt der Schwarm darunter, kommt sofort Nachschub */
+  min: number
+  /** Wahrscheinlichkeit pro 6,5-s-Runde, dass einer dazukommt */
+  chance: number
   smallAsset: boolean
   reduced: boolean
 }
@@ -185,6 +212,8 @@ interface SwarmBudget {
 const useSwarmBudget = (): SwarmBudget => {
   const [budget, setBudget] = useState<SwarmBudget>({
     max: 4,
+    min: MIN_COUNT,
+    chance: 0.4,
     smallAsset: false,
     reduced: false,
   })
@@ -197,13 +226,34 @@ const useSwarmBudget = (): SwarmBudget => {
       const type: string = conn?.effectiveType ?? '4g'
       const saveData: boolean = conn?.saveData ?? false
 
+      // Telefon = Tastgerät schmaler als 600px. Tablets zählen nicht
+      // dazu, dort ist der Hero so hoch wie am Desktop.
+      const telefon = coarse && window.innerWidth < 600
+
       let max: number
-      if (saveData || type === '2g' || type === 'slow-2g') max = MIN_COUNT
-      else if (type === '3g') max = 3
-      else max = coarse ? 5 : 7 // 4G/unbekannt: Mobile etwas sparsamer
+      let chance = 0.4
+      if (saveData || type === '2g' || type === 'slow-2g') {
+        max = MIN_COUNT
+        chance = 0.25
+      } else if (type === '3g') {
+        max = 3
+        chance = 0.3
+      } else if (telefon) {
+        // Zaurs Bitte: „auf dem iPhone die Anzahl um 30 % reduzieren".
+        // Gemessener Ausgangswert waren 3 Falter, Ziel also rund 2.
+        // chance 0,27 ergibt rechnerisch 0,27 / 6,5 s × 46 s ≈ 1,9;
+        // Deckel 3 und Untergrenze 1 lassen es zwischen 1 und 3
+        // schwanken statt es auf einem Wert festzunageln.
+        max = 3
+        chance = 0.27
+      } else {
+        max = coarse ? 5 : 7
+      }
 
       setBudget({
         max,
+        min: telefon ? 1 : MIN_COUNT,
+        chance,
         smallAsset: saveData || type !== '4g',
         reduced,
       })
@@ -371,20 +421,20 @@ const Butterflies = () => {
   // Minimum-Garantie: fällt der Schwarm unter MIN_COUNT, sofort Nachschub
   useEffect(() => {
     if (budget.reduced) return
-    if (swarm.length < MIN_COUNT) {
+    if (swarm.length < budget.min) {
       const t = window.setTimeout(() => spawn(1), rand(400, 1600))
       return () => clearTimeout(t)
     }
-  }, [swarm.length, budget.reduced, spawn])
+  }, [swarm.length, budget.min, budget.reduced, spawn])
 
   // Spawner: würfelt regelmäßig, ob ein weiterer dazukommt → „mal 2, mal mehr“
   useEffect(() => {
     if (budget.reduced) return
     const iv = window.setInterval(() => {
-      if (Math.random() < 0.4) spawn(1)
+      if (Math.random() < budget.chance) spawn(1)
     }, 6500)
     return () => clearInterval(iv)
-  }, [budget.reduced, spawn])
+  }, [budget.chance, budget.reduced, spawn])
 
   // Maus-Parallax: zwei Tiefenebenen federn per CSS-Variablen nach
   useEffect(() => {
