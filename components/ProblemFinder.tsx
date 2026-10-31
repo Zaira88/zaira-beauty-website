@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, Search, X } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { problems, solutionCount, waHref } from '@/data/problems'
+import CrossingButterfly from '@/components/CrossingButterfly'
 
 /** Schnellfilter-Chips über dem Grid */
 const quickFilters = ['Akne', 'Falten', 'Pigmentflecken', 'Haare', 'Wimpern', 'Glow']
@@ -26,7 +27,10 @@ const ProblemFinder = () => {
 
   return (
     <section id="finder" className="section-edge relative bg-ink py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      {/* MUSS das erste Kind bleiben: Geschwister malen in DOM-Reihenfolge,
+          nur so fliegt er HINTER den Kärtchen und nicht davor. */}
+      <CrossingButterfly />
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         {/* Kopf */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}

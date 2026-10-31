@@ -27,7 +27,40 @@ const fadeUp = {
   }),
 }
 
+/**
+ * Lebendes Heldenbild (seit 31.10.2026).
+ *
+ * `public/videos/hero.*` ist kein Filmchen, sondern dasselbe Foto in
+ * Bewegung: Seedance 2.5 aus `zaira.jpg`, mit dem ausdrücklichen Auftrag,
+ * dass SIE sich nicht rührt. Sie steht still, das Licht atmet leicht, und
+ * im Hintergrund driften einzelne Falter. Vorwärts und rückwärts gependelt,
+ * deshalb schließt die Schleife ohne Überblendung (erstes gegen letztes
+ * Bild: 0,97 — ein Viertel eines normalen Bildwechsels).
+ *
+ * Der Weg dahin steht in `skripte/out/`: Vier Läufe waren nötig, weil
+ * „sie soll sich nicht bewegen" und „man soll sehen, dass es lebt" sich
+ * widersprechen. Wer das Video neu baut, misst vorher Video gegen Original
+ * (`blend=all_mode=difference`) — die KI dichtet Dinge dazu.
+ *
+ * Bei `prefers-reduced-motion` läuft kein Video, dort bleibt das Standbild.
+ * Das ist keine Kür: ein endlos laufendes Video ist genau das, was diese
+ * Einstellung abstellen soll.
+ */
+const useReducedMotion = () => {
+  const [reduziert, setReduziert] = React.useState(false)
+  React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const lies = () => setReduziert(mq.matches)
+    lies()
+    mq.addEventListener('change', lies)
+    return () => mq.removeEventListener('change', lies)
+  }, [])
+  return reduziert
+}
+
 const Hero = ({ rating = 5, count = 108 }: { rating?: number; count?: number }) => {
+  const reduzierteBewegung = useReducedMotion()
+
   return (
     <section
       id="home"
@@ -47,14 +80,34 @@ const Hero = ({ rating = 5, count = 108 }: { rating?: number; count?: number }) 
         <div className="relative h-full w-full overflow-hidden">
           {/* 2200px aus der 4K-Fassung: die alte 1122px-Quelle wurde auf
               Retina-Desktops 1,6× hochskaliert und war sichtbar weich */}
+          {/* Das Standbild liegt IMMER darunter, nicht als Alternative:
+              Es ist der LCP-Kandidat und steht sofort, während das Video
+              noch lädt. Ohne das wäre der Hero bis zum ersten Videobild
+              schwarz — der heutige LCP von 740 ms wäre dahin. */}
           <Image
             src="/images/zaira.jpg"
             alt="Frau im Schmetterlingskleid im nächtlichen Wald — Zaira Beauty"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 62vw"
-            className="animate-breathe object-cover object-[center_22%]"
+            className={`object-cover object-[center_22%] ${
+              reduzierteBewegung ? 'animate-breathe' : ''
+            }`}
           />
+          {!reduzierteBewegung && (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover object-[center_22%]"
+            >
+              <source src="/videos/hero.webm" type="video/webm" />
+              <source src="/videos/hero.mp4" type="video/mp4" />
+            </video>
+          )}
         </div>
         {/* Verläufe.
             Mobil lagen hier ZWEI übereinander: der ganzflächige (Ink an
