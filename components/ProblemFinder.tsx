@@ -28,7 +28,9 @@ const ProblemFinder = () => {
   return (
     <section id="finder" className="section-edge relative bg-ink py-24 md:py-36">
       {/* MUSS das erste Kind bleiben: Geschwister malen in DOM-Reihenfolge,
-          nur so fliegt er HINTER den Kärtchen und nicht davor. */}
+          nur so fliegt er HINTER den Kärtchen und nicht davor. Genau das
+          ist sein Zweck — die Kärtchen nehmen als mattes Glas seine Farbe
+          an, während er vorbeizieht. */}
       <CrossingButterfly />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         {/* Kopf */}
