@@ -226,42 +226,8 @@ a {
   width: 100%;
   height: 100%;
   animation: bf-bob var(--flap, 2.6s) ease-in-out infinite;
-  /* Tiefe für die Rollung darunter — ohne das dreht .bf-roll
-     orthografisch und staucht nur, statt zu kippen */
-  perspective: 700px;
 }
 
-/* --- Rollung um die Körperachse (seit 31.10.2026) -------------------
-   Die Bilddatei ist eine reine DRAUFSICHT: Flügel flach ausgebreitet,
-   symmetrisch, wie ein Präparat im Schaukasten. Eine Draufsicht sagt
-   „du schaust senkrecht auf ein Tier, das in einer waagerechten Ebene
-   fliegt". Hero und Kärtchen sind aber senkrechte Szenen, ein Fenster.
-   Kamera und Szene widersprachen sich.
-
-   --roll kippt den Falter um seine eigene Längsachse aus der Bildebene
-   heraus, bis er aussieht wie von der Seite und ein paar Grad von oben
-   gesehen. rotateY ist dafür die richtige Achse, weil der Körper im
-   Bild senkrecht steht; die Flügelnaht IST die Rollachse.
-
-   Warum nicht mehr als ~45°: Bei starker Rollung sieht die
-   GESCHLOSSENE Flügelstellung großartig aus, die offene verschwindet
-   zum Strich — und umgekehrt. Das ist keine Macke, das ist die Physik
-   einer echten Seitenansicht (waagerechte Flügel sind fast unsichtbar,
-   aufgestellte sind ein Segel). Eine flache Textur kann nur EINEN
-   Winkel haben, also den, der in JEDER Flügelphase lesbar bleibt.
-   Eine echte Profilansicht bräuchte neue Zeichnungen und würde bei
-   50–90 px vermutlich wie ein Darstellungsfehler flackern.
-
-   --dir trägt 180deg für Falter, die ihren Pfad rückwärts abspielen
-   (`animationDirection: reverse`): rückwärts abgespielt kehrt sich der
-   Geschwindigkeitsvektor um, die in den Keyframes stehende Richtung
-   zeigt dann genau verkehrt herum. */
-.bf-roll {
-  width: 100%;
-  height: 100%;
-  transform: rotateZ(var(--dir, 0deg)) rotateY(var(--roll, 38deg));
-  transform-style: preserve-3d;
-}
 .bf-inner {
   position: relative;
   width: 100%;
@@ -347,23 +313,31 @@ a {
   100% { transform: rotateY(-14deg); }
 }
 
-/* --- Höhe: JEDER Abschlag wirft den Körper hoch ---
-   Vorher eine einzige weiche Welle pro Zyklus — Körperbewegung und
-   Flügelschlag erzählten zwei verschiedene Geschichten. Jetzt drei
-   Hüpfer, exakt auf den Abschlag-Segmenten der Flap-Keyframes
+/* --- Höhe: JEDER Abschlag schiebt den Körper vor ---
+   Drei Schübe, exakt auf den Abschlag-Segmenten der Flap-Keyframes
    (7→14, 21→28, 35→42), dann tragendes Absinken im Gleitflug.
-   Amplitude --hop skaliert mit der Faltergröße. */
+   Amplitude --hop skaliert mit der Faltergröße.
+
+   Am 31.10.2026 stark gedämpft. Vorher schwang das hier von +0,5 bis
+   −1,75 --hop, also 2,25 --hop ≈ 31 px bei einem großen Falter — ein
+   Drittel seiner eigenen Länge, und zwar in 0,11 bis 0,2 s je Schub.
+   Gemessen waren das Spitzen von rund 155 px/s bei einem Median von
+   25 px/s: das Auge liest so etwas als Zucken, nicht als Flug.
+   Jetzt 0,95 --hop und durchgehend ease-in-out statt schnappender
+   Kurven. Es bleibt sichtbar, dass jeder Abschlag schiebt, aber es
+   ruckt nicht mehr. Wer das wieder aufdreht, misst vorher die
+   Momentangeschwindigkeit — nicht nach Gefühl. */
 @keyframes bf-bob {
-  0%   { transform: translateY(calc(var(--hop, 12px) * 0.5));   animation-timing-function: ease-in-out; }
-  7%   { transform: translateY(calc(var(--hop, 12px) * 0.2));   animation-timing-function: cubic-bezier(0.15, 0, 0.25, 1); }
-  14%  { transform: translateY(calc(var(--hop, 12px) * -1));    animation-timing-function: ease-in-out; }
-  21%  { transform: translateY(calc(var(--hop, 12px) * -0.5));  animation-timing-function: cubic-bezier(0.15, 0, 0.25, 1); }
-  28%  { transform: translateY(calc(var(--hop, 12px) * -1.45)); animation-timing-function: ease-in-out; }
-  35%  { transform: translateY(calc(var(--hop, 12px) * -0.95)); animation-timing-function: cubic-bezier(0.15, 0, 0.25, 1); }
-  42%  { transform: translateY(calc(var(--hop, 12px) * -1.75)); animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); }
-  66%  { transform: translateY(calc(var(--hop, 12px) * -1.05)); }
-  86%  { transform: translateY(calc(var(--hop, 12px) * -0.15)); }
-  100% { transform: translateY(calc(var(--hop, 12px) * 0.5)); }
+  0%   { transform: translateY(calc(var(--hop, 12px) * 0.15));  animation-timing-function: ease-in-out; }
+  7%   { transform: translateY(calc(var(--hop, 12px) * 0.05));  animation-timing-function: ease-in-out; }
+  14%  { transform: translateY(calc(var(--hop, 12px) * -0.35)); animation-timing-function: ease-in-out; }
+  21%  { transform: translateY(calc(var(--hop, 12px) * -0.2));  animation-timing-function: ease-in-out; }
+  28%  { transform: translateY(calc(var(--hop, 12px) * -0.6));  animation-timing-function: ease-in-out; }
+  35%  { transform: translateY(calc(var(--hop, 12px) * -0.45)); animation-timing-function: ease-in-out; }
+  42%  { transform: translateY(calc(var(--hop, 12px) * -0.8));  animation-timing-function: ease-in-out; }
+  66%  { transform: translateY(calc(var(--hop, 12px) * -0.5)); }
+  86%  { transform: translateY(calc(var(--hop, 12px) * -0.1)); }
+  100% { transform: translateY(calc(var(--hop, 12px) * 0.15)); }
 }
 
 /* --- Mittlere Skala: unregelmäßige Haken (Anti-Vogel-Flug) ---
@@ -372,122 +346,215 @@ a {
    des großen Pfads. */
 @keyframes bf-jig-a {
   0%   { transform: translate(0, 0); }
-  9%   { transform: translate(calc(var(--jig, 16px) * 1.2),  calc(var(--jig, 16px) * -0.9));  animation-timing-function: cubic-bezier(0.5, 0, 0.2, 1); }
+  9%   { transform: translate(calc(var(--jig, 16px) * 1.2),  calc(var(--jig, 16px) * -0.9));  animation-timing-function: ease-in-out; }
   16%  { transform: translate(calc(var(--jig, 16px) * 0.4),  calc(var(--jig, 16px) * -1.5)); }
-  31%  { transform: translate(calc(var(--jig, 16px) * -0.9), calc(var(--jig, 16px) * -0.6));  animation-timing-function: cubic-bezier(0.55, 0, 0.25, 1); }
+  31%  { transform: translate(calc(var(--jig, 16px) * -0.9), calc(var(--jig, 16px) * -0.6));  animation-timing-function: ease-in-out; }
   37%  { transform: translate(calc(var(--jig, 16px) * -1.5), calc(var(--jig, 16px) * 0.35)); }
   55%  { transform: translate(calc(var(--jig, 16px) * -0.5), calc(var(--jig, 16px) * 1.1)); }
-  63%  { transform: translate(calc(var(--jig, 16px) * 0.65), calc(var(--jig, 16px) * 0.7));   animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
+  63%  { transform: translate(calc(var(--jig, 16px) * 0.65), calc(var(--jig, 16px) * 0.7));   animation-timing-function: ease-in-out; }
   80%  { transform: translate(calc(var(--jig, 16px) * 1.05), calc(var(--jig, 16px) * -0.25)); }
   100% { transform: translate(0, 0); }
 }
 @keyframes bf-jig-b {
   0%   { transform: translate(0, 0); }
-  12%  { transform: translate(calc(var(--jig, 16px) * -0.8), calc(var(--jig, 16px) * -1.2));  animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1); }
+  12%  { transform: translate(calc(var(--jig, 16px) * -0.8), calc(var(--jig, 16px) * -1.2));  animation-timing-function: ease-in-out; }
   22%  { transform: translate(calc(var(--jig, 16px) * 0.5),  calc(var(--jig, 16px) * -1.7)); }
   40%  { transform: translate(calc(var(--jig, 16px) * 1.3),  calc(var(--jig, 16px) * -0.4)); }
-  47%  { transform: translate(calc(var(--jig, 16px) * 0.9),  calc(var(--jig, 16px) * 0.8));   animation-timing-function: cubic-bezier(0.55, 0, 0.2, 1); }
+  47%  { transform: translate(calc(var(--jig, 16px) * 0.9),  calc(var(--jig, 16px) * 0.8));   animation-timing-function: ease-in-out; }
   66%  { transform: translate(calc(var(--jig, 16px) * -0.6), calc(var(--jig, 16px) * 1.3)); }
-  78%  { transform: translate(calc(var(--jig, 16px) * -1.2), calc(var(--jig, 16px) * 0.2));   animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
+  78%  { transform: translate(calc(var(--jig, 16px) * -1.2), calc(var(--jig, 16px) * 0.2));   animation-timing-function: ease-in-out; }
   100% { transform: translate(0, 0); }
 }
 @keyframes bf-jig-c {
   0%   { transform: translate(0, 0); }
-  11%  { transform: translate(calc(var(--jig, 16px) * 0.9),  calc(var(--jig, 16px) * -0.7));  animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1); }
-  24%  { transform: translate(calc(var(--jig, 16px) * -0.6), calc(var(--jig, 16px) * -1.1));  animation-timing-function: cubic-bezier(0.55, 0, 0.25, 1); }
+  11%  { transform: translate(calc(var(--jig, 16px) * 0.9),  calc(var(--jig, 16px) * -0.7));  animation-timing-function: ease-in-out; }
+  24%  { transform: translate(calc(var(--jig, 16px) * -0.6), calc(var(--jig, 16px) * -1.1));  animation-timing-function: ease-in-out; }
   35%  { transform: translate(calc(var(--jig, 16px) * -1.1), calc(var(--jig, 16px) * 0.3)); }
-  52%  { transform: translate(calc(var(--jig, 16px) * 0.3),  calc(var(--jig, 16px) * 0.9));   animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
+  52%  { transform: translate(calc(var(--jig, 16px) * 0.3),  calc(var(--jig, 16px) * 0.9));   animation-timing-function: ease-in-out; }
   61%  { transform: translate(calc(var(--jig, 16px) * 1.1),  calc(var(--jig, 16px) * 0.4)); }
-  79%  { transform: translate(calc(var(--jig, 16px) * 0.4),  calc(var(--jig, 16px) * -0.8));  animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1); }
+  79%  { transform: translate(calc(var(--jig, 16px) * 0.4),  calc(var(--jig, 16px) * -0.8));  animation-timing-function: ease-in-out; }
   100% { transform: translate(0, 0); }
 }
 
-/* --- Leichtes Nicken und Gieren ---
-   Das Herauskippen aus der Bildebene macht seit dem 31.10.2026 die
-   eigene Rollungs-Ebene (.bf-roll). Hier blieb nur noch das kleine
-   Zittern übrig — die alte Grundneigung von 14° kam oben drauf und
-   hätte den Falter dauerhaft mit der Nase nach unten fliegen lassen. */
+/* --- Leichtes Rollen um die Flugachse ---
+   Konstantes rotateX kippt den Schmetterling aus der Bildebene:
+   nie perfekt plan zur Kamera = kein „Sticker"-Eindruck.
+   Am 31.10.2026 kurzzeitig durch eine echte Rollung um die Längsachse
+   ersetzt und wieder hergestellt: Eine gerollte Draufsicht zerfällt in
+   zwei Flügelpaare übereinander ohne erkennbaren Körper. Hier reicht
+   das leichte Kippen, die echte Seitenansicht sitzt beim Querflieger. */
 @keyframes bf-wobble {
-  0%, 100% { transform: rotateX(3deg) rotateZ(0deg); }
-  30%      { transform: rotateX(7deg) rotateZ(5deg); }
-  65%      { transform: rotateX(0deg) rotateZ(-6deg); }
+  0%, 100% { transform: rotateX(14deg) rotateZ(0deg); }
+  30%      { transform: rotateX(18deg) rotateZ(5deg); }
+  65%      { transform: rotateX(11deg) rotateZ(-6deg); }
 }
 
-/* --- Flugpfade (geschlossene Schleifen, Kopf zeigt nach vorne) ---
+/* --- Flugpfade (geschlossene Schleifen, sanfte Neigung) ---
    Kein globales linear: jedes Segment bekommt sein eigenes Easing
    (die timing-function am Keyframe gilt fürs folgende Segment) — der
    Falter beschleunigt, bremst und macht Haken. Eingebaute
    Fast-Stillstände = Schwebepausen, in denen nur Flattern (bf-bob) und
-   Zickzack (bf-jig) sichtbar sind. Die Tempo-Deckel (≈2,5 vw/s) bleiben
-   eingehalten: Segmente sind entsprechend länger geschnitten.
+   Zickzack (bf-jig) sichtbar sind.
 
-   ACHTUNG, die rotate()-Werte sind GERECHNET, nicht gesetzt.
-   Bis zum 31.10.2026 standen hier Handwerte zwischen −38° und +42°.
-   Gegen den tatsächlichen Flugvektor gemessen lagen die um bis zu
-   180° daneben (Pfad b), 165° (c), 148° (a) — in der unteren Hälfte
-   jeder Schleife flogen die Falter also rückwärts.
+   Die rotate()-Werte sind BEWUSST sanft und folgen dem Flugvektor NUR
+   ungefähr. Am 31.10.2026 einmal durchgerechnet (atan2 auf den Vektor
+   zum nächsten Stützpunkt) und wieder verworfen — Zaurs Urteil am
+   lebenden Bild: „die Richtung und Drehung sind falsch."
 
-   Jetzt: Richtung je Stützpunkt = atan2 des Vektors zum nächsten
-   Stützpunkt. Drei Fallstricke dabei, alle im Skript behandelt:
-   1) x in vw, y in vh — ohne Umrechnung (1vh = 0,5625vw bei 16:9)
-      kommt ein falscher Winkel heraus. Bei anderen Seitenverhältnissen
-      stimmt es um ein paar Grad nicht; das ist unsichtbar, 148° waren
-      es nicht.
-   2) Winkel müssen ENTFALTET sein, sonst interpoliert CSS von 170°
-      nach −170° über die lange Seite und der Falter dreht sich einmal
-      um sich selbst.
-   3) An Stellen, wo der Pfad umkehrt, verlangt die rohe Rechnung eine
-      180°-Kehre auf der Stelle. Deshalb ist die Winkelfolge EINMAL
-      geglättet (0,25 / 0,5 / 0,25, zirkulär): schärfste Kehre dann
-      90° statt 179°, Abweichung vom echten Vektor im Median 7–24°.
-      Zweimal geglättet wäre die Kehre weicher (73°), die Abweichung
-      aber im schlechtesten Fall 79° statt 55° — und ein Falter, der
-      90° in ein bis sieben Sekunden dreht, ist völlig unauffällig,
-      einer der dauerhaft schräg fliegt nicht. Deshalb einmal.
-   Wer die Pfad-Positionen ändert, muss die Winkel NEU RECHNEN lassen,
-   nicht schätzen. */
+   Der Grund ist nicht die Rechnung, sondern die Bilddatei. Sie ist
+   eine DRAUFSICHT. Richtet man den Körper voll nach der Flugrichtung
+   aus, liegt er bei waagerechten Strecken quer — und spätestens
+   zusammen mit einer Rollung zerfällt die Silhouette in zwei
+   Flügelpaare übereinander ohne erkennbaren Körper. Dazu kommt: Das
+   Hero-FOTO ist voller Falter in Draufsicht mit senkrechtem Körper.
+   Ein waagerecht liegender Falter davor gehört sichtbar nicht dazu.
+
+   Deshalb hier bewusst die lesbare Silhouette vor der Physik. Wo eine
+   echte Seitenansicht hingehört — beim Querflieger, der immer
+   waagerecht zieht — gibt es sie seit dem 31.10.2026 wirklich, aus
+   EINEM Flügelpaar derselben Bilddatei gebaut (components/
+   CrossingButterfly.tsx). Nicht jede Situation braucht dieselbe
+   Ansicht. */
 @keyframes bf-path-a {
-  0%   { transform: translate3d(0, 0, 0) rotate(-47deg); animation-timing-function: ease-in-out; }
-  11%  { transform: translate3d(-5.5vw, -9vh, 0) rotate(-61deg); animation-timing-function: cubic-bezier(0.55, 0, 0.35, 1); }
-  17%  { transform: translate3d(-6.5vw, -10vh, 0) rotate(-83deg); animation-timing-function: ease-in-out; }
-  32%  { transform: translate3d(-13.5vw, -13vh, 0) rotate(-111deg); animation-timing-function: ease-in-out; }
-  38%  { transform: translate3d(-14vw, -12.5vh, 0) rotate(-149deg); animation-timing-function: ease-in-out;  /* Schwebepause */ }
-  52%  { transform: translate3d(-21vw, -3vh, 0) rotate(-199deg); animation-timing-function: ease-in-out; }
-  58%  { transform: translate3d(-20.5vw, -2vh, 0) rotate(-233deg); animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1);  /* Pause → Haken */ }
-  72%  { transform: translate3d(-14.5vw, 8.5vh, 0) rotate(-261deg); animation-timing-function: ease-in-out; }
-  84%  { transform: translate3d(-7.5vw, 11vh, 0) rotate(-296deg); animation-timing-function: ease-in-out; }
-  95%  { transform: translate3d(-2vw, 5.5vh, 0) rotate(-340deg); animation-timing-function: ease-in-out; }
-  100% { transform: translate3d(0, 0, 0) rotate(-407deg); }
+  0%   { transform: translate3d(0, 0, 0) rotate(10deg); animation-timing-function: ease-in-out; }
+  11%  { transform: translate3d(-5.5vw, -9vh, 0) rotate(-14deg); animation-timing-function: cubic-bezier(0.55, 0, 0.35, 1); }
+  17%  { transform: translate3d(-6.5vw, -10vh, 0) rotate(-22deg); animation-timing-function: ease-in-out; }
+  32%  { transform: translate3d(-13.5vw, -13vh, 0) rotate(-38deg); animation-timing-function: ease-in-out; }
+  38%  { transform: translate3d(-14vw, -12.5vh, 0) rotate(-30deg); animation-timing-function: ease-in-out;  /* Schwebepause */ }
+  52%  { transform: translate3d(-21vw, -3vh, 0) rotate(-10deg); animation-timing-function: ease-in-out; }
+  58%  { transform: translate3d(-20.5vw, -2vh, 0) rotate(-2deg); animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1);  /* Pause → Haken */ }
+  72%  { transform: translate3d(-14.5vw, 8.5vh, 0) rotate(22deg); animation-timing-function: ease-in-out; }
+  84%  { transform: translate3d(-7.5vw, 11vh, 0) rotate(34deg); animation-timing-function: ease-in-out; }
+  95%  { transform: translate3d(-2vw, 5.5vh, 0) rotate(16deg); animation-timing-function: ease-in-out; }
+  100% { transform: translate3d(0, 0, 0) rotate(10deg); }
 }
 @keyframes bf-path-b {
-  0%   { transform: translate3d(0, 0, 0) rotate(54deg); animation-timing-function: ease-in-out; }
-  13%  { transform: translate3d(6.5vw, -8.5vh, 0) rotate(74deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
-  19%  { transform: translate3d(7.5vw, -9.5vh, 0) rotate(130deg); animation-timing-function: ease-in-out;  /* Schwebepause */ }
-  34%  { transform: translate3d(14vw, -3vh, 0) rotate(199deg); animation-timing-function: ease-in-out; }
-  40%  { transform: translate3d(13.5vw, -2vh, 0) rotate(243deg); animation-timing-function: ease-in-out;  /* Pause */ }
-  54%  { transform: translate3d(7.5vw, 6.5vh, 0) rotate(276deg); animation-timing-function: ease-in-out; }
-  68%  { transform: translate3d(0.5vw, 3vh, 0) rotate(254deg); animation-timing-function: cubic-bezier(0.55, 0, 0.3, 1); }
-  82%  { transform: translate3d(-7vw, -5.5vh, 0) rotate(164deg); animation-timing-function: ease-in-out; }
-  91%  { transform: translate3d(-4vw, -2vh, 0) rotate(97deg); animation-timing-function: ease-in-out; }
-  100% { transform: translate3d(0, 0, 0) rotate(54deg); }
+  0%   { transform: translate3d(0, 0, 0) rotate(-8deg); animation-timing-function: ease-in-out; }
+  13%  { transform: translate3d(6.5vw, -8.5vh, 0) rotate(24deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
+  19%  { transform: translate3d(7.5vw, -9.5vh, 0) rotate(30deg); animation-timing-function: ease-in-out;  /* Schwebepause */ }
+  34%  { transform: translate3d(14vw, -3vh, 0) rotate(42deg); animation-timing-function: ease-in-out; }
+  40%  { transform: translate3d(13.5vw, -2vh, 0) rotate(34deg); animation-timing-function: ease-in-out;  /* Pause */ }
+  54%  { transform: translate3d(7.5vw, 6.5vh, 0) rotate(8deg); animation-timing-function: ease-in-out; }
+  68%  { transform: translate3d(0.5vw, 3vh, 0) rotate(-24deg); animation-timing-function: cubic-bezier(0.55, 0, 0.3, 1); }
+  82%  { transform: translate3d(-7vw, -5.5vh, 0) rotate(-38deg); animation-timing-function: ease-in-out; }
+  91%  { transform: translate3d(-4vw, -2vh, 0) rotate(-16deg); animation-timing-function: ease-in-out; }
+  100% { transform: translate3d(0, 0, 0) rotate(-8deg); }
 }
 @keyframes bf-path-c {
-  0%   { transform: translate3d(0, 0, 0) rotate(49deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
-  14%  { transform: translate3d(3.5vw, -5.5vh, 0) rotate(23deg); animation-timing-function: ease-in-out; }
-  20%  { transform: translate3d(4vw, -6vh, 0) rotate(-54deg); animation-timing-function: cubic-bezier(0.55, 0, 0.25, 1);  /* Pause → Haken */ }
-  36%  { transform: translate3d(-2.5vw, -8.5vh, 0) rotate(-110deg); animation-timing-function: ease-in-out; }
-  42%  { transform: translate3d(-3vw, -8vh, 0) rotate(-150deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1);  /* Schwebepause */ }
-  58%  { transform: translate3d(-7vw, -3vh, 0) rotate(-219deg); animation-timing-function: ease-in-out; }
-  74%  { transform: translate3d(-2.5vw, 3.5vh, 0) rotate(-304deg); animation-timing-function: ease-in-out; }
-  88%  { transform: translate3d(1vw, 1.5vh, 0) rotate(-355deg); animation-timing-function: ease-in-out; }
-  100% { transform: translate3d(0, 0, 0) rotate(-311deg); }
+  0%   { transform: translate3d(0, 0, 0) rotate(4deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1); }
+  14%  { transform: translate3d(3.5vw, -5.5vh, 0) rotate(26deg); animation-timing-function: ease-in-out; }
+  20%  { transform: translate3d(4vw, -6vh, 0) rotate(18deg); animation-timing-function: cubic-bezier(0.55, 0, 0.25, 1);  /* Pause → Haken */ }
+  36%  { transform: translate3d(-2.5vw, -8.5vh, 0) rotate(-18deg); animation-timing-function: ease-in-out; }
+  42%  { transform: translate3d(-3vw, -8vh, 0) rotate(-26deg); animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1);  /* Schwebepause */ }
+  58%  { transform: translate3d(-7vw, -3vh, 0) rotate(-36deg); animation-timing-function: ease-in-out; }
+  74%  { transform: translate3d(-2.5vw, 3.5vh, 0) rotate(-6deg); animation-timing-function: ease-in-out; }
+  88%  { transform: translate3d(1vw, 1.5vh, 0) rotate(14deg); animation-timing-function: ease-in-out; }
+  100% { transform: translate3d(0, 0, 0) rotate(4deg); }
+}
+
+/* --- Seitenansicht (nur Querflieger) -------------------------------
+   Der Querflieger zieht IMMER waagerecht durchs Bild. Genau dort ist
+   die Draufsicht falsch: Man sähe einen Falter, der quer zu seiner
+   Flugrichtung liegt. Hier gibt es deshalb eine echte Profilansicht.
+
+   Sie braucht keine neue Bilddatei. Ein Falter von der Seite ist im
+   Kern EIN Flügelpaar, aufgestellt, mit dem Körper darunter — und ein
+   Flügelpaar steckt bereits in der vorhandenen Draufsicht: die linke
+   Hälfte (background-size: 192.4%, position: left). Aufgerichtet und
+   am unteren Rand angelenkt liest sie sich sofort als Profil, auch
+   bei 48 px.
+
+   Drehpunkt bewusst UNTEN MITTIG, nicht an der Flügelnaht. Geometrisch
+   wäre die Naht richtig, am Bild getestet sieht sie aus wie ein
+   liegender Flügel. Lesbarkeit schlägt Geometrie — dieselbe Lektion
+   wie bei den Flugpfaden weiter oben.
+
+   Der Fernflügel ist eine zweite, dunklere und leicht nachlaufende
+   Kopie: ohne ihn wirkt der Falter wie aus Papier. Der Körper ist
+   bewusst gezeichnet und nicht aus der Bilddatei geschnitten — dort
+   stehen die Fühler nach oben, im Profil müssten sie nach vorn. */
+.bf-seite {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.bf-seite-fluegel,
+.bf-seite-fern {
+  position: absolute;
+  left: 50%;
+  bottom: 16%;
+  width: 52%;
+  height: 82%;
+  transform-origin: 50% 100%;
+  background-image: var(--bf-img, url('/images/butterfly-blue.webp'));
+  background-repeat: no-repeat;
+  background-size: 192.4% 100%;
+  background-position: left center;
+  animation-duration: var(--flap, 2.6s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.bf-seite-fluegel { animation-name: bf-seite-nah; }
+.bf-seite-fern {
+  animation-name: bf-seite-fern;
+  filter: brightness(0.52) saturate(0.8);
+}
+/* Leib: vorne (Kopf, rechts) dichter, hinten auslaufend.
+   Bewusst neutral dunkel und NICHT in der Flügelfarbe: Der erste
+   Versuch war weinrot und passte zum rosa Falter, sah unter dem
+   blauen aber aus wie ein fremdes Teil. Echte Schmetterlingsleiber
+   sind dunkelbraun bis schwarz, egal wie bunt die Flügel sind. */
+.bf-seite-koerper {
+  position: absolute;
+  left: 48%;
+  bottom: 13%;
+  width: 22%;
+  height: 3.6%;
+  min-height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent 0%, #1b1a20 30%, #2c2a33 76%, #17161b 100%);
+  transform: translateX(-50%) rotate(-6deg);
+  opacity: 0.85;
+}
+
+/* Drei Schläge, dann Gleiten — derselbe Rhythmus wie beim Schwarm
+   (bf-flap-l/r, bf-bob), nur als Schwenk statt als Faltung.
+   Durchgehend ease-in-out: die schnappenden Kurven von vorher lasen
+   sich als Zucken. */
+@keyframes bf-seite-nah {
+  0%   { transform: translateX(-50%) rotate(-6deg); }
+  7%   { transform: translateX(-50%) rotate(68deg); }
+  14%  { transform: translateX(-50%) rotate(-4deg); }
+  21%  { transform: translateX(-50%) rotate(64deg); }
+  28%  { transform: translateX(-50%) rotate(-2deg); }
+  35%  { transform: translateX(-50%) rotate(60deg); }
+  42%  { transform: translateX(-50%) rotate(8deg); }
+  58%  { transform: translateX(-50%) rotate(22deg); }
+  74%  { transform: translateX(-50%) rotate(12deg); }
+  88%  { transform: translateX(-50%) rotate(18deg); }
+  100% { transform: translateX(-50%) rotate(-6deg); }
+}
+/* Läuft dem nahen Flügel leicht nach und schwingt flacher */
+@keyframes bf-seite-fern {
+  0%   { transform: translateX(-50%) rotate(2deg)  scale(0.94); }
+  9%   { transform: translateX(-50%) rotate(62deg) scale(0.94); }
+  16%  { transform: translateX(-50%) rotate(3deg)  scale(0.94); }
+  23%  { transform: translateX(-50%) rotate(58deg) scale(0.94); }
+  30%  { transform: translateX(-50%) rotate(5deg)  scale(0.94); }
+  37%  { transform: translateX(-50%) rotate(55deg) scale(0.94); }
+  44%  { transform: translateX(-50%) rotate(13deg) scale(0.94); }
+  60%  { transform: translateX(-50%) rotate(25deg) scale(0.94); }
+  76%  { transform: translateX(-50%) rotate(15deg) scale(0.94); }
+  90%  { transform: translateX(-50%) rotate(20deg) scale(0.94); }
+  100% { transform: translateX(-50%) rotate(2deg)  scale(0.94); }
 }
 
 /* --- Querflieger (components/CrossingButterfly.tsx) ---
    Zieht gelegentlich hinter den Kärtchen durchs Bild. Drei Ebenen,
    damit es nicht wie ein Schlitten auf einer Schiene aussieht:
    waagerechte Strecke, langsame Höhenwelle, Neigung. Darunter hängen
-   unverändert die Schwarm-Ebenen (jig, bob, inner, Flügel).
+   die Schwarm-Ebenen für Zickzack und Schub (jig, bob) und darin die
+   Seitenansicht.
    Die Strecke läuft bewusst von -16vw bis 116vw: so taucht er außerhalb
    des Bildes auf und verschwindet dort wieder, statt am Rand zu
    erscheinen. */
@@ -497,13 +564,26 @@ a {
   pointer-events: none;
   will-change: transform;
   animation-name: bf-quer-flug;
-  animation-timing-function: linear;
+  /* Kein animation-timing-function hier: Die Keyframes setzen es pro
+     Abschnitt selbst, ein linear an dieser Stelle wäre irreführend. */
   animation-fill-mode: both;
   animation-iteration-count: 1;
 }
+/* Bummeln und ziehen statt gleichmäßig rollen. Vorher war das ein
+   schlichtes from/to mit linear — nachgemessen ein Tempo-Verhältnis
+   von exakt 1,0, also konstante Geschwindigkeit auf gerader Linie.
+   Genau der „Schlitten auf der Schiene". Die Abschnitte liegen jetzt
+   zwischen 0,65× und 1,2× des Durchschnitts, mit milder Kurve innen:
+   stärker wäre es wieder ein Sprint. */
 @keyframes bf-quer-flug {
-  from { transform: translate3d(-16vw, 0, 0); }
-  to   { transform: translate3d(116vw, 0, 0); }
+  0%   { transform: translate3d(-16vw, 0, 0); animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  16%  { transform: translate3d(4vw, 0, 0);   animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  26%  { transform: translate3d(13vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  44%  { transform: translate3d(39vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  54%  { transform: translate3d(47vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  72%  { transform: translate3d(72vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  82%  { transform: translate3d(81vw, 0, 0);  animation-timing-function: cubic-bezier(0.45, 0.15, 0.55, 0.85); }
+  100% { transform: translate3d(108vw, 0, 0); }
 }
 .bf-quer-hoehe {
   width: 100%;

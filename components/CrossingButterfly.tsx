@@ -32,8 +32,6 @@ interface Flug {
   dauer: number
   nachLinks: boolean
   neigung: number
-  /** Rollung um die Längsachse in Grad */
-  roll: number
   flap: number
   wob: number
   jig: { variant: 'a' | 'b' | 'c'; dur: number }
@@ -50,16 +48,20 @@ const machFlug = (): Flug => {
     hoehe: rand(12, 78),
     // Langsam. Ein Falter, der in zwei Sekunden durchs Bild schießt,
     // liest sich als Pfeil, nicht als Tier.
-    dauer: rand(9, 17),
+    //
+    // Am 31.10.2026 von 9–17 s auf 17–28 s gestreckt. Nachgemessen war
+    // er mit 126 px/s im Median die mit Abstand schnellste Bewegung der
+    // Seite — ACHTMAL so schnell wie der Hero-Schwarm mit 16 px/s. Die
+    // Strecke ist mit 132 vw eben fast zwei Bildschirmbreiten, das
+    // täuscht beim Festlegen der Dauer. Jetzt rund 70–115 px/s.
+    dauer: rand(17, 28),
     nachLinks: Math.random() < 0.5,
-    // Steigen/Sinken, nicht mehr Schräglage: Seit der Körper in
-    // Flugrichtung zeigt, kippt diese Drehung die Nase hoch oder
-    // runter statt den ganzen Falter zu verdrehen.
-    neigung: rand(-12, 12),
-    roll: rand(28, 46) * (Math.random() < 0.5 ? 1 : -1),
-    flap: rand(1.9, 3.1),
+    // Steigen und Sinken, nicht Schräglage: Die Seitenansicht liegt
+    // waagerecht, diese Drehung kippt nur die Nase hoch oder runter.
+    neigung: rand(-11, 11),
+    flap: rand(2.2, 3.4),
     wob: rand(3.4, 5.6),
-    jig: { variant: pick(['a', 'b', 'c'] as const), dur: rand(6.5, 11) },
+    jig: { variant: pick(['a', 'b', 'c'] as const), dur: rand(9, 15) },
   }
 }
 
@@ -95,7 +97,11 @@ const CrossingButterfly = () => {
     const planen = (verzoegerung: number) => {
       timer = window.setTimeout(() => {
         setFluege((v) => (v.length ? v : [machFlug()]))
-        planen(rand(9000, 22000))
+        // Abstand mitgewachsen, seit ein Flug 17–28 s dauert: Mit den
+        // alten 9–22 s wäre beim Nachlegen fast immer noch einer
+        // unterwegs, der Versuch liefe ins Leere und es wäre dauernd
+        // einer im Bild statt gelegentlich.
+        planen(rand(16000, 34000))
       }, verzoegerung)
     }
     planen(rand(1200, 4000))
@@ -129,28 +135,28 @@ const Querflug = ({ f, onDone }: { f: Flug; onDone: (id: string) => void }) => {
         {
           top: `${f.hoehe}%`,
           width: f.groesse,
-          height: Math.round(f.groesse * 0.82),
+          // Quadratisch: Die Seitenansicht ist höher als breit,
+        // weil der Flügel aufgestellt steht.
+        height: f.groesse,
           animationDuration: `${f.dauer}s`,
           animationDirection: f.nachLinks ? 'reverse' : 'normal',
           // Dieselben Stellschrauben wie beim Hero-Schwarm. Ohne sie
-          // greifen die Flügel-Keyframes auf ihre Vorgaben zurück und
-          // alle Falter flattern im Gleichtakt.
+          // greifen die Keyframes auf ihre Vorgaben zurück und alle
+          // Falter flattern im Gleichtakt. --flap steuert hier den
+          // Flügelschwenk der Seitenansicht (bf-seite-nah/-fern).
           '--flap': `${f.flap.toFixed(2)}s`,
           '--wob': `${f.wob.toFixed(2)}s`,
-          '--hop': `${Math.max(5, Math.round(f.groesse * 0.16))}px`,
-          '--jig': `${Math.round(f.groesse * 0.2)}px`,
+          '--hop': `${Math.max(4, Math.round(f.groesse * 0.1))}px`,
+          '--jig': `${Math.round(f.groesse * 0.12)}px`,
           '--bf-img': `url('/images/butterfly-${f.species}.webp')`,
         } as React.CSSProperties
       }
     >
-      {/* Ausrichtung auf einer eigenen Ebene: Käme sie auf .bf-inner,
-          würde sie dessen Wobble-Animation überschreiben.
-          ±90° richten den Körper in die Flugrichtung aus — davor zeigte
-          er immer nach oben, während er waagerecht zog. Er lief also
-          seitwärts wie eine Krabbe, und genau das las sich als
-          Aufkleber. Die Bilddatei ist eine Draufsicht, ihr Kopf zeigt
-          im Bild nach oben; rotate(90deg) dreht im Uhrzeigersinn,
-          schickt den Kopf also nach rechts. */}
+      {/* Die Seitenansicht steht von sich aus waagerecht, der Kopf zeigt
+          nach rechts. Für den Flug nach links wird sie gespiegelt — die
+          Neigung (Steigen/Sinken) muss dann mitkippen, sonst zeigt die
+          Nase bergab statt bergauf. Spiegelung deshalb AUSSEN um die
+          Drehung herum. */}
       <div
         className="bf-quer-hoehe"
         style={{
@@ -159,7 +165,9 @@ const Querflug = ({ f, onDone }: { f: Flug; onDone: (id: string) => void }) => {
       >
         <div
           className="bf-quer-neigung"
-          style={{ rotate: `${(f.nachLinks ? -90 : 90) + f.neigung}deg` }}
+          style={{
+            transform: `${f.nachLinks ? 'scaleX(-1) ' : ''}rotate(${f.neigung.toFixed(1)}deg)`,
+          }}
         >
           <div
             className="bf-jig"
@@ -169,15 +177,10 @@ const Querflug = ({ f, onDone }: { f: Flug; onDone: (id: string) => void }) => {
             }}
           >
             <div className="bf-bob">
-              <div
-                className="bf-roll"
-                style={{ '--roll': `${f.roll}deg` } as React.CSSProperties}
-              >
-                <div className="bf-inner">
-                  <div className="bf-wing bf-wing-l" />
-                  <div className="bf-wing bf-wing-r" />
-                  <div className="bf-body" />
-                </div>
+              <div className="bf-seite">
+                <div className="bf-seite-fern" />
+                <div className="bf-seite-fluegel" />
+                <div className="bf-seite-koerper" />
               </div>
             </div>
           </div>
