@@ -17,10 +17,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
  *   – bei langsamer Verbindung wird die kleine Bildvariante genutzt
  *
  * Transform-Ebenen: .bf-spawn (Ein-/Ausflug, CSS-Transition)
- *   → .bf (Flugpfad, Kopf zeigt nach vorne) → .bf-jig (Zickzack)
- *   → .bf-bob (Höhe pro Flügelschlag) → .bf-roll (Rollung um die
- *   Längsachse) → .bf-inner (Nicken/Gieren) → Flügelhälften
- *   (rotateY-Faltung) + stabiler Körper.
+ *   → .bf (Flugpfad, sanfte Neigung) → .bf-jig (Zickzack)
+ *   → .bf-bob (Schub pro Flügelschlag) → .bf-inner (Wobble/3D)
+ *   → Flügelhälften (rotateY-Faltung) + stabiler Körper.
  */
 
 const MIN_COUNT = 2
@@ -42,8 +41,6 @@ interface BfInstance {
   pathDur: number
   pathDelay: number
   reverse: boolean
-  /** Rollung um die Längsachse in Grad (Vorzeichen = von welcher Seite) */
-  roll: number
   flap: number
   /** Mittlere Zickzack-Ebene: Variante + eigene Dauer/Phase */
   jig: { variant: 'a' | 'b' | 'c'; dur: number; delay: number }
@@ -60,19 +57,36 @@ let nextId = 1
 const makeId = () =>
   globalThis.crypto?.randomUUID?.() ?? `bf-${Date.now()}-${nextId++}`
 
-/** Zufälliger Rand-Offset (vw/vh) für Ein- oder Ausflug. */
+/**
+ * Kleiner Versatz (vw/vh) für Ein- und Ausblenden.
+ *
+ * Bis zum 31.10.2026 flog der Falter hier von weit außerhalb des
+ * Bildes herein: 26–42 vw in 9–15 s, also rund 3 vw/s ≈ 45 px/s.
+ * Zwei Dinge waren daran falsch. Erstens war das die mit Abstand
+ * SCHNELLSTE Bewegung im Bild — fünfmal schneller als der Flatterpfad
+ * mit seinen ~0,6 vw/s. Zweitens zeigte der Körper dabei in die
+ * Richtung des Flatterpfads, nicht in die Anflugrichtung: zwei
+ * unabhängige Bewegungen, aber nur eine Ausrichtung, also flog er
+ * seinen ganzen Anflug lang schräg.
+ *
+ * Jetzt driftet er nur noch 2–5 vw, während er auf- oder abblendet.
+ * Damit bleibt der Flatterpfad die bestimmende Bewegung, die
+ * Ausrichtung stimmt durchgehend, und er taucht aus dem dunklen Wald
+ * auf statt hereingeschossen zu kommen — was der Szene ohnehin
+ * besser entspricht.
+ */
 const edgeOffset = () => {
-  const edge = pick(['left', 'right', 'top', 'bottom'] as const)
-  const cross = rand(-14, 14)
-  switch (edge) {
+  const dir = pick(['left', 'right', 'top', 'bottom'] as const)
+  const cross = rand(-3, 3)
+  switch (dir) {
     case 'left':
-      return { x: -rand(26, 42), y: cross, rot: -rand(10, 28) }
+      return { x: -rand(2, 5), y: cross, rot: -rand(2, 7) }
     case 'right':
-      return { x: rand(26, 42), y: cross, rot: rand(10, 28) }
+      return { x: rand(2, 5), y: cross, rot: rand(2, 7) }
     case 'top':
-      return { x: cross, y: -rand(22, 36), rot: rand(-18, 18) }
+      return { x: cross, y: -rand(2, 5), rot: rand(-6, 6) }
     case 'bottom':
-      return { x: cross, y: rand(22, 36), rot: rand(-18, 18) }
+      return { x: cross, y: rand(2, 5), rot: rand(-6, 6) }
   }
 }
 
@@ -115,34 +129,23 @@ const makeButterfly = (): BfInstance => {
     opacity: far ? rand(0.6, 0.85) : rand(0.9, 1),
     depth: far ? 'far' : 'near',
     path: pick(['a', 'b', 'c'] as const),
-    pathDur: rand(22, 46),
+    // Langsamer als vorher (22–46 s): die Schleifen sind rund 20 vw
+    // lang, bei 22 s waren das Spitzen deutlich über 1 vw/s.
+    pathDur: rand(34, 62),
     pathDelay: -rand(0, 30),
     reverse: Math.random() < 0.5,
-    // Nicht alle gleich stark gekippt, sonst sieht der Schwarm
-    // gestanzt aus. Vorzeichen entscheidet, von welcher Seite man
-    // ihn sieht — beides ist richtig, das gibt Abwechslung.
-    roll: rand(26, 46) * (Math.random() < 0.5 ? 1 : -1),
-    flap: rand(1.6, 2.8),
+    flap: rand(2.1, 3.3),
     jig: {
       variant: pick(['a', 'b', 'c'] as const),
-      dur: rand(6.5, 11),
+      dur: rand(9, 15),
       delay: -rand(0, 10),
     },
     wob: rand(3.4, 5.6),
-    // Kein Eile-Effekt: Ein-/Ausflug dauert 9–15s — der Flatterpfad
-    // läuft währenddessen weiter, der Schmetterling fliegt also
-    // in seinem natürlichen Rhythmus heran statt „hereingeweht“.
-    // Seiten-Flüge (links/rechts) bekommen zusätzlich ein Tempolimit:
-    // die Dauer wächst mit der Strecke, damit weite Horizontal-
-    // Anflüge nie schneller als ~3,2 vw/s werden.
-    enter: (() => {
-      const off = edgeOffset()
-      return { ...off, dur: Math.max(rand(9, 14), Math.abs(off.x) / 3.2) }
-    })(),
-    exit: (() => {
-      const off = edgeOffset()
-      return { ...off, dur: Math.max(rand(10, 15), Math.abs(off.x) / 3.0) }
-    })(),
+    // Die Tempolimits von früher (3,0–3,2 vw/s) sind überflüssig
+    // geworden: Bei 2–5 vw Drift über 11–18 s sind es ~0,3 vw/s,
+    // also ein Zehntel davon und deutlich unter dem Flatterpfad.
+    enter: { ...edgeOffset(), dur: rand(11, 16) },
+    exit: { ...edgeOffset(), dur: rand(13, 18) },
     lingerMs: rand(10_000, 25_000),
   }
 }
@@ -271,10 +274,12 @@ const Bf = ({
             animationDelay: `${b.pathDelay}s`,
             animationDirection: b.reverse ? 'reverse' : 'normal',
             '--flap': `${b.flap}s`,
-            // Amplituden skalieren mit der Größe: der große Falter
-            // hüpft sichtbar (~14px), der ferne kleine nur ~5px
-            '--hop': `${Math.max(5, Math.round(b.size * 0.16))}px`,
-            '--jig': `${Math.round(b.size * 0.2)}px`,
+            // Amplituden skalieren mit der Größe. Beide am 31.10.2026
+            // zurückgenommen (vorher 0.16 und 0.2): zusammen mit den
+            // schnappenden Keyframes ergab das Geschwindigkeitsspitzen
+            // vom Fünffachen des Medians — gemessen, nicht geschätzt.
+            '--hop': `${Math.max(4, Math.round(b.size * 0.1))}px`,
+            '--jig': `${Math.round(b.size * 0.12)}px`,
             '--wob': `${b.wob.toFixed(2)}s`,
             '--bf-img': img,
           } as React.CSSProperties
@@ -289,26 +294,16 @@ const Bf = ({
             animationDelay: `${b.jig.delay.toFixed(2)}s`,
           }}
         >
+          {/* Keine Rollungs-Ebene hier: Eine gerollte Draufsicht zerfällt
+              in zwei Flügelpaare übereinander, und das Foto dahinter
+              zeigt Falter in Draufsicht mit senkrechtem Körper. Die
+              echte Seitenansicht sitzt dort, wo sie hingehört — beim
+              Querflieger (CrossingButterfly.tsx). */}
           <div className="bf-bob">
-            {/* Rollung um die Längsachse: kippt die Draufsicht so weit
-                aus der Bildebene, dass der Falter von der Seite und
-                ein paar Grad von oben gesehen aussieht. --dir dreht
-                rückwärts abgespielte Pfade um, sonst flögen sie
-                verkehrt herum (siehe .bf-roll in globals.css). */}
-            <div
-              className="bf-roll"
-              style={
-                {
-                  '--roll': `${b.roll}deg`,
-                  '--dir': b.reverse ? '180deg' : '0deg',
-                } as React.CSSProperties
-              }
-            >
-              <div className="bf-inner">
-                <div className="bf-wing bf-wing-l" />
-                <div className="bf-wing bf-wing-r" />
-                <div className="bf-body" />
-              </div>
+            <div className="bf-inner">
+              <div className="bf-wing bf-wing-l" />
+              <div className="bf-wing bf-wing-r" />
+              <div className="bf-body" />
             </div>
           </div>
         </div>
