@@ -256,6 +256,13 @@ export const problems: Problem[] = [
     priceFrom: '99€',
     treatments: [
       {
+        // IPL IST HIER RICHTIG — NICHT auf „Diodenlaser" aendern.
+        // Am 04.11.2026 nachgefragt und von Zaur bestaetigt: Fuer
+        // Pigmentflecken wird mit IPL gearbeitet, das ist eine ANDERE
+        // Behandlung als die dauerhafte Haarentfernung (dort laeuft ein
+        // Diodenlaser, siehe Gruppentitel weiter unten). Der Hinweis
+        // steht hier, weil beim Korrigieren der Haarentfernungs-
+        // Ueberschrift genau diese Stelle als naechster Fehler aussieht.
         name: 'Lasertherapie Pigmentflecken',
         price: '99€',
         priceNote: 'Aufpreis + 10€ Jelly Mask',
