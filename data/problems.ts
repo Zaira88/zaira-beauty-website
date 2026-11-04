@@ -436,6 +436,10 @@ export const problems: Problem[] = [
     subtitle:
       'Genieße die Freiheit dauerhaft glatter Haut mit modernster Diodenlaser-Technologie, für alle Körperbereiche.',
     searchTerms: [
+      // 'ipl' bleibt hier bewusst stehen, obwohl Zaira keinen IPL benutzt:
+      // searchTerms sind die Suchwörter des Anliegen-Filters auf der
+      // Startseite, keine Aussage über die Behandlung. Wer „IPL" eintippt,
+      // soll die richtige Seite finden. Sichtbar wird davon nichts.
       'haare', 'haarentfernung', 'laser', 'ipl', 'diodenlaser', 'rasieren',
       'waxing', 'achseln', 'beine', 'intimzone', 'oberlippe', 'glatte haut',
     ],
@@ -843,7 +847,12 @@ export const pricingCategories: PriceCategory[] = [
     ],
   },
   {
-    title: 'Dauerhafte Haarentfernung (Laser/IPL)',
+    // „(Laser/IPL)" war sachlich falsch: IPL ist eine andere Technik als
+    // ein Diodenlaser, und Zaira arbeitet mit einem Diodenlaser. Untertitel,
+    // Seitenbeschreibung und OG-Text sagten das längst, nur diese
+    // Preislisten-Überschrift nicht (Zaur am 04.11.2026 am Gerät gesehen).
+    // Ohne Klammern, wie die anderen vier Gruppen-Überschriften auch.
+    title: 'Dauerhafte Haarentfernung Diodenlaser',
     items: getProblem('dauerhafte-haarentfernung').zones!.flatMap((g) => g.items),
   },
 ]
